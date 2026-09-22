@@ -1,0 +1,171 @@
+@{
+    ViewData["Title"] = "خطة التقاعد";
+}
+
+<link rel="stylesheet" href="~/css/global/hr-custom.css" asp-append-version="true">
+
+<div class="hr-page-container animate__animated animate__fadeIn">
+    <!-- 1. Header Section -->
+    <div class="page-header d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h4 font-weight-bold text-dark mb-1">الموشكون على التقاعد (سن الستين)</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0 small mb-0">
+                    <li class="breadcrumb-item"><a href="#">الموارد البشرية</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">ملفات المعاشات</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- 2. Filter + Info Banner (merged section) -->
+    <div class="shadow-sm mb-4" style="background-color: #eff6ff; border: 1px solid #dbeafe; border-radius: 16px; padding: 1rem 1.25rem;">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+            <!-- Info Text -->
+            <div class="d-flex align-items-center gap-3 flex-grow-1">
+                <div class="icon-circle" style="width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #e0f2fe; color: #0284c7; flex-shrink: 0;">
+                    <i class="fas fa-info-circle fs-5"></i>
+                </div>
+                <p class="small text-muted mb-0" style="line-height: 1.6;">
+                    يعرض هذا النظام الموظفين الذين سيتمون السن القانوني للتقاعد خلال العام المحدد، لتسهيل إجراءات تسوية مستحقاتهم وتجهيز الملفات التأمينية مبكراً.
+                </p>
+            </div>
+            <!-- Year Filter -->
+            <div class="d-flex align-items-center gap-2 flex-shrink-0">
+                <span class="small text-muted fw-bold text-nowrap">استعراض عام:</span>
+                <select class="form-select hr-form-control py-1 fw-bold shadow-sm" style="width: 110px; border-radius: 10px;">
+                    <option selected>2024</option>
+                    <option>2025</option>
+                    <option>2026</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Records Table -->
+    <div class="hr-card border-0 shadow-sm">
+        <div class="hr-card-header bg-white d-flex justify-content-between align-items-center">
+            <h3 class="hr-card-title text-dark">قائمة الموشكون على الخروج - عام 2024</h3>
+            <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-export-excel" onclick="exportToExcel()">
+                    <i class="fas fa-file-excel me-1"></i> تصدير Excel
+                </button>
+            </div>
+        </div>
+        <div class="hr-table-wrapper">
+            <table id="retirementTable" class="table hr-table text-center mb-0">
+                <thead>
+                    <tr>
+                        <th>الموظف</th>
+                        <th>الوظيفة</th>
+                        <th>تاريخ الميلاد</th>
+                        <th>تاريخ التقاعد</th>
+                        <th>المدة المتبقية</th>
+                        <th>الموقف</th>
+                        <th>الخيارات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="fw-bold text-dark text-nowrap">فاطمة عبدالفتاح الشرباني</td>
+                        <td>مدير عام التخطيط</td>
+                        <td>1964/08/01</td>
+                        <td class="fw-bold text-danger">2024/08/01</td>
+                        <td><span class="d-inline-block px-3 py-1 small fw-bold text-danger text-nowrap" style="background-color: #fef2f2; border: 1px solid #fecaca; border-radius: 8px;">أقل من شهر</span></td>
+                        <td><span class="hr-status-badge hr-status-pending">تجهيز الملف</span></td>
+                        <td>
+                            <button id="startProceduresBtn" class="hr-btn hr-btn-outline btn-sm py-1 px-3 text-nowrap" data-bs-toggle="modal" data-bs-target="#checklistModal">بدء الإجراءات</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="fw-bold text-dark">كبير أخصائيين مالي</td>
+                        <td>مراجع مالي</td>
+                        <td>1964/12/15</td>
+                        <td class="fw-bold text-primary">2024/12/15</td>
+                        <td><span class="d-inline-block px-3 py-1 small fw-bold text-primary text-nowrap" style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px;">5 شهور</span></td>
+                        <td><span class="hr-status-badge bg-light text-muted">لم يبدأ</span></td>
+                        <td>
+                            <button class="btn btn-sm text-muted rounded-2"
+                                style="width: 36px; height: 36px; border: 1px solid transparent; transition: all 0.2s;"
+                                onmouseenter="this.style.borderColor='#94a3b8'; this.style.backgroundColor='#f8fafc';"
+                                onmouseleave="this.style.borderColor='transparent'; this.style.backgroundColor='transparent';">
+                                <i class="fas fa-tasks"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Checklist -->
+<div class="modal fade" id="checklistModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+            <div class="modal-header bg-primary text-white border-0 py-3 d-flex justify-content-between align-items-center">
+                <h5 class="modal-title fw-bold small m-0">استمارة تجهيز ملف المعاش</h5>
+                <button type="button" class="btn-close btn-close-white shadow-none m-0" data-bs-dismiss="modal" style="margin-left: 0 !important; margin-right: auto !important;"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="bg-light p-3 rounded-3 mb-4 small">
+                    <div>الموظف: <span class="fw-bold">فاطمة الشرباني</span></div>
+                    <div>تاريخ الإحالة: <span class="fw-bold">2024/08/01</span></div>
+                </div>
+
+                <h6 class="fw-bold mb-3 small text-muted">قائمة المستندات المطلوبة (Checklist):</h6>
+                <div class="checklist-items">
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" id="c1" checked>
+                        <label class="form-check-label small" for="c1">استمارة (103) ع.ح</label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" id="c2">
+                        <label class="form-check-label small" for="c2">إقرار الذمة المالية (نهاية الخدمة)</label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" id="c3">
+                        <label class="form-check-label small" for="c3">إخلاء الطرف من المخازن والعهدة</label>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <label class="hr-label mb-1">ملاحظات المسئول</label>
+                    <textarea class="form-control hr-form-control" rows="2"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer border-0 p-4 pt-0">
+                <button type="button" class="btn btn-light px-4 border" data-bs-dismiss="modal">حفظ مؤقت</button>
+                <button type="button" class="hr-btn hr-btn-primary px-4 shadow">إنهاء الخدمة</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#retirementTable').DataTable({
+                "searching": false,
+                "lengthChange": false,
+                "language": {
+                    "emptyTable": "لا توجد بيانات متاحة",
+                    "info": "سجل _START_ - _END_ من _TOTAL_",
+                    "paginate": { "next": "التالي", "previous": "السابق" }
+                },
+                "responsive": false,
+                "scrollX": true,
+                "dom": 'rt<"d-flex flex-column align-items-center mt-3"<"mb-1"p>i>'
+            });
+        });
+
+
+
+        function exportToExcel() {
+            var table = document.getElementById('retirementTable');
+            var wb = XLSX.utils.table_to_book(table, { sheet: "الموشكون على التقاعد" });
+            XLSX.writeFile(wb, 'retirement_pending_' + new Date().getFullYear() + '.xlsx');
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+}

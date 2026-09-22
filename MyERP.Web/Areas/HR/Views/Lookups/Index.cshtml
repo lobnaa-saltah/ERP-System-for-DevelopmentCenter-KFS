@@ -1,0 +1,227 @@
+@{
+    ViewData["Title"] = "أكواد النظام";
+}
+
+<link rel="stylesheet" href="~/css/global/hr-custom.css" asp-append-version="true">
+
+<style>
+    .lookup-sidebar {
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        padding: 10px;
+        border: 1px solid #eee;
+    }
+
+    .lookup-nav .nav-link {
+        padding: 12px 15px;
+        border-radius: 10px;
+        color: #555;
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 5px;
+        transition: all 0.2s;
+        border: none !important;
+        outline: none !important;
+        text-align: right !important;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .lookup-nav .nav-link:hover {
+        background: #f8f9fa;
+        color: var(--primary-color);
+    }
+
+    .lookup-nav .nav-link.active {
+        background: #f0f7ff;
+        color: var(--primary-color);
+        box-shadow: none !important;
+    }
+
+    .lookup-nav .nav-link i {
+        font-size: 14px;
+        opacity: 0.8;
+    }
+
+    /* Mobile & Tablet Specific Styles */
+    @@media (max-width: 991.98px) {
+        .page-header {
+            flex-direction: column !important;
+            align-items: start !important;
+            gap: 1rem !important;
+        }
+        .header-actions {
+            width: 100% !important;
+        }
+        .header-actions .hr-btn {
+            width: 100% !important;
+            justify-content: center !important;
+        }
+    }
+</style>
+
+<div class="hr-page-container animate__animated animate__fadeIn">
+    <!-- 1. Header Section -->
+    <div class="page-header d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h4 font-weight-bold text-dark mb-1">تهيئة النظام والأكواد الرئيسية</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0 small mb-0">
+                    <li class="breadcrumb-item"><a href="#">الإعدادات</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">أكواد البيانات</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="header-actions">
+            <button class="hr-btn hr-btn-primary px-4 shadow-sm" onclick="addItem('New')">
+                <i class="fas fa-plus-circle me-2"></i> تعريف كود جديد
+            </button>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- 2. Vertical Tabs Sidebar -->
+        <div class="col-md-3">
+            <div class="lookup-sidebar">
+                <h6 class="text-muted small fw-bold px-3 py-2 border-bottom mb-2">تصنيفات البيانات</h6>
+                <div class="nav flex-column lookup-nav" id="v-pills-tab" role="tablist">
+                    <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#v-pills-grades" type="button">
+                        <i class="fas fa-star text-warning"></i> الدرجات المالية
+                    </button>
+                    <button class="nav-link" data-bs-toggle="pill" data-bs-target="#v-pills-titles" type="button">
+                        <i class="fas fa-id-badge text-primary"></i> المسميات الوظيفية
+                    </button>
+                    <button class="nav-link" data-bs-toggle="pill" data-bs-target="#v-pills-contract" type="button">
+                        <i class="fas fa-file-signature text-success"></i> أنواع التعيين
+                    </button>
+                    <button class="nav-link" data-bs-toggle="pill" data-bs-target="#v-pills-leave" type="button">
+                        <i class="fas fa-umbrella-beach text-info"></i> أنواع الأجازات
+                    </button>
+                    <button class="nav-link" data-bs-toggle="pill" data-bs-target="#v-pills-pen" type="button">
+                        <i class="fas fa-gavel text-danger"></i> أنواع الجزاءات
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Tab Contents -->
+        <div class="col-md-9">
+            <div class="tab-content" id="v-pills-tabContent">
+                
+                <!-- 1. Grades Tab -->
+                <div class="tab-pane fade show active" id="v-pills-grades">
+                    <div class="hr-card border-0 shadow-sm">
+                        <div class="hr-card-header bg-white d-flex justify-content-between align-items-center">
+                            <h3 class="hr-card-title text-dark">دليل الدرجات الوظيفية</h3>
+                        </div>
+                        <div class="hr-table-wrapper">
+                            <table class="table hr-table text-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>الدرجة</th>
+                                        <th>الترتيب</th>
+                                        <th>ملاحظات</th>
+                                        <th>الحالة</th>
+                                        <th>الخيارات</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="fw-bold text-dark">الممتازة</td>
+                                        <td>1</td>
+                                        <td class="small">رئيس قطاع</td>
+                                        <td><span class="hr-status-badge hr-status-active">نشط</span></td>
+                                        <td><button class="hr-action-btn"><i class="fas fa-edit"></i></button></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold text-dark">العالية</td>
+                                        <td>2</td>
+                                        <td class="small">وكيل وزارة</td>
+                                        <td><span class="hr-status-badge hr-status-active">نشط</span></td>
+                                        <td><button class="hr-action-btn"><i class="fas fa-edit"></i></button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Titles Tab -->
+                <div class="tab-pane fade" id="v-pills-titles">
+                    <div class="hr-card border-0 shadow-sm">
+                        <div class="hr-card-header bg-white">
+                            <h3 class="hr-card-title text-dark">دليل المسميات الوظيفية (Job Titles)</h3>
+                        </div>
+                        <div class="hr-table-wrapper">
+                            <table class="table hr-table text-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>المجموعة</th>
+                                        <th>المسمى الوظيفي</th>
+                                        <th>الحالة</th>
+                                        <th>الخيارات</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>تخصصية (هندسة)</td>
+                                        <td class="fw-bold text-dark">مهندس معماري ثالث</td>
+                                        <td><span class="hr-status-badge hr-status-active">نشط</span></td>
+                                        <td><button class="btn btn-sm btn-light border p-1 px-2"><i class="fas fa-edit text-muted"></i></button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Other tabs would follow same pattern -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Add Lookup -->
+<div class="modal fade" id="addLookupModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg overflow-hidden" style="border-radius: 20px;">
+            <div class="modal-header bg-primary text-white border-0 py-3 px-4 d-flex justify-content-between align-items-center">
+                <h5 class="modal-title fw-bold small m-0"><i class="fas fa-edit me-2"></i> إضافة / تعديل بيان</h5>
+                <button type="button" class="btn-close btn-close-white shadow-none m-0" data-bs-dismiss="modal"></button>
+            </div>
+            <form>
+                <div class="modal-body p-4">
+                    <div class="mb-3">
+                        <label class="hr-label mb-1">الاسم بالعربي</label>
+                        <input type="text" class="form-control hr-form-control rounded-3" placeholder="أدخل الاسم بالعربية..." required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="hr-label mb-1">الاسم بالإنجليزي (اختياري)</label>
+                        <input type="text" class="form-control hr-form-control rounded-3" placeholder="Enter name in English...">
+                    </div>
+                    <div class="d-flex align-items-center justify-content-start mt-4 gap-5">
+                        <div class="form-check form-switch p-0 m-0">
+                            <input class="form-check-input m-0" type="checkbox" checked id="statusSwitch" style="width: 2.6em; height: 1.3em; cursor: pointer; float: none;">
+                        </div>
+                        <label class="small fw-bold text-dark m-0" for="statusSwitch" style="cursor: pointer;">كود نشط (متاح للاستخدام)</label>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 p-4 pt-0">
+                    <button type="button" class="btn btn-light px-4 border" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="submit" class="hr-btn hr-btn-primary px-4 shadow">حفظ الكود</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function addItem(type) {
+            var myModal = new bootstrap.Modal(document.getElementById('addLookupModal'));
+            myModal.show();
+        }
+    </script>
+}

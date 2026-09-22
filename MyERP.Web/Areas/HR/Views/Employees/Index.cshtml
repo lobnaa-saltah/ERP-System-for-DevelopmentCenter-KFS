@@ -1,0 +1,143 @@
+@{
+    ViewData["Title"] = "سجل الموظفين العام";
+}
+
+<link rel="stylesheet" href="~/css/global/hr-custom.css" asp-append-version="true">
+
+<div class="hr-page-container animate__animated animate__fadeIn">
+    <!-- 1. Header Section -->
+    <div class="page-header d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h5 font-weight-bold text-dark mb-1">سجل الموظفين العام</h1>
+            <p class="text-muted mb-0 small">إدارة ومتابعة بيانات العاملين بالمحافظة</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a asp-action="Create" class="hr-btn hr-btn-primary">
+                <i class="fas fa-plus"></i> إضافة موظف جديد
+            </a>
+        </div>
+    </div>
+
+    <!-- 2. Search & Filter Section -->
+    <div class="hr-card mb-4">
+        <div class="hr-card-header" data-bs-toggle="collapse" href="#filterCollapse" role="button" aria-expanded="false" style="cursor: pointer;">
+            <h3 class="hr-card-title">
+                <i class="fas fa-filter"></i> أدوات البحث والتصفية المتقدمة
+            </h3>
+            <i class="fas fa-chevron-down text-muted"></i>
+        </div>
+        <div class="collapse" id="filterCollapse">
+            <div class="hr-filter-section">
+                <form>
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label class="hr-form-label">الرقم القومي / الوظيفي</label>
+                            <input type="text" class="form-control hr-form-control" placeholder="أدخل الرقم...">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="hr-form-label">اسم الموظف</label>
+                            <input type="text" class="form-control hr-form-control" placeholder="بحث بالاسم...">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="hr-form-label">الإدارة / القسم</label>
+                            <select class="form-select hr-form-control">
+                                <option value="">-- الكل --</option>
+                                <option>الإدارة العامة لنظم المعلومات</option>
+                                <option>التخطيط العمراني</option>
+                                <option>الشئون الهندسية</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="hr-form-label">حالة الموظف</label>
+                            <select class="form-select hr-form-control">
+                                <option value="1">على رأس العمل</option>
+                                <option value="2">إجازة بدون مرتب</option>
+                                <option value="3">منتهية خدمته</option>
+                            </select>
+                        </div>
+                        <div class="col-12 mt-2 d-flex justify-content-end gap-2">
+                            <button type="submit" class="hr-btn hr-btn-primary">تطبيق البحث</button>
+                            <button type="reset" class="hr-btn hr-btn-outline">إعادة تعيين</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Employee Listing Table -->
+    <div class="hr-card">
+        <div class="hr-card-header bg-white">
+            <h3 class="hr-card-title">قاعدة بيانات العاملين</h3>
+            <div class="header-actions">
+                <button class="btn btn-sm btn-export-excel py-1 border-success-soft">
+                    <i class="fas fa-file-excel me-1"></i> تصدير إكسيل
+                </button>
+            </div>
+        </div>
+        <div class="hr-table-wrapper">
+            <table id="employeesTable" class="table hr-table text-center mb-0" style="width:100%">
+                <thead>
+                    <tr>
+                        <th style="width: 5%">#</th>
+                        <th style="width: 8%">كود</th>
+                        <th style="width: 25%">الاسم بالكامل</th>
+                        <th>الوظيفة / التخصص</th>
+                        <th>الدرجة</th>
+                        <th>الإدارة</th>
+                        <th>الحالة</th>
+                        <th style="width: 80px">الخيارات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td><span class="font-weight-bold text-primary">1001</span></td>
+                        <td>فاطمة عبدالفتاح الشرباني</td>
+                        <td>مدير عام (أخصائي عمراني)</td>
+                        <td class="fw-bold">مدير عام</td>
+                        <td>التخطيط العمراني</td>
+                        <td class="text-primary fw-bold">نشط</td>
+                        <td>
+                            <button class="hr-action-btn" title="تعديل">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td><span class="font-weight-bold text-primary">1002</span></td>
+                        <td>محمد فؤاد ابراهيم</td>
+                        <td>كبير اخصائيين</td>
+                        <td class="fw-bold">الأولى</td>
+                        <td>الشئون الهندسية</td>
+                        <td class="text-primary fw-bold">نشط</td>
+                        <td>
+                            <button class="hr-action-btn" title="تعديل">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#employeesTable').DataTable({
+                "searching": false,
+                "lengthChange": false,
+                "language": {
+                    "emptyTable": "لا توجد بيانات متاحة",
+                    "info": "سجل _START_ - _END_ من _TOTAL_",
+                    "paginate": { "next": "التالي", "previous": "السابق" }
+                },
+                "dom": 'rtp',
+                "pageLength": 10
+            });
+        });
+    </script>
+}

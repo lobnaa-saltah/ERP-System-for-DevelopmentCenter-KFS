@@ -1,0 +1,228 @@
+@{
+    ViewData["Title"] = "تصفية الغياب والانقطاع";
+}
+
+<link rel="stylesheet" href="~/css/global/hr-custom.css" asp-append-version="true">
+
+<div class="hr-page-container animate__animated animate__fadeIn">
+    <!-- 1. Header Section -->
+    <div class="page-header d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h4 font-weight-bold text-dark mb-1">تسوية الغياب والانقطاع</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0 small mb-0">
+                    <li class="breadcrumb-item"><a href="#">الموارد البشرية</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">تصفية الغياب</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="d-flex gap-2">
+            <button class="btn btn-sm btn-print-custom px-3 shadow-sm" onclick="window.print()">
+                <i class="fas fa-print me-2"></i> طباعة كشف الغياب
+            </button>
+        </div>
+    </div>
+
+    <!-- 2. Legal Warning Card -->
+    <div class="shadow-sm mb-4" style="background-color: #fff8f8; border: 1px solid #fee2e2; border-radius: 16px; padding: 1rem 1.25rem;">
+        <div class="d-flex align-items-center gap-3 mb-2">
+            <div class="icon-circle" style="width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #fee2e2; color: #ef4444; flex-shrink: 0;">
+                <i class="fas fa-balance-scale"></i>
+            </div>
+            <h6 class="fw-bold text-dark mb-0">تنبيه قانون الخدمة المدنية (المادة 176):</h6>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="small text-muted d-flex gap-2 align-items-center">
+                    <i class="fas fa-caret-left text-danger"></i>
+                    <span>إنذار بالفصل بعد <span class="fw-bold text-dark">5 أيام</span> متصلة، وفصل نهائي بعد <span class="fw-bold text-danger">15 يوم</span> متصلة.</span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="small text-muted d-flex gap-2 align-items-center">
+                    <i class="fas fa-caret-left text-danger"></i>
+                    <span>إنذار بعد <span class="fw-bold text-dark">10 أيام</span> منفصلة، وفصل بعد <span class="fw-bold text-danger">30 يوم</span> خلال السنة.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Statistics Row -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-4">
+            <div class="hr-card p-3 d-flex align-items-center gap-3 border-0 shadow-sm">
+                <div class="stat-icon-circle bg-warning-soft text-warning" style="width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                    <i class="fas fa-user-clock"></i>
+                </div>
+                <div>
+                    <p class="text-muted small mb-0">حالات بانتظار التسوية</p>
+                    <h4 class="fw-bold mb-0 text-dark">23 <small class="fw-normal">حالة</small></h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="hr-card p-3 d-flex align-items-center gap-3 border-0 shadow-sm">
+                <div class="stat-icon-circle bg-danger-soft text-danger" style="width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                    <i class="fas fa-exclamation-circle"></i>
+                </div>
+                <div>
+                    <p class="text-muted small mb-0">تجاوز المدة القانونية</p>
+                    <h4 class="fw-bold mb-0 text-danger">02 <small class="fw-normal">موظف</small></h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. Table Section -->
+    <div class="hr-card border-0 shadow-sm">
+        <div class="hr-card-header bg-white">
+            <h3 class="hr-card-title text-dark">سجل الانقطاعات والغياب</h3>
+        </div>
+        <div class="hr-table-wrapper">
+            <table id="absenceTable" class="table hr-table text-center mb-0">
+                <thead>
+                    <tr>
+                        <th style="width: 5%">م</th>
+                        <th>الموظف</th>
+                        <th>تواريخ الغياب</th>
+                        <th>المدة</th>
+                        <th>النوع</th>
+                        <th>رصيد متاح</th>
+                        <th>الحالة</th>
+                        <th style="width: 100px">الخيارات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td class="fw-bold">رانيا أبو النصر</td>
+                        <td><small>06/12, 06/13, 06/14</small></td>
+                        <td><span class="d-inline-block px-3 py-2 small fw-bold text-primary text-nowrap" style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px;">3 أيام</span></td>
+                        <td>منقطع (متصل)</td>
+                        <td class="fw-bold text-success">18 يوم</td>
+                        <td>بانتظار قرار</td>
+                        <td>
+                            <button class="btn btn-sm text-primary rounded-2" 
+                                style="width: 38px; height: 38px; font-size: 1rem; border: 1px solid transparent; transition: all 0.2s;"
+                                onmouseenter="this.style.borderColor='#3b82f6'; this.style.backgroundColor='#eff6ff';"
+                                onmouseleave="this.style.borderColor='transparent'; this.style.backgroundColor='transparent';"                                
+                                title="تسوية" onclick="openSettlementModal('رانيا أبو النصر', 3, 18)">
+                                <i class="fas fa-gavel" style="color: #3b82f6;"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr class="table-danger-soft">
+                        <td>2</td>
+                        <td class="fw-bold text-danger">محمد فؤاد ابراهيم</td>
+                        <td><small>06/01 إلى 06/10</small></td>
+                        <td><span class="d-inline-block px-3 py-2 small fw-bold text-white text-nowrap" style="background-color: #ef4444; border-radius: 8px;">10 أيام</span></td>
+                        <td>منقطع (متصل)</td>
+                        <td class="fw-bold text-danger">5 أيام</td>
+                        <td>إنذار قانوني</td>
+                        <td>
+                            <button class="btn btn-sm text-danger rounded-2" 
+                                style="width: 38px; height: 38px; font-size: 1rem; border: 1px solid transparent; transition: all 0.2s;"
+                                onmouseenter="this.style.borderColor='#ef4444'; this.style.backgroundColor='#fef2f2';"
+                                onmouseleave="this.style.borderColor='transparent'; this.style.backgroundColor='transparent';"                                
+                                title="تحقيق" onclick="alertLegalAction()">
+                                <i class="fas fa-balance-scale" style="color: #ef4444;"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Settlement Modal -->
+<div class="modal fade" id="settlementModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 16px;">
+            <div class="modal-header bg-primary text-white border-0 py-3" style="border-radius: 16px 16px 0 0;">
+                <h5 class="modal-title"><i class="fas fa-tasks me-2"></i> قرار تسوية غياب</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="d-flex justify-content-between bg-light p-3 rounded-3 mb-4 border">
+                    <div><span class="text-muted small">الموظف:</span> <div class="fw-bold" id="modalEmpName">...</div></div>
+                    <div><span class="text-muted small">مدة الغياب:</span> <div class="fw-bold text-danger" id="modalDays">...</div></div>
+                    <div><span class="text-muted small">الرصيد:</span> <div class="fw-bold text-success" id="modalBalance">...</div></div>
+                </div>
+
+                <label class="hr-label mb-3">اختر الإجراء التصحيحي:</label>
+                <div class="d-grid gap-2">
+                    <div class="form-check p-3 border rounded-3 position-relative">
+                        <input class="form-check-input" type="radio" name="ActionType" id="actionBalance" checked>
+                        <label class="form-check-label fw-bold d-block" for="actionBalance">
+                            خصم من رصيد الأجازات الاعتيادي
+                            <small class="d-block text-muted fw-normal mt-1">يتم تحويل الأيام إلى أجازة رسمية معتمدة.</small>
+                        </label>
+                    </div>
+                    <div class="form-check p-3 border rounded-3">
+                        <input class="form-check-input" type="radio" name="ActionType" id="actionCasual">
+                        <label class="form-check-label fw-bold d-block" for="actionCasual">
+                            احتساب أجازة عارضة
+                            <small class="d-block text-muted fw-normal mt-1">تخصم من رصيد الـ 7 أيام العارضة السنوي.</small>
+                        </label>
+                    </div>
+                    <div class="form-check p-3 border border-danger rounded-3 bg-danger-soft">
+                        <input class="form-check-input" type="radio" name="ActionType" id="actionSalary">
+                        <label class="form-check-label fw-bold d-block text-danger" for="actionSalary">
+                            خصم مالي + جزاء إداري
+                            <small class="d-block text-dark fw-normal mt-1">يعتبر غياب بدون عذر ويؤثر على الحوافز والترقيات.</small>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <label class="hr-label mb-1">مبررات القرار</label>
+                    <textarea class="form-control hr-form-control" rows="2" placeholder="اكتب ملاحظات الإدارة هنا..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer bg-light border-0 py-3" style="border-radius: 0 0 16px 16px;">
+                <button type="button" class="hr-btn hr-btn-outline" data-bs-dismiss="modal">إلغاء</button>
+                <button type="button" class="hr-btn hr-btn-primary px-5 shadow-sm">اعتماد القرار فوراً</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#absenceTable').DataTable({
+                "searching": false,
+                "lengthChange": false,
+                "language": {
+                    "emptyTable": "لا توجد بيانات متاحة",
+                    "info": "سجل _START_ - _END_ من _TOTAL_",
+                    "paginate": { "next": "التالي", "previous": "السابق" }
+                },
+                "responsive": false,
+                "scrollX": true,
+                "dom": 'rt<"d-flex flex-column align-items-center mt-3"<"mb-1"p>i>'
+            });
+        });
+
+        function openSettlementModal(name, days, balance) {
+            document.getElementById("modalEmpName").innerText = name;
+            document.getElementById("modalDays").innerText = days + " يوم";
+            document.getElementById("modalBalance").innerText = balance + " يوم";
+            var myModal = new bootstrap.Modal(document.getElementById('settlementModal'));
+            myModal.show();
+        }
+
+        function alertLegalAction() {
+            Swal.fire({
+                title: 'تحويل للتحقيق؟',
+                text: "تجاوز الموظف الحد القانوني للغياب، سيتم إنشاء ملف تحقيق رسمي.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ef4444',
+                confirmButtonText: 'نعم، تحويل الآن',
+                cancelButtonText: 'إلغاء'
+            });
+        }
+    </script>
+}

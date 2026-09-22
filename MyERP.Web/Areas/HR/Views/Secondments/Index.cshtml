@@ -1,0 +1,212 @@
+@{
+    ViewData["Title"] = "الندب والإعارات";
+}
+
+<link rel="stylesheet" href="~/css/global/hr-custom.css" asp-append-version="true">
+
+<div class="hr-page-container animate__animated animate__fadeIn">
+    <!-- 1. Header Section -->
+    <div class="page-header d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h4 font-weight-bold text-dark mb-1">إدارة الندب والإعارات</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0 small mb-0">
+                    <li class="breadcrumb-item"><a href="#">الموارد البشرية</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">سجل الإعارات</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="d-flex gap-2">
+            <button class="hr-btn hr-btn-primary px-4" data-bs-toggle="modal" data-bs-target="#newLoanModal">
+                <i class="fas fa-plus-circle me-2"></i> تسجيل إعارة / ندب
+            </button>
+        </div>
+    </div>
+
+    <!-- 2. Notifications Banner -->
+    <div class="alert text-dark border-0 d-flex align-items-center gap-3 p-3 mb-4 rounded-3" style="background-color: #ffecec;">
+        <div class="icon-circle text-danger bg-white shadow-sm" style="width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-bell animate__animated animate__swing animate__infinite"></i>
+        </div>
+        <div>
+            <span class="fw-bold text-danger">تنبيهات التجديد:</span> 
+            يوجد عدد <span class="fw-bold text-danger">3</span> موظفين تنتهي فترة ندبهم هذا الشهر. يرجى اتخاذ قرار التجديد أو إنهاء الخدمة.
+        </div>
+    </div>
+
+    <!-- 3. Main Data Table -->
+    <div class="hr-card border-0 shadow-sm">
+        <div class="hr-card-header bg-white">
+            <h3 class="hr-card-title text-dark">قائمة المنتدبين والمعارين حالياً</h3>
+            <div class="header-actions">
+                <button class="hr-btn hr-btn-outline py-1 small"><i class="fas fa-print me-1"></i> تقرير شامل</button>
+            </div>
+        </div>
+        <div class="hr-table-wrapper">
+            <table id="loanTable" class="table hr-table text-center mb-0">
+                <thead>
+                    <tr>
+                        <th style="width: 5%">م</th>
+                        <th>الموظف</th>
+                        <th>نوع الحركة</th>
+                        <th>الجهة المستعيرة</th>
+                        <th>الفترة</th>
+                        <th>المدة</th>
+                        <th>الراتب</th>
+                        <th style="width: 100px">الخيارات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td class="fw-bold">فاطمة الشرباني</td>
+                        <td class="text-primary fw-bold">إعارة خارجية</td>
+                        <td>السعودية (جامعة الملك سعود)</td>
+                        <td><small>2023/01/01 - 2024/12/31</small></td>
+                        <td class="text-primary fw-bold">السنة 2</td>
+                        <td><span class="text-muted small">بدون أجر</span></td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-light border rounded-circle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 32px; height: 32px;">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                                <ul class="dropdown-menu shadow-sm border-0">
+                                    <li><a class="dropdown-item py-2" href="#"><i class="fas fa-eye text-primary me-2"></i> عرض</a></li>
+                                    <li><a class="dropdown-item py-2" href="#"><i class="fas fa-sync-alt text-success me-2"></i> تجديد</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td class="fw-bold">رانيا أبو النصر</td>
+                        <td class="text-info fw-bold">ندب كلي</td>
+                        <td>الشهر العقاري</td>
+                        <td><small>2023/07/01 - 2024/06/30</small></td>
+                        <td>السنة 1</td>
+                        <td class="text-success fw-bold">علينا</td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-light border rounded-circle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 32px; height: 32px;">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                                <ul class="dropdown-menu shadow-sm border-0">
+                                    <li><a class="dropdown-item py-2" href="#"><i class="fas fa-eye text-primary me-2"></i> عرض</a></li>
+                                    <li><a class="dropdown-item py-2" href="#"><i class="fas fa-sync-alt text-success me-2"></i> تجديد</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="newLoanModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 16px;">
+            <div class="modal-header bg-primary text-white border-0 py-3 d-flex align-items-center" style="border-radius: 16px 16px 0 0;">
+                <h5 class="modal-title flex-grow-1 text-end"><i class="fas fa-file-contract me-2"></i> تسجيل قرار ندب / إعارة</h5>
+                <button type="button" class="btn-close btn-close-white ms-3 m-0" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form id="loanForm">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="hr-label mb-1">الموظف</label>
+                            <select class="form-select hr-form-control select2">
+                                <option>بحث بالاسم...</option>
+                                <option>محمد فؤاد ابراهيم</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="hr-label mb-1">نوع الحركة</label>
+                            <select class="form-select hr-form-control">
+                                <option>ندب داخلي (بين المصالح الحكومية)</option>
+                                <option>إعارة خارجية (سفر / قطاع خاص)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="hr-label mb-1">الجهة المستعيرة</label>
+                            <input type="text" class="form-control hr-form-control" placeholder="اسم الوزارة / الشركة...">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="hr-label mb-1">تاريخ البدء</label>
+                            <input type="date" class="form-control hr-form-control" id="startDate" onchange="calcEndDate()">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="hr-label mb-1">تاريخ الانتهاء</label>
+                            <input type="date" class="form-control hr-form-control" id="endDate">
+                        </div>
+                        
+                        <div class="col-12"><hr class="my-2 border-dashed"></div>
+                        <h6 class="text-primary fw-bold small mb-2">الترتيبات المالية والإدارية:</h6>
+                        
+                        <div class="col-md-4">
+                            <label class="hr-label mb-1">تحمل الراتب الأساسي</label>
+                            <select class="form-select hr-form-control">
+                                <option>جهة العمل الأصلية</option>
+                                <option>الجهة المستعيرة</option>
+                                <option>بدون راتب</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="hr-label mb-1">الحوافز</label>
+                            <select class="form-select hr-form-control">
+                                <option>تتحملها الجهة المستعيرة</option>
+                                <option>تتحملها جهتنا</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="hr-label mb-1">إخلاء الطرف</label>
+                            <div class="form-check form-switch mt-1">
+                                <input class="form-check-input" type="checkbox" checked>
+                                <label class="form-check-label small me-4">تم تسليم العهد</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label class="hr-label mb-1">المرفقات (PDF)</label>
+                            <input type="file" class="form-control hr-form-control">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer bg-light border-0 py-3" style="border-radius: 0 0 16px 16px;">
+                <button type="button" class="hr-btn hr-btn-outline" data-bs-dismiss="modal">إلغاء</button>
+                <button type="button" class="hr-btn hr-btn-primary px-5 shadow-sm">حفظ الحركة وتجميد الملف</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#loanTable').DataTable({
+                "language": {
+                    "emptyTable": "لا توجد بيانات",
+                    "paginate": { "next": "التالي", "previous": "السابق" }
+                },
+                "searching": false,
+                "lengthChange": false,
+                "responsive": false,
+                "scrollX": false,
+                "paging": true,
+                "info": false,
+                "dom": 'rt<"d-flex flex-column align-items-center mt-3"<"mb-1"p>i>'
+            });
+        });
+
+        function calcEndDate() {
+            var startVal = document.getElementById("startDate").value;
+            if(startVal) {
+                var d = new Date(startVal);
+                d.setFullYear(d.getFullYear() + 1);
+                d.setDate(d.getDate() - 1);
+                document.getElementById("endDate").value = d.toISOString().split('T')[0];
+            }
+        }
+    </script>
+}

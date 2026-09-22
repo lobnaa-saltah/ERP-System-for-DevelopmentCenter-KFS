@@ -1,0 +1,151 @@
+﻿@{
+    ViewData["Title"] = "ت�?ف�Sذ ا�"أح�fا�. ا�"�,ضائ�Sة";
+}
+
+<link rel="stylesheet" href="~/css/global/hr-custom.css" asp-append-version="true">
+
+<div class="hr-page-container animate__animated animate__fadeIn">
+    
+    <div class="page-header d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h4 font-weight-bold text-dark mb-1">�.تابعة ا�"أح�fا�. �^ا�"ص�Sغ ا�"ت�?ف�Sذ�Sة</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0 small mb-0">
+                    <li class="breadcrumb-item"><a href="#">ا�"�.�^ارد ا�"بشر�Sة</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">ا�"شئ�^�? ا�"�,ا�?�^�?�Sة</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="d-flex gap-2">
+        </div>
+    </div>
+
+    
+    <div class="alert text-dark border-0 d-flex align-items-center gap-3 p-3 mb-4 rounded-3" style="background-color: #ffecec;">
+        <div class="icon-circle text-danger bg-white shadow-sm" style="width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-exclamation-triangle animate__animated animate__pulse animate__infinite"></i>
+        </div>
+        <div>
+            <span class="fw-bold text-danger">ت�?ب�S�? �,ا�?�^�?�S �?ا�.:</span> 
+            �S�^جد عدد <span class="fw-bold text-danger">2</span> ح�f�. �,ضائ�S �?�?ائ�S با�?تظار ا�"ت�?ف�Sذ. ا�"تأخ�Sر �,د �Sعرض ا�"�.�?شأة �"�"�.سائ�"ة ا�"�,ا�?�^�?�Sة.
+        </div>
+    </div>
+
+    
+    <div class="hr-card border-0 shadow-sm">
+        <div class="hr-card-header bg-white d-flex justify-content-between align-items-center">
+            <h3 class="hr-card-title text-dark">سج�" ا�"أح�fا�. �^ا�"�,رارات ا�"�,ضائ�Sة</h3>
+            <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-outline-secondary border-light">تصد�Sر ا�fس�S�"</button>
+            </div>
+        </div>
+        <div class="hr-table-wrapper">
+            <table id="rulingsTable" class="table hr-table text-center mb-0 text-nowrap">
+                <thead>
+                    <tr>
+                        <th>ر�,�. ا�"دع�^�?</th>
+                        <th>ا�"س�?ة</th>
+                        <th>ا�"�.دع�S</th>
+                        <th>�.�?ط�^�, ا�"ح�f�.</th>
+                        <th>ا�"�?�^ع</th>
+                        <th>ا�"�.رف�,</th>
+                        <th>ا�"�.�^�,ف</th>
+                        <th>ا�"خ�Sارات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="fw-bold text-primary">5642</td>
+                        <td>68 �,</td>
+                        <td class="fw-bold text-dark">�.ح�.د فؤاد ابرا�?�S�.</td>
+                        <td class="text-start small">
+                            إ�"غاء ا�"�,رار ا�"إدار�S ر�,�. 50 ف�S�.ا تض�.�?�? �.�? تخط�S ا�"�.ذ�f�^ر ف�S ا�"تر�,�Sة �.ع �.ا �Sترتب ع�"�? ذ�"�f �.�? آثار...
+                        </td>
+                        <td>تعد�S�" تر�,�Sة</td>
+                        <td>
+                            <button class="hr-action-btn text-danger border-danger">
+                                <i class="fas fa-file-pdf"></i>
+                            </button>
+                        </td>
+                        <td>�"�. �S�?فذ</td>
+                        <td>
+                            <button class="hr-action-btn" title="ت�?ف�Sذ ا�"ح�f�." onclick="confirmExec('5642', 'تر�,�Sة بأثر رجع�S')">
+                                <i class="fas fa-check-circle"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="fw-bold text-primary">1020</td>
+                        <td>70 �,</td>
+                        <td class="fw-bold text-dark">را�?�Sا أب�^ ا�"�?صر</td>
+                        <td class="text-start small">
+                            أح�,�Sة ا�"�.دع�Sة ف�S صرف �.�,اب�" رص�Sد ا�"أجازات ا�"اعت�Sاد�Sة ب�^ا�,ع 400 �S�^�....
+                        </td>
+                        <td>صرف �.ا�"�S</td>
+                        <td>
+                            <button class="hr-action-btn">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </td>
+                        <td>ت�. ا�"ت�?ف�Sذ</td>
+                        <td>
+                            <button class="hr-action-btn" title="أرشفة">
+                                <i class="fas fa-archive"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/plugins/sweetalert2/sweetalert2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#rulingsTable').DataTable({
+                "searching": false,
+                "lengthChange": false,
+                "language": {
+                    "emptyTable": "�"ا ت�^جد ب�Sا�?ات �.تاحة",
+                    "info": "سج�" _START_ - _END_ �.�? _TOTAL_",
+                    "paginate": { "next": "ا�"تا�"�S", "previous": "ا�"ساب�," }
+                },
+                "responsive": false,
+                "scrollX": true,
+                "autoWidth": false,
+                "paging": true,
+                "info": false,
+                "dom": 'rt<"d-flex flex-column align-items-center mt-3"<"mb-1"p>i>'
+            });
+        });
+
+        function confirmExec(caseNo, actionType) {
+            Swal.fire({
+                title: 'تأ�f�Sد ت�?ف�Sذ ا�"ح�f�. ر�,�. ' + caseNo,
+                html: "ا�"إجراء ا�"�.ط�"�^ب: <b class='text-primary'>" + actionType + "</b><br>س�Sت�. إ�?شاء �,رار ت�?ف�Sذ�S �^تعد�S�" �.�"ف ا�"�.�^ظف ف�^را�<.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#007bff',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'تأ�f�Sد ا�"ت�?ف�Sذ',
+                cancelButtonText: 'إ�"غاء',
+                customClass: {
+                    popup: 'rounded-4 shadow-lg border-0'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'ت�. ا�"ت�?ف�Sذ!',
+                        text: 'ت�. إصدار ا�"�,رار ا�"ت�?ف�Sذ�S ب�?جاح.',
+                        icon: 'success',
+                        customClass: { popup: 'rounded-4 shadow-lg border-0' }
+                    });
+                }
+            });
+        }
+    </script>
+}
+
+

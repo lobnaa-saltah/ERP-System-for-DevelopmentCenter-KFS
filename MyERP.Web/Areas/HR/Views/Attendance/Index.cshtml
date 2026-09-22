@@ -1,0 +1,337 @@
+<link rel="stylesheet" href="~/css/global/hr-custom.css">
+
+<style>
+    :root {
+        --hr-primary: #2196f3;
+        --hr-primary-soft: #e3f2fd;
+        --hr-success: #10b981;
+        --hr-success-soft: #ecfdf5;
+        --hr-warning: #f59e0b;
+        --hr-warning-soft: #fffbeb;
+        --hr-danger: #ef4444;
+        --hr-danger-soft: #fef2f2;
+        --hr-info: #3b82f6;
+        --hr-info-soft: #eff6ff;
+        --hr-border: #e2e8f0;
+        --hr-text-main: #1e293b;
+        --hr-text-muted: #64748b;
+    }
+
+    .calm-container { background-color: #f8fafc; min-height: 100vh; padding: 2rem; }
+    .page-header { margin-bottom: 2rem; }
+    
+    /* Modern Stats Cards */
+    .stat-card {
+        background: #fff;
+        border-radius: 16px;
+        padding: 1.5rem;
+        border: 1px solid var(--hr-border);
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+    }
+    .stat-card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); border-color: var(--hr-primary); }
+    .stat-icon {
+        width: 48px; height: 48px; border-radius: 12px;
+        display: flex; align-items: center; justify-content: center; font-size: 1.25rem;
+    }
+    .stat-info h3 { font-size: 1.5rem; font-weight: 700; margin: 0; color: var(--hr-text-main); }
+    .stat-info p { font-size: 0.875rem; color: var(--hr-text-muted); margin: 0; }
+
+    /* Inheriting global hr-table from hr-custom.css for standard design */
+
+    .time-badge { padding: 4px 10px; border-radius: 6px; font-weight: 600; font-size: 0.8rem; background: #f1f5f9; color: #334155; border: 1px solid #e2e8f0; display: inline-block; white-space: nowrap; }
+    .time-in { color: var(--hr-success); background: var(--hr-success-soft); border-color: #a7f3d0; }
+    .time-out { color: var(--hr-danger); background: var(--hr-danger-soft); border-color: #fecaca; }
+
+    .search-section { background: white; border-radius: 16px; border: 1px solid var(--hr-border); padding: 1.5rem; margin-bottom: 2rem; }
+
+    /* Custom Button Hover Override */
+    .hr-btn-outline-primary:hover {
+        background-color: #ffffff !important;
+        color: var(--hr-primary) !important;
+        border-color: var(--hr-primary) !important;
+        box-shadow: 0 4px 10px rgba(33, 150, 243, 0.1);
+    }
+
+    /* Responsive Adjustments */
+    @@media (max-width: 768px) {
+        .page-header { flex-direction: column !important; align-items: flex-start !important; gap: 1.5rem; padding: 1rem 0; }
+        .page-header > div:last-child { width: 100%; display: flex; flex-direction: column; gap: 0.75rem; }
+        .page-header .hr-btn { width: 100%; justify-content: center; height: 50px; }
+        .stat-card { padding: 1.25rem; }
+        .search-section { padding: 1rem; }
+        .hr-table thead th,
+        .hr-table tbody td { white-space: nowrap !important; }
+    }
+</style>
+
+<div class="calm-container">
+    <!-- Header -->
+    <div class="page-header d-flex justify-content-between align-items-center">
+        <div>
+            <h1 class="h4 font-weight-bold text-dark mb-1">دفتر الحضور والانصراف اليومي</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0 small mb-0">
+                    <li class="breadcrumb-item"><a href="#">الموارد البشرية</a></li>
+                    <li class="breadcrumb-item active">سجل الحضور</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="d-flex gap-2">
+            <button class="hr-btn-outline-primary hr-btn px-4 bg-white" data-bs-toggle="modal" data-bs-target="#manualEntryModal">
+                <i class="fas fa-fingerprint me-2"></i> تسجيل يدوي
+            </button>
+            <button class="hr-btn hr-btn-primary px-4 shadow-sm">
+                <i class="fas fa-file-upload me-2"></i> استيراد من الماكينة
+            </button>
+        </div>
+    </div>
+
+    <!-- Stats Bar -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-icon" style="background: var(--hr-info-soft); color: var(--hr-info);">
+                    <i class="fas fa-id-card-alt"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>150</h3>
+                    <p>قوة العمل</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-icon" style="background: var(--hr-success-soft); color: var(--hr-success);">
+                    <i class="fas fa-fingerprint"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>120</h3>
+                    <p>المتواجدون حالياً</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-icon" style="background: var(--hr-warning-soft); color: var(--hr-warning);">
+                    <i class="fas fa-business-time"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>15</h3>
+                    <p>حالات التأخير</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-icon" style="background: var(--hr-danger-soft); color: var(--hr-danger);">
+                    <i class="fas fa-calendar-times"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>15</h3>
+                    <p>الغياب / الإجازات</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="search-section shadow-sm">
+        <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
+            <i class="fas fa-filter text-primary ms-2" style="font-size: 1.1rem;"></i>
+            <h3 class="h6 font-weight-bold mb-0 text-dark">أدوات العرض والتصفية</h3>
+        </div>
+        <form>
+            <div class="row g-3 align-items-end">
+                <div class="col-md-3 hr-form-group">
+                    <label class="small font-weight-bold mb-1">التاريخ</label>
+                    <input type="date" class="form-control hr-form-control py-2" value="@DateTime.Now.ToString("yyyy-MM-dd")">
+                </div>
+                <div class="col-md-3 hr-form-group">
+                    <label class="small font-weight-bold mb-1">الإدارة / القسم</label>
+                    <select class="form-control hr-form-control py-2">
+                        <option>الكل</option>
+                        <option>نظم المعلومات</option>
+                    </select>
+                </div>
+                <div class="col-md-3 hr-form-group">
+                    <label class="small font-weight-bold mb-1">حالة الحضور</label>
+                    <select class="form-control hr-form-control py-2">
+                        <option>الكل</option>
+                        <option>حضور منتظم</option>
+                        <option>تأخير</option>
+                        <option>غياب</option>
+                    </select>
+                </div>
+                <div class="col-md-3 hr-form-group">
+                    <label class="small font-weight-bold mb-1 invisible">بحث</label>
+                    <button type="submit" class="hr-btn hr-btn-primary w-100 py-0" style="height: 45px;">
+                        <i class="fas fa-search ms-2"></i> بحث وتحديث
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Table -->
+    <div class="hr-card shadow-sm">
+        <div class="hr-card-header">
+            <h3 class="hr-card-title">تفاصيل سجل الحضور</h3>
+            <div class="header-actions">
+                <button id="exportExcelBtn" class="btn btn-sm btn-export-excel px-3">
+                    <i class="fas fa-file-excel text-success me-1"></i> تصدير إكسيل
+                </button>
+            </div>
+        </div>
+
+        <div class="hr-table-wrapper">
+            <table id="attendanceTable" class="table hr-table text-center">
+                <thead>
+                    <tr>
+                        <th style="width: 50px">#</th>
+                        <th>الموظف</th>
+                        <th>الإدارة</th>
+                        <th>الدخول</th>
+                        <th>الخروج</th>
+                        <th>ساعات العمل</th>
+                        <th>التأخير</th>
+                        <th>الحالة</th>
+                        <th style="width: 80px">خيارات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td class="font-weight-bold">محمد فؤاد ابراهيم</td>
+                        <td>نظم المعلومات</td>
+                        <td><span class="time-badge time-in">08:00 ص</span></td>
+                        <td><span class="time-badge time-out">04:00 م</span></td>
+                        <td>8:00</td>
+                        <td>-</td>
+                        <td><span class="hr-badge hr-badge-success">حضور منتظم</span></td>
+                        <td>
+                            <button class="hr-action-btn" title="تعديل">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td class="font-weight-bold">فاطمة الشرباني</td>
+                        <td>التخطيط</td>
+                        <td><span class="time-badge time-in" style="background:#fff9db; color:#f08c00; border-color:#ffe066">08:45 ص</span></td>
+                        <td><span class="time-badge time-out">04:00 م</span></td>
+                        <td>7:15</td>
+                        <td class="text-danger font-weight-bold">45 د</td>
+                        <td><span class="hr-badge hr-badge-warning">تأخير</span></td>
+                        <td>
+                            <button class="hr-action-btn" title="تعديل">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr style="opacity: 0.8">
+                        <td>3</td>
+                        <td class="font-weight-bold">بهجت ابراهيم</td>
+                        <td>الحدائق</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>0.00</td>
+                        <td>-</td>
+                        <td><span class="hr-badge hr-badge-danger">غياب</span></td>
+                        <td>
+                            <button class="hr-action-btn" title="تعديل">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="manualEntryModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 24px; overflow: hidden;">
+            <div class="modal-header border-bottom-0 p-4 pb-2 d-flex justify-content-between align-items-center">
+                <h5 class="font-weight-bold text-dark m-0 bg-transparent">
+                    تسجيل حركة حضور يدوية
+                </h5>
+                <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form>
+                    <div class="mb-4 hr-form-group">
+                        <label class="mb-2 d-block text-dark opacity-75">اختيار الموظف</label>
+                        <select class="form-control hr-form-control" style="height: 48px; border-radius: 12px;">
+                            <option>ابحث عن الموظف...</option>
+                            <option>محمد فؤاد ابراهيم</option>
+                        </select>
+                    </div>
+                    
+                    <div class="row g-3 mb-4">
+                        <div class="col-6 hr-form-group">
+                            <label class="mb-2 d-block text-dark opacity-75">نوع الحركة</label>
+                            <select class="form-control hr-form-control" style="height: 48px; border-radius: 12px;">
+                                <option>دخول (Check In)</option>
+                                <option>خروج (Check Out)</option>
+                            </select>
+                        </div>
+                        <div class="col-6 hr-form-group">
+                            <label class="mb-2 d-block text-dark opacity-75">الوقت</label>
+                            <input type="time" class="form-control hr-form-control pr-3" style="height: 48px; border-radius: 12px; background-image: none; padding-right: 1rem !important;">
+                        </div>
+                    </div>
+
+                    <div class="mb-0 hr-form-group">
+                        <label class="mb-2 d-block text-dark opacity-75">ملاحظات / السبب</label>
+                        <textarea class="form-control hr-form-control" rows="3" 
+                                  style="border-radius: 15px; background-image: none; padding-right: 1rem !important;" 
+                                  placeholder="أدخل سبب التسجيل اليدوي (مثلاً: تعطل الجهاز)"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer border-top-0 p-4 pt-2 gap-2">
+                <button type="button" class="hr-btn hr-btn-outline px-5" data-bs-dismiss="modal" style="height: 48px; border-radius: 12px;">إلغاء</button>
+                <button type="button" class="hr-btn hr-btn-primary px-5" style="height: 48px; border-radius: 12px;">حفظ السجل</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        var table = $('#attendanceTable').DataTable({
+            "language": {
+                "emptyTable": "لا توجد سجلات متاحة اليوم",
+                "info": "عرض _START_ إلى _END_ من _TOTAL_ سجل",
+                "infoEmpty": "عرض 0 إلى 0 من 0 سجل",
+                "lengthMenu": "عرض _MENU_",
+                "search": "",
+                "searchPlaceholder": "بحث سريع...",
+                "paginate": { "first": "الأول", "last": "الأخير", "next": "السابق", "previous": "التالي" }
+            },
+            "dom": 'Brtp',
+            "buttons": [
+                {
+                    extend: 'excelHtml5',
+                    className: 'd-none',
+                    title: 'سجل الحضور والانصراف - ' + new Date().toLocaleDateString()
+                }
+            ]
+        });
+
+        $('#exportExcelBtn').on('click', function() {
+            table.button('.buttons-excel').trigger();
+        });
+    });
+</script>

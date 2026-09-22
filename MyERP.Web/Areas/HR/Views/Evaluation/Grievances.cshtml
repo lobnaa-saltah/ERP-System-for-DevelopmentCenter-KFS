@@ -1,0 +1,216 @@
+@{
+    ViewData["Title"] = "التظلمات الإدارية";
+}
+
+<link rel="stylesheet" href="~/css/global/hr-custom.css" asp-append-version="true">
+
+<div class="hr-page-container animate__animated animate__fadeIn">
+    
+    <div class="page-header d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h4 font-weight-bold text-dark mb-1">سجل التظلمات الإدارية</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0 small mb-0">
+                    <li class="breadcrumb-item"><a href="#">الموارد البشرية</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">التظلمات والشكاوى</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="d-flex gap-2">
+            <button class="hr-btn hr-btn-primary px-4 shadow-sm" data-bs-toggle="modal" data-bs-target="#grievanceModal">
+                <i class="fas fa-plus-circle me-2"></i> تسجيل تظلم جديد
+            </button>
+        </div>
+    </div>
+
+    
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="hr-card border-0 shadow-sm p-3 h-100 bg-white">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="icon-circle bg-primary-soft text-primary"><i class="fas fa-file-invoice"></i></div>
+                    <div>
+                        <div class="text-muted small">إجمالي التظلمات</div>
+                        <div class="h4 fw-bold mb-0">45</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="hr-card border-0 shadow-sm p-3 h-100 bg-white">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="icon-circle bg-warning-soft text-warning"><i class="fas fa-hourglass-half"></i></div>
+                    <div>
+                        <div class="text-muted small">قيد البحث</div>
+                        <div class="h4 fw-bold mb-0 text-warning">05</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="hr-card border-0 shadow-sm p-3 h-100 bg-white border-bottom border-success border-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="icon-circle bg-success-soft text-success"><i class="fas fa-check-circle"></i></div>
+                    <div>
+                        <div class="text-muted small">تظلمات مقبولة</div>
+                        <div class="h4 fw-bold mb-0 text-success">12</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="hr-card border-0 shadow-sm p-3 h-100 bg-white border-bottom border-danger border-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="icon-circle bg-danger-soft text-danger"><i class="fas fa-times-circle"></i></div>
+                    <div>
+                        <div class="text-muted small">تظلمات مرفوضة</div>
+                        <div class="h4 fw-bold mb-0 text-danger">28</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="hr-card border-0 shadow-sm">
+        <div class="hr-card-header bg-white d-flex justify-content-between align-items-center">
+            <h3 class="hr-card-title text-dark">سجل التظلمات المقدمة</h3>
+            <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-print-custom border-light"><i class="fas fa-print me-1"></i> طباعة السجل</button>
+            </div>
+        </div>
+        <div class="hr-table-wrapper">
+            <table id="grievanceTable" class="table hr-table text-center mb-0">
+                <thead>
+                    <tr>
+                        <th style="width: 5%">م</th>
+                        <th>التاريخ</th>
+                        <th>الموظف</th>
+                        <th>موضوع التظلم</th>
+                        <th>تاريخ القرار</th>
+                        <th>المرفقات</th>
+                        <th>قرار اللجنة</th>
+                        <th style="width: 100px">الخيارات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td><small>2024/07/15</small></td>
+                        <td class="fw-bold">محمد فؤاد ابراهيم</td>
+                        <td>
+                            <span class="badge bg-warning-soft text-dark border-warning small">تقرير الكفاءة</span>
+                            <div class="small text-muted mt-1">تظلم من تقدير كفء</div>
+                        </td>
+                        <td><small>2024/07/01</small></td>
+                        <td><i class="fas fa-paperclip text-muted"></i></td>
+                        <td>قيد البحث</td>
+                        <td>
+                            <button class="hr-action-btn" title="البت" data-bs-toggle="modal" data-bs-target="#decisionModal">
+                                <i class="fas fa-gavel"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td><small>2024/06/10</small></td>
+                        <td class="fw-bold">فاطمة الشرباني</td>
+                        <td>
+                            <span class="badge bg-danger-soft text-danger border-danger small">قرار جزاء</span>
+                            <div class="small text-muted mt-1">خصم 3 أيام</div>
+                        </td>
+                        <td><small>2024/06/01</small></td>
+                        <td><i class="fas fa-file-pdf text-danger"></i></td>
+                        <td>تم القبول</td>
+                        <td>
+                            <button class="hr-action-btn btn-print-custom" title="طباعة">
+                                <i class="fas fa-print"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="grievanceModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 16px;">
+            <div class="modal-header bg-primary text-white border-0 py-3 d-flex align-items-center" style="border-radius: 16px 16px 0 0;">
+                <h5 class="modal-title fw-bold flex-grow-1 text-end"><i class="fas fa-file-signature me-2"></i> استلام طلب تظلم</h5>
+                <button type="button" class="btn-close btn-close-white ms-3 m-0" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form id="grievanceForm">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="hr-label mb-1">الموظف المتظلم</label>
+                            <select class="form-select hr-form-control select2">
+                                <option>بحث...</option>
+                                <option>محمد فؤاد ابراهيم</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="hr-label mb-1">نوع التظلم</label>
+                            <select class="form-select hr-form-control">
+                                <option>من تقرير تقويم الأداء</option>
+                                <option>من قرار جزاء / تأديب</option>
+                                <option>من قرار نقل / ندب</option>
+                                <option>تخطي في الترقية</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="hr-label mb-1">رقم القرار</label>
+                            <input type="text" class="form-control hr-form-control" placeholder="رقم القرار المشكو فيه">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="hr-label mb-1">تاريخ القرار</label>
+                            <input type="date" class="form-control hr-form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="hr-label mb-1">تاريخ الاستلام</label>
+                            <input type="date" class="form-control hr-form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")">
+                        </div>
+                        <div class="col-12">
+                            <label class="hr-label mb-1">أسباب التظلم</label>
+                            <textarea class="form-control hr-form-control" rows="3" placeholder="أذكر الأسباب القانونية والإدارية للتظلم..."></textarea>
+                        </div>
+                        <div class="col-12">
+                            <label class="hr-label mb-1">المرفقات المؤيدة</label>
+                            <input type="file" class="form-control hr-form-control" multiple>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer bg-light border-0 py-3" style="border-radius: 0 0 16px 16px;">
+                <button type="button" class="hr-btn hr-btn-outline" data-bs-dismiss="modal">إلغاء</button>
+                <button type="button" class="hr-btn hr-btn-primary px-5 shadow-sm">تسجيل وإحالة للجنة</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#grievanceTable').DataTable({
+                "searching": false,
+                "lengthChange": false,
+                "language": {
+                    "emptyTable": "لا توجد بيانات متاحة",
+                    "info": "سجل _START_ - _END_ من _TOTAL_",
+                    "paginate": { "next": "التالي", "previous": "السابق" }
+                },
+                "responsive": false,
+                "scrollX": true,
+                "autoWidth": false,
+                "paging": true,
+                "info": false,
+                "dom": 'rt<"d-flex flex-column align-items-center mt-3"<"mb-1"p>i>'
+            });
+        });
+    </script>
+}
+

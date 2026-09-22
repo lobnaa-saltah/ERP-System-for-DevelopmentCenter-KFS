@@ -1,0 +1,105 @@
+@model MyERP.Web.Areas.HR.Models.Employee
+
+@{
+    ViewData["Title"] = "الملف الشخصي للموظف";
+}
+
+<link rel="stylesheet" href="~/css/global/hr-custom.css" asp-append-version="true">
+
+<div class="hr-page-container animate__animated animate__fadeIn">
+    <!-- 1. Header & Quick Actions -->
+    <div class="page-header d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h4 font-weight-bold text-dark mb-1">بيانات الموظف الأساسية</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0 small mb-0">
+                    <li class="breadcrumb-item"><a href="#">الموارد البشرية</a></li>
+                    <li class="breadcrumb-item"><a asp-action="Index">قائمة الموظفين</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">تفاصيل الملف</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="d-flex gap-2">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="hr-btn hr-btn-outline">
+                <i class="fas fa-edit me-2 text-warning"></i> تعديل البيانات
+            </a>
+            <a asp-action="Index" class="hr-btn hr-btn-outline">
+                <i class="fas fa-arrow-right me-2"></i> العودة للقائمة
+            </a>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- 2. Profile Card -->
+        <div class="col-lg-4">
+            <div class="hr-card text-center p-4 h-100 shadow-sm border-0">
+                <div class="profile-avatar-large mx-auto mb-3 bg-primary-light text-primary d-flex align-items-center justify-content-center" style="width: 120px; height: 120px; border-radius: 50%; font-size: 3rem; font-weight: 900; background: rgba(59, 130, 246, 0.1); border: 2px solid #fff; box-shadow: 0 10px 20px rgba(0,0,0,0.05);">
+                    @Model.Name.Substring(0, 1)
+                </div>
+                <h2 class="h5 fw-bold mb-1">@Model.Name</h2>
+                <p class="text-muted small mb-3">كود الموظف: <span class="fw-bold text-primary">@Model.Code</span></p>
+                
+                <div class="d-grid gap-2 mt-4">
+                    <div class="p-2 bg-light rounded-3 d-flex justify-content-between px-3">
+                        <span class="small text-muted">حالة الحساب</span>
+                        @if (Model.IsActive)
+                        {
+                            <span class="badge bg-success rounded-pill px-3">نشط</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger rounded-pill px-3">غير نشط</span>
+                        }
+                    </div>
+                    <div class="p-2 bg-light rounded-3 d-flex justify-content-between px-3">
+                        <span class="small text-muted">تاريخ الانضمام</span>
+                        <span class="fw-bold small">@Model.HireDate.ToString("yyyy/MM/dd")</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Information Tabs/Cards -->
+        <div class="col-lg-8">
+            <div class="hr-card h-100 shadow-sm border-0">
+                <div class="hr-card-header bg-white">
+                    <h3 class="hr-card-title text-primary"><i class="fas fa-id-card-alt me-2"></i> معلومات التواصل والتعيين</h3>
+                </div>
+                <div class="p-4">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="info-group">
+                                <label class="text-muted small d-block mb-1">الاسم الكامل</label>
+                                <div class="fw-bold border-bottom pb-2">@Model.Name</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-group">
+                                <label class="text-muted small d-block mb-1">الرقم الكودي</label>
+                                <div class="fw-bold border-bottom pb-2">@Model.Code</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-group">
+                                <label class="text-muted small d-block mb-1">البريد الإلكتروني</label>
+                                <div class="fw-bold border-bottom pb-2 text-primary">@Model.Email</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-group">
+                                <label class="text-muted small d-block mb-1">رقم الهاتف</label>
+                                <div class="fw-bold border-bottom pb-2">@Model.Phone</div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="alert bg-primary-light border-0 d-flex align-items-center gap-3 p-3 mt-2" style="background: rgba(59, 130, 246, 0.05);">
+                                <i class="fas fa-info-circle text-primary"></i>
+                                <div class="small text-dark">تم إنشاء هذا السجل بتاريخ <span class="fw-bold">@Model.CreatedAt.ToString("yyyy/MM/dd HH:mm")</span> وتم تفعيله بواسطة إدارة الموارد البشرية.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

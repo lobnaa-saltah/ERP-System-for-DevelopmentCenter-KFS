@@ -1,0 +1,57 @@
+﻿@model MyERP.Web.Areas.HR.Models.Employee
+
+@{
+    ViewData["Title"] = "حذف الموظف";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h2 class="text-danger">@ViewData["Title"]</h2>
+            <hr />
+
+            <div class="alert alert-warning">
+                <strong>تحذير!</strong> هل أنت متأكد من حذف الموظف <strong>@Model.Name @Model.Code</strong>؟
+
+                هذه العملية لا يمكن التراجع عنها.
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>الاسم الأول:</strong>
+                            <p>@Model.Name</p>
+                        </div>
+                        <div class="col-md-6">
+                            <strong>الاسم الأخير:</strong>
+                            <p>@Model.Code</p>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>البريد الإلكتروني:</strong>
+                            <p>@Model.Email</p>
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+
+            <form asp-action="Delete" method="post" class="mt-4">
+                <input type="hidden" asp-for="Id" />
+                <button type="submit" class="btn btn-danger">
+                    <i class="bi bi-trash"></i> تأكيد الحذف
+                </button>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> إلغاء
+                </a>
+            </form>
+        </div>
+    </div>
+</div>@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}

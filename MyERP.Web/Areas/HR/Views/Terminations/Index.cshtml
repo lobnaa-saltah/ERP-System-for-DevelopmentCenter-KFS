@@ -1,0 +1,229 @@
+@{
+    ViewData["Title"] = "إنهاء الخدمة";
+}
+
+<link rel="stylesheet" href="~/css/global/hr-custom.css" asp-append-version="true">
+<style>
+    .hover-border-primary { border: 1px solid transparent !important; transition: 0.2s; }
+    .hover-border-primary:hover { border-color: #0d6efd !important; background-color: rgba(13,110,253,0.1) !important; }
+    
+    .hover-border-danger { border: 1px solid transparent !important; transition: 0.2s; }
+    .hover-border-danger:hover { border-color: #dc3545 !important; background-color: rgba(220,53,69,0.1) !important; }
+</style>
+
+<div class="hr-page-container animate__animated animate__fadeIn">
+    <!-- 1. Header Section -->
+    <div class="page-header d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h4 font-weight-bold text-dark mb-1">قرارات إنهاء الخدمة والفصل</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0 small mb-0">
+                    <li class="breadcrumb-item"><a href="#">الموارد البشرية</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">قرارات الخروج</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="d-flex gap-2">
+            <button class="hr-btn hr-btn-primary px-4 shadow-sm" data-bs-toggle="modal" data-bs-target="#terminateModal">
+                <i class="fas fa-ban me-2"></i> تسجيل قرار إنهاء
+            </button>
+        </div>
+    </div>
+
+    <!-- 2. Termination Reason Stats -->
+    <div class="row g-3 mb-4 text-center">
+        <div class="col-md-3">
+            <div class="hr-card border-0 shadow-sm p-3 bg-white">
+                <div class="icon-circle bg-warning-soft text-warning mx-auto mb-2"><i class="fas fa-walking"></i></div>
+                <div class="h4 fw-bold mb-0">5</div>
+                <div class="text-muted small">استقالات</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="hr-card border-0 shadow-sm p-3 bg-white border-bottom border-danger border-3">
+                <div class="icon-circle bg-danger-soft text-danger mx-auto mb-2"><i class="fas fa-gavel"></i></div>
+                <div class="h4 fw-bold mb-0 text-danger">1</div>
+                <div class="text-muted small">فصل تأديبي</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="hr-card border-0 shadow-sm p-3 bg-white">
+                <div class="icon-circle bg-secondary-soft text-secondary mx-auto mb-2"><i class="fas fa-user-clock"></i></div>
+                <div class="h4 fw-bold mb-0">2</div>
+                <div class="text-muted small">انقطاع غياب</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="hr-card border-0 shadow-sm p-3 bg-white">
+                <div class="icon-circle bg-dark-soft text-dark mx-auto mb-2"><i class="fas fa-procedures"></i></div>
+                <div class="h4 fw-bold mb-0">1</div>
+                <div class="text-muted small">وفاة</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Termination Records Table -->
+    <div class="hr-card border-0 shadow-sm">
+        <div class="hr-card-header bg-white d-flex justify-content-between align-items-center">
+            <h3 class="hr-card-title text-dark mb-0">سجل القرارات التنفيذية للإنهاء</h3>
+            <div class="d-flex gap-2">
+                <input type="text" id="customSearchInput" class="form-control form-control-sm border-0 bg-light px-3" placeholder="بحث سريع..." style="border-radius: 8px; width: 200px;">
+                <button class="btn btn-sm btn-export-excel text-nowrap" onclick="exportToExcel()">
+                    <i class="fas fa-file-excel me-1"></i> تصدير Excel
+                </button>
+            </div>
+        </div>
+        <div class="hr-table-wrapper">
+            <table id="termTable" class="table hr-table text-center mb-0">
+                <thead>
+                    <tr>
+                        <th>رقم القرار</th>
+                        <th>الموظف</th>
+                        <th>سبب الإنهاء</th>
+                        <th>تاريخ القرار</th>
+                        <th>آخر عمل</th>
+                        <th>المرفقات</th>
+                        <th>الحالة</th>
+                        <th>الخيارات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="fw-bold">55/2024</td>
+                        <td class="fw-bold text-dark">أمنة جمعة</td>
+                        <td><span class="badge bg-warning-soft text-warning border border-warning px-3 py-2">استقالة</span></td>
+                        <td>2024/06/01</td>
+                        <td class="text-danger fw-bold">2024/06/30</td>
+                        <td><button class="btn btn-sm bg-transparent border-0 text-danger shadow-none fs-5"><i class="fas fa-file-pdf"></i></button></td>
+                        <td><span class="hr-status-badge bg-light text-muted">موقوف</span></td>
+                        <td>
+                            <button class="btn btn-sm bg-transparent text-primary shadow-none hover-border-primary"><i class="fas fa-envelope"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="fw-bold text-danger">90/2024</td>
+                        <td class="fw-bold text-dark">محمد (موظف مفصول)</td>
+                        <td><span class="badge bg-danger-soft text-danger border border-danger px-3 py-2">فصل</span></td>
+                        <td>2024/06/15</td>
+                        <td class="text-danger fw-bold">2024/06/15</td>
+                        <td><button class="btn btn-sm bg-transparent border-0 text-secondary shadow-none fs-5"><i class="fas fa-file-contract"></i></button></td>
+                        <td><span class="hr-status-badge hr-status-danger">مفصول</span></td>
+                        <td>
+                            <button class="btn btn-sm bg-transparent text-danger shadow-none hover-border-danger btn-print-custom"><i class="fas fa-print"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: تسجيل قرار إنهاء -->
+<div class="modal fade" id="terminateModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+            <div class="modal-header bg-primary text-white border-0 py-3 d-flex justify-content-between align-items-center">
+                <h5 class="modal-title fw-bold small m-0"><i class="fas fa-user-times me-2"></i> قرار إنهاء خدمة نهائي</h5>
+                <button type="button" class="btn-close btn-close-white shadow-none m-0" data-bs-dismiss="modal" style="margin-left: 0 !important; margin-right: auto !important;"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="alert bg-danger-soft border-0 rounded-3 small mb-4 text-dark fw-bold">
+                    <i class="fas fa-exclamation-triangle me-2 text-danger"></i> تحذير: هذا الإجراء سيؤدي لإيقاف الراتب وإغلاق الحساب نهائياً.
+                </div>
+                <form>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="hr-label mb-1">الموظف</label>
+                            <select class="form-select hr-form-control select2">
+                                <option>بحث بالاسم...</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="hr-label mb-1">سبب الإنهاء</label>
+                            <select class="form-select hr-form-control fw-bold text-dark">
+                                <option>استقالة</option>
+                                <option>فصل تأديبي</option>
+                                <option>وفاة</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="hr-label mb-1">رقم القرار</label>
+                            <input type="text" class="form-control hr-form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="hr-label mb-1">تاريخ القرار</label>
+                            <input type="date" class="form-control hr-form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="hr-label mb-1">آخر يوم عمل</label>
+                            <input type="date" class="form-control hr-form-control">
+                        </div>
+                        <div class="col-12">
+                            <label class="hr-label mb-1">الحيثيات والسند القانوني</label>
+                            <textarea class="form-control hr-form-control" rows="2"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer border-0 p-4 pt-0">
+                <button type="button" class="btn btn-light px-4 border" data-bs-dismiss="modal">إلغاء</button>
+                <button type="button" class="hr-btn hr-btn-primary px-4 shadow" onclick="confirmTerminate()">اعتماد الإنهاء</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var table = $('#termTable').DataTable({
+                "language": {
+                    "emptyTable": "لا توجد بيانات متاحة",
+                    "info": "سجل _START_ - _END_ من _TOTAL_",
+                    "paginate": { "next": "التالي", "previous": "السابق" }
+                },
+                "responsive": false,
+                "scrollX": true,
+                "paging": true,
+                "info": false,
+                "searching": true,
+                "lengthChange": false,
+                "dom": 'rt<"d-flex flex-column align-items-center mt-3"<"mb-1"p>i>'
+            });
+
+            $('#customSearchInput').on('keyup', function () {
+                table.search(this.value).draw();
+            });
+
+            $('.select2').select2({
+                theme: 'bootstrap-5',
+                dropdownParent: $('#terminateModal')
+            });
+        });
+
+        function confirmTerminate() {
+            Swal.fire({
+                title: 'تأكيد الإنهاء؟',
+                text: "هذا الإجراء لا يمكن التراجع عنه بسهولة وسيتم إيقاف الموظف فوراً.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3545',
+                confirmButtonText: 'نعم، إنهاء الخدمة',
+                cancelButtonText: 'إلغاء',
+                customClass: { confirmButton: 'hr-btn hr-btn-danger px-4', cancelButton: 'btn btn-light px-4 border' }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire('تم التنفيذ!', 'تم إنهاء خدمة الموظف بنجاح.', 'success');
+                    bootstrap.Modal.getInstance(document.getElementById('terminateModal')).hide();
+                }
+            });
+        }
+
+        function exportToExcel() {
+            var table = document.getElementById('termTable');
+            var wb = XLSX.utils.table_to_book(table, { sheet: "قرارات الإنهاء" });
+            XLSX.writeFile(wb, 'terminations_records_' + new Date().getFullYear() + '.xlsx');
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+}

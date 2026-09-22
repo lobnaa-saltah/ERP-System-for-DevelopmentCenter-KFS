@@ -1,0 +1,206 @@
+@{
+    ViewData["Title"] = "السلف والمدد";
+}
+
+<link rel="stylesheet" href="~/css/global/hr-custom.css" asp-append-version="true">
+
+<div class="hr-page-container animate__animated animate__fadeIn">
+    <!-- 1. Header Section -->
+    <div class="page-header d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h4 font-weight-bold text-dark mb-1">إدارة السلف وشراء المدد</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0 small mb-0">
+                    <li class="breadcrumb-item"><a href="#">الموارد البشرية</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">الشئون المالية</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="d-flex gap-2">
+            <button class="hr-btn hr-btn-primary px-4 shadow-sm" data-bs-toggle="modal" data-bs-target="#loanModal">
+                <i class="fas fa-plus me-2"></i> صرف سلفة جديدة
+            </button>
+        </div>
+    </div>
+
+    <!-- 2. Financial Overview Cards -->
+    <div class="row g-3 mb-4 text-center">
+        <div class="col-md-4">
+            <div class="hr-card border-0 shadow-sm p-3 bg-white border-bottom border-success border-3">
+                <div class="icon-circle bg-success-soft text-success mx-auto mb-2"><i class="fas fa-money-bill-wave"></i></div>
+                <div class="text-muted small">إجمالي السلف المنصرفة</div>
+                <div class="h4 fw-bold mb-0">50,000 <small>جم</small></div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="hr-card border-0 shadow-sm p-3 bg-white">
+                <div class="icon-circle bg-primary-soft text-primary mx-auto mb-2"><i class="fas fa-sync"></i></div>
+                <div class="text-muted small">التحصيل الشهري (الأقساط)</div>
+                <div class="h4 fw-bold mb-0">4,200 <small>جم</small></div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="hr-card border-0 shadow-sm p-3 bg-white border-bottom border-danger border-3">
+                <div class="icon-circle bg-danger-soft text-danger mx-auto mb-2"><i class="fas fa-chart-pie"></i></div>
+                <div class="text-muted small">الرصيد المتبقي (المديونية)</div>
+                <div class="h4 fw-bold mb-0 text-danger">35,000 <small>جم</small></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Tabs and Content -->
+    <div class="hr-card border-0 shadow-sm overflow-hidden p-4">
+        <div class="bg-light rounded-pill mb-4 mx-auto p-2" style="max-width: max-content;">
+            <ul class="nav nav-pills custom-tabs mb-0 gap-2" id="loanTabs" role="tablist">
+                <li class="nav-item">
+                    <button class="nav-link active px-4 py-2 rounded-pill fw-bold border-0" data-bs-toggle="pill" data-bs-target="#content-loan" type="button">السلف الشخصية</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link px-4 py-2 rounded-pill fw-bold border-0" data-bs-toggle="pill" data-bs-target="#content-purchase" type="button">شراء المدد</button>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <div class="tab-content">
+                <!-- السلف الشخصية -->
+                <div class="tab-pane fade show active" id="content-loan" role="tabpanel">
+                    <div class="table-responsive hr-table-wrapper">
+                        <table id="tableLoans" class="table hr-table text-center mb-0" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>الموظف</th>
+                                    <th>تاريخ الصرف</th>
+                                    <th>القيمة</th>
+                                    <th>الأقساط</th>
+                                    <th>القسط</th>
+                                    <th>المتبقي</th>
+                                    <th>الحالة</th>
+                                    <th style="width: 80px">الخيارات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="fw-bold text-dark">فاطمة الشرباني</td>
+                                    <td>2024/01/01</td>
+                                    <td class="fw-bold text-success">10,000</td>
+                                    <td>10 شهور</td>
+                                    <td class="text-danger fw-bold">1,000</td>
+                                    <td>4,000</td>
+                                    <td>سارية</td>
+                                    <td>
+                                        <button class="hr-action-btn" title="جدول الأقساط">
+                                            <i class="fas fa-list-ol"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- شراء المدد -->
+                <div class="tab-pane fade" id="content-purchase" role="tabpanel">
+                    <div class="table-responsive hr-table-wrapper">
+                        <table id="tablePurchases" class="table hr-table text-center mb-0" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>الموظف</th>
+                                    <th>نوع الشراء</th>
+                                    <th>السنوات</th>
+                                    <th>التكلفة</th>
+                                    <th>القسط</th>
+                                    <th>بداية الخصم</th>
+                                    <th>الحالة</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="fw-bold text-dark">محمد فؤاد ابراهيم</td>
+                                    <td>شراء مدة سابقة</td>
+                                    <td>3 سنوات</td>
+                                    <td class="fw-bold">15,000</td>
+                                    <td class="text-danger fw-bold">300</td>
+                                    <td>2023/07/01</td>
+                                    <td>معتمد</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: طلب سلفة -->
+<div class="modal fade" id="loanModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-header border-0 pb-0 d-flex justify-content-between align-items-center">
+                <h5 class="modal-title fw-bold m-0">طلب صرف سلفة مالية</h5>
+                <button type="button" class="btn-close shadow-none m-0" data-bs-dismiss="modal" style="margin-left: 0 !important; margin-right: auto !important;"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form>
+                    <div class="mb-3">
+                        <label class="hr-label mb-1">الموظف المستفيد</label>
+                        <select class="form-select hr-form-control select2">
+                            <option>بحث بالاسم...</option>
+                        </select>
+                    </div>
+                    <div class="row g-2 mb-3">
+                        <div class="col-6">
+                            <label class="hr-label mb-1">قيمة السلفة</label>
+                            <input type="number" class="form-control hr-form-control fw-bold text-success" id="loanAmount" onkeyup="calcInstallment()">
+                        </div>
+                        <div class="col-6">
+                            <label class="hr-label mb-1">التقسيط (شهور)</label>
+                            <select class="form-select hr-form-control" id="loanMonths" onchange="calcInstallment()">
+                                <option value="1">دفعة واحدة</option>
+                                <option value="6">6 شهور</option>
+                                <option value="12">12 شهر</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="bg-light p-3 rounded-3 mb-3 text-center">
+                        <div class="small text-muted">قيمة القسط الشهري</div>
+                        <div class="h4 fw-bold text-danger mb-0" id="installmentVal">0.00 <small>جم</small></div>
+                    </div>
+                    <button type="submit" class="hr-btn hr-btn-primary w-100 py-2 shadow d-flex justify-content-center align-items-center">اعتماد وصرف السلفة</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#tableLoans, #tablePurchases').DataTable({
+                "searching": false,
+                "lengthChange": false,
+                "language": {
+                    "emptyTable": "لا توجد بيانات متاحة",
+                    "info": "سجل _START_ - _END_ من _TOTAL_",
+                    "paginate": { "next": "التالي", "previous": "السابق" }
+                },
+                "responsive": false,
+                "scrollX": false,
+                "paging": true,
+                "info": false,
+                "dom": 'rt<"d-flex flex-column align-items-center mt-3"<"mb-1"p>i>'
+            });
+
+            $('.select2').select2({
+                theme: 'bootstrap-5',
+                dropdownParent: $('#loanModal')
+            });
+        });
+
+        function calcInstallment() {
+            var amount = parseFloat(document.getElementById("loanAmount").value) || 0;
+            var months = parseInt(document.getElementById("loanMonths").value) || 1;
+            document.getElementById("installmentVal").innerText = (amount / months).toFixed(2) + " جم";
+        }
+    </script>
+}

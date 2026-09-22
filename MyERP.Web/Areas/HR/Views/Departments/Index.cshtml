@@ -1,0 +1,249 @@
+@{
+    ViewData["Title"] = "الهيكل التنظيمي";
+}
+
+<link rel="stylesheet" href="~/css/global/hr-custom.css" asp-append-version="true">
+
+<style>
+    .dept-card {
+        transition: all 0.3s ease;
+        border: 1px solid #edf2f7;
+        border-radius: 16px;
+        background: #fff;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .dept-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+        border-color: #1976d2;
+    }
+
+    .dept-actions {
+        display: none;
+    }
+
+    .dept-icon-box {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        flex-shrink: 0;
+        margin-left: 12px;
+    }
+
+    .bg-blue-dark { background-color: #0d47a1; }
+    .bg-blue-standard { background-color: #1976d2; }
+    .bg-orange-vibrant { background-color: #f57c00; }
+
+    .sub-dept-list {
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 1px dashed #eee;
+    }
+
+    .sub-dept-item {
+        font-size: 0.85rem;
+        color: #718096 !important;
+        padding: 6px 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+        cursor: pointer;
+    }
+
+    .sub-dept-item:hover {
+        background-color: #f8fafc;
+        color: #1976d2 !important;
+    }
+
+    .sub-dept-item i {
+        color: #cbd5e0 !important;
+        font-size: 0.4rem;
+    }
+
+    .search-box .input-group {
+        transition: all 0.3s ease;
+        border: 1px solid #e2e8f0;
+    }
+
+    .search-box .input-group:focus-within {
+        border-color: #1976d2 !important;
+        box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1) !important;
+    }
+
+    /* Mobile & Tablet Specific Styles */
+    @@media (max-width: 991.98px) {
+        .page-header {
+            flex-direction: column !important;
+            align-items: start !important;
+            gap: 1rem !important;
+        }
+        .header-actions {
+            width: 100% !important;
+        }
+        .header-actions .hr-btn {
+            width: 100% !important;
+            justify-content: center !important;
+        }
+    }
+</style>
+
+<div class="hr-page-container animate__animated animate__fadeIn">
+    <!-- 1. Header Section -->
+    <div class="page-header d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h4 font-weight-bold text-dark mb-1">إدارة الهيكل التنظيمي</h1>
+            <p class="text-muted small mb-0">عرض وإدارة الوحدات الإدارية والأقسام التابعة للديوان العام</p>
+        </div>
+        <div class="d-flex gap-2 header-actions">
+            <div class="search-box d-none d-md-block" style="width: 250px;">
+                <div class="input-group shadow-sm" style="border-radius: 10px; overflow: hidden;">
+                    <span class="input-group-text bg-white border-0"><i class="fas fa-search text-muted"></i></span>
+                    <input type="text" class="form-control border-0 ps-0 shadow-none" placeholder="بحث عن إدارة..." style="font-size: 0.9rem;">
+                </div>
+            </div>
+            <button class="hr-btn hr-btn-primary px-4 shadow-sm" data-bs-toggle="modal" data-bs-target="#deptModal">
+                <i class="fas fa-plus-circle me-2"></i> إضافة وحدة جديدة
+            </button>
+        </div>
+    </div>
+
+    <!-- 2. Units Grid -->
+    <div class="row g-3">
+        <!-- Card 1: الموارد البشرية -->
+        <div class="col-md-4">
+            <div class="dept-card p-3 h-100">
+                <div class="d-flex align-items-center mb-0">
+                    <div class="dept-icon-box bg-blue-dark">
+                        <i class="fas fa-users-cog text-white"></i>
+                    </div>
+                    <h3 class="h6 fw-bold text-dark mb-0">الموارد البشرية</h3>
+                </div>
+                
+                <div class="sub-dept-list">
+                    <div class="sub-dept-item"><i class="fas fa-circle"></i> قسم شئون العاملين</div>
+                    <div class="sub-dept-item"><i class="fas fa-circle"></i> قسم الاستحقاقات والرواتب</div>
+                    <div class="sub-dept-item"><i class="fas fa-circle"></i> قسم الإجازات والغياب</div>
+                    <div class="sub-dept-item"><i class="fas fa-circle"></i> قسم التدريب والتطوير</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2: نظم المعلومات -->
+        <div class="col-md-4">
+            <div class="dept-card p-3 h-100">
+                <div class="d-flex align-items-center mb-0">
+                    <div class="dept-icon-box bg-blue-standard">
+                        <i class="fas fa-laptop-code text-white"></i>
+                    </div>
+                    <h3 class="h6 fw-bold text-dark mb-0">نظم المعلومات</h3>
+                </div>
+                
+                <div class="sub-dept-list">
+                    <div class="sub-dept-item"><i class="fas fa-circle"></i> قسم البنية التحتية والشبكات</div>
+                    <div class="sub-dept-item"><i class="fas fa-circle"></i> قسم تطوير البرمجيات</div>
+                    <div class="sub-dept-item"><i class="fas fa-circle"></i> قسم الدعم الفني</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 3: الشئون القانونية -->
+        <div class="col-md-4">
+            <div class="dept-card p-3 h-100">
+                <div class="d-flex align-items-center mb-0">
+                    <div class="dept-icon-box bg-blue-standard">
+                        <i class="fas fa-balance-scale text-white"></i>
+                    </div>
+                    <h3 class="h6 fw-bold text-dark mb-0">الشئون القانونية</h3>
+                </div>
+                
+                <div class="sub-dept-list">
+                    <div class="sub-dept-item"><i class="fas fa-circle"></i> قسم التحقيقات والجزاءات</div>
+                    <div class="sub-dept-item"><i class="fas fa-circle"></i> قسم الفتاوى والعقود</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 4: الشئون المالية -->
+        <div class="col-md-4">
+            <div class="dept-card p-3 h-100">
+                <div class="d-flex align-items-center mb-0">
+                    <div class="dept-icon-box bg-blue-standard">
+                        <i class="fas fa-calculator text-white"></i>
+                    </div>
+                    <h3 class="h6 fw-bold text-dark mb-0">الشئون المالية</h3>
+                </div>
+                
+                <div class="sub-dept-list">
+                    <div class="sub-dept-item"><i class="fas fa-circle"></i> قسم الحسابات والمراجعة</div>
+                    <div class="sub-dept-item"><i class="fas fa-circle"></i> قسم المشتريات والمخازن</div>
+                    <div class="sub-dept-item"><i class="fas fa-circle"></i> قسم الموازنة والتخطيط</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 5: السكرتارية العامة -->
+        <div class="col-md-4">
+            <div class="dept-card p-3 h-100">
+                <div class="d-flex align-items-center mb-0">
+                    <div class="dept-icon-box bg-orange-vibrant">
+                        <i class="fas fa-envelope-open-text text-white"></i>
+                    </div>
+                    <h3 class="h6 fw-bold text-dark mb-0">السكرتارية العامة</h3>
+                </div>
+                
+                <div class="sub-dept-list">
+                    <div class="sub-dept-item"><i class="fas fa-circle"></i> قسم الأرشيف والتوثيق</div>
+                    <div class="sub-dept-item"><i class="fas fa-circle"></i> قسم الصادر والوارد</div>
+                    <div class="sub-dept-item"><i class="fas fa-circle"></i> قسم العلاقات العامة</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: إضافة إدارة -->
+<div class="modal fade" id="deptModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg overflow-hidden" style="border-radius: 20px;">
+            <div class="modal-header bg-primary text-white border-0 py-3 d-flex justify-content-between align-items-center">
+                <h5 class="modal-title fw-bold small m-0"><i class="fas fa-plus-circle me-2"></i> إضافة وحدة تنظيمية جديدة</h5>
+                <button type="button" class="btn-close btn-close-white shadow-none m-0" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="post" asp-action="Save">
+                <div class="modal-body p-4">
+                    <div class="mb-3">
+                        <label class="hr-label mb-1">اسم الوحدة / الإدارة</label>
+                        <input type="text" class="form-control hr-form-control" placeholder="مثال: إدارة التحول الرقمي" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="hr-label mb-1">التبعية (المستوى الأعلى)</label>
+                        <select class="form-select hr-form-control">
+                            <option value="0">-- مستوى رئيسي --</option>
+                            <option value="1">مكتب المحافظ</option>
+                            <option value="2">السكرتير العام</option>
+                            <option value="3">الموارد البشرية</option>
+                        </select>
+                    </div>
+                    <div class="mb-0">
+                        <label class="hr-label mb-1">مدير الوحدة</label>
+                        <select class="form-select hr-form-control">
+                            <option>اختر من الموظفين...</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 p-4 pt-0">
+                    <button type="button" class="btn btn-light px-4 border" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="submit" class="hr-btn hr-btn-primary px-4 shadow">حفظ البيانات</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

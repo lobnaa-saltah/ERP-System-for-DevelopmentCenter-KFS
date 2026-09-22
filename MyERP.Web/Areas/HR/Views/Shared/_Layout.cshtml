@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewData["Title"] - المنصة الرقمية</title>
+    
+    <meta name="description" content="المنصة الرقمية الموحدة لمحافظة كفر الشيخ - نظام ERP شامل لإدارة الموارد البشرية، المخازن، الشئون القانونية، والحملة">
+    <meta name="keywords" content="ERP, كفر الشيخ, موارد بشرية, مخازن, حكومة الكترونية, تحول رقمي">
+    <meta name="author" content="الإدارة العامة لنظم المعلومات والتحول الرقمي">
+    
+    <link rel="stylesheet" href="~/css/bootstrap/bootstrap.min.css">
+    
+    <link rel="stylesheet" href="~/css/all.min.css">
+    
+    <link rel="stylesheet" href="~/css/animate/animate.css">
+    
+    <link rel="stylesheet" href="~/css/bootstrap/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="~/css/bootstrap/responsive.bootstrap5.min.css">
+    <link rel="stylesheet" href="~/css/bootstrap/bootstrap.min.css">
+
+    <link rel="stylesheet" href="~/css/global/main.css">
+    
+    <link rel="stylesheet" href="~/css/global/adminlte.css">
+    
+    <link rel="stylesheet" href="~/css/global/dash-style.css">
+    
+    <link rel="stylesheet" href="~/css/global/hr-custom.css" asp-append-version="true">
+    
+    <style>
+        body, h1, h2, h3, h4, h5, h6, button, input, select, textarea {
+            font-family: 'Cairo', sans-serif !important;
+        }
+        .main-sidebar *, .navbar *, .content-wrapper *, footer *, .table *, .hr-card * {
+            font-family: 'Cairo', sans-serif;
+        }
+        .fas, .far, .fab, .fa, i {
+            font-family: "Font Awesome 6 Free", "Font Awesome 5 Free", "FontAwesome" !important;
+        }
+        body { font-size: 0.95rem !important; }
+        .main-sidebar { top: 75px !important; height: calc(100vh - 75px) !important; position: fixed !important; background: #0f172a !important; border-left: 1px solid rgba(255,255,255,0.05); }
+        .content-wrapper { margin-top: 0 !important; }
+        .sidebar { height: calc(100% - 10px) !important; overflow-y: auto !important; padding: 0 !important; }
+    </style>
+
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed" style="margin:0;">
+    
+    <nav class="navbar sticky-top shadow-sm" style="background: #0f172a !important; border-bottom: 1px solid rgba(255,255,255,0.1); font-family: 'Cairo', sans-serif; padding: 0.8rem 0; height: 75px; z-index: 1040;">
+        <div class="container-fluid px-4 d-flex align-items-center justify-content-between">
+            
+            <div class="d-flex align-items-center gap-3">
+                <a class="nav-link text-white p-2 hover-bg-white-10 rounded-3" data-widget="pushmenu" href="#" role="button" title="فتح القائمة الجانبية">
+                    <i class="fas fa-bars" style="font-size: 1.25rem;"></i>
+                </a>
+                <div class="navbar-brand d-flex align-items-center ms-2 m-0" style="cursor: default;">
+                    <img src="~/imgs/kfslogo.jpg" style="height: 40px; border-radius: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);" alt="KFS Logo">
+                    <div class="d-flex flex-column me-3 d-none d-md-flex" style="gap: 0.3rem;">
+                        <span style="color: #fff; font-weight: 800; font-size: 1.15rem; line-height: 1;">الموارد البشرية</span>
+                        <small style="color: rgba(255,255,255,0.6); font-size: 0.75rem; letter-spacing: 0.5px;">محافظة كفر الشيخ</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="d-flex align-items-center gap-2">
+                <div class="search-permanent d-none d-lg-block" style="width: 320px;">
+                    <div class="input-group overflow-hidden shadow-sm d-flex flex-row-reverse" style="background: rgba(255,255,255,0.05); border-radius: 50px; border: 1px solid rgba(255,255,255,0.1); padding: 2px 15px;">
+                        <span class="input-group-text border-0 bg-transparent p-0 d-flex align-items-center"><i class="fas fa-search text-white opacity-40" style="font-size: 0.9rem;"></i></span>
+                        <input class="form-control border-0 bg-transparent text-white me-2 text-start" type="search" placeholder="بحث سريع..." style="font-family: 'Cairo', sans-serif; font-size: 0.85rem; height: 34px; box-shadow: none !important; direction: ltr;">
+                    </div>
+                </div>
+                <a class="nav-link text-white opacity-50 hover-opacity-100 p-0 d-none d-sm-block ms-2" data-widget="fullscreen" href="#" role="button" title="تكبير الشاشة"><i class="fas fa-expand-arrows-alt" style="font-size: 1.1rem;"></i></a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="btn btn-login-style ms-2 d-flex align-items-center gap-2 px-3 py-1.5" style="background: transparent; border: 1px solid #3b82f6; border-radius: 10px; color: #3b82f6; font-size: 0.9rem; font-weight: 700; transition: all 0.3s ease;">
+                    <i class="fa-solid fa-house-chimney-window"></i>
+                    <span>الرئيسية</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+    <div class="wrapper">
+
+        
+        <aside class="main-sidebar sidebar-dark-primary elevation-4 bg-dark">
+            
+            <div class="sidebar p-0">
+
+                
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+                        
+                        <li class="nav-item">
+                            <a asp-area="HR" asp-controller="Home" asp-action="Index" class="nav-link active">
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <p>لوحة الإحصائيات</p>
+                            </a>
+                        </li>
+
+                        
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-folder-plus"></i>
+                                <p>
+                                    التعيينات والملفات
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a asp-area="HR" asp-controller="Employee" asp-action="Create" class="nav-link">
+                                        <i class="fas fa-user-plus nav-icon"></i>
+                                        <p>إضافة موظف جديد</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-area="HR" asp-controller="Employees" asp-action="Index" class="nav-link">
+                                        <i class="fas fa-address-book nav-icon"></i>
+                                        <p>سجل العاملين (E-File)</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-area="HR" asp-controller="ServiceTerm" asp-action="Index" class="nav-link">
+                                        <i class="fas fa-history nav-icon"></i>
+                                        <p>ضم مدة الخدمة السابقة</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-area="HR" asp-controller="Decisions" asp-action="Index" class="nav-link">
+                                        <i class="fas fa-file-signature nav-icon"></i>
+                                        <p>قرارات التعيين والتثبيت</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        
+                        <li class="nav-item menu-open">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-clock"></i>
+                                <p>
+                                    الدوام والأجازات
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a asp-area="HR" asp-controller="Attendance" asp-action="Index" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>دفتر الحضور والانصراف</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    
+                                    <a asp-area="HR" asp-controller="Leaves" asp-action="Regular" class="nav-link">
+                                        <i class="fas fa-umbrella-beach nav-icon"></i>
+                                        <p>أجازات (اعتيادي/عارضة)</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    
+                                    <a asp-area="HR" asp-controller="Leaves" asp-action="Medical" class="nav-link text-danger">
+                                        <i class="fas fa-user-md nav-icon"></i>
+                                        <p>أجازات مرضية ولجان</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    
+                                    <a asp-area="HR" asp-controller="Leaves" asp-action="Special" class="nav-link">
+                                        <i class="fas fa-baby nav-icon"></i>
+                                        <p>أجازات خاصة (وضع/حج)</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    
+                                    <a asp-area="HR" asp-controller="Permissions" asp-action="Index" class="nav-link">
+                                        <i class="fas fa-stopwatch nav-icon"></i>
+                                        <p>أذونات وساعات تأخير</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-area="HR" asp-controller="Absence" asp-action="Settlement" class="nav-link">
+                                        <i class="fas fa-user-times nav-icon"></i>
+                                        <p>تصفية الغياب (الانقطاع)</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-exchange-alt"></i>
+                                <p>
+                                    حركة الموظفين (الترقيات)
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    
+                                    <a asp-area="HR" asp-controller="Promotions" asp-action="Eligibility" class="nav-link text-success">
+                                        <i class="fas fa-arrow-up nav-icon"></i>
+                                        <p>بحث الترقيات والعلاوات</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-area="HR" asp-controller="Transfers" asp-action="Index" class="nav-link">
+                                        <i class="fas fa-random nav-icon"></i>
+                                        <p>النقل الداخلي والخارجي</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-area="HR" asp-controller="Secondments" asp-action="Index" class="nav-link">
+                                        <i class="fas fa-briefcase nav-icon"></i>
+                                        <p>الندب والإعارة</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-balance-scale"></i>
+                                <p>
+                                    الكفاءة والانضباط
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    
+                                    <a asp-area="HR" asp-controller="Evaluation" asp-action="AnnualReport" class="nav-link">
+                                        <i class="fas fa-star-half-alt nav-icon"></i>
+                                        <p>تقارير الكفاءة السنوية</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    
+                                    <a asp-area="HR" asp-controller="Evaluation" asp-action="Grievances" class="nav-link">
+                                        <i class="fas fa-fist-raised nav-icon"></i>
+                                        <p>التظلمات الإدارية</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    
+                                    <a asp-area="HR" asp-controller="Penalties" asp-action="Index" class="nav-link text-warning">
+                                        <i class="fas fa-exclamation-triangle nav-icon"></i>
+                                        <p>الجزاءات والمخالفات</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-area="HR" asp-controller="Legal" asp-action="Rulings" class="nav-link">
+                                        <i class="fas fa-gavel nav-icon"></i>
+                                        <p>تنفيذ الأحكام القضائية</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-money-check-alt"></i>
+                                <p>
+                                    المرتبات والمستحقات
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a asp-area="HR" asp-controller="Payroll" asp-action="Generate" class="nav-link">
+                                        <i class="fas fa-file-invoice-dollar nav-icon"></i>
+                                        <p>مسير الرواتب</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    
+                                    <a asp-area="HR" asp-controller="Funds" asp-action="Fellowship" class="nav-link">
+                                        <i class="fas fa-hand-holding-heart nav-icon"></i>
+                                        <p>صناديق الزمالة والتكافل</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-area="HR" asp-controller="Loans" asp-action="Requests" class="nav-link">
+                                        <i class="fas fa-money-bill nav-icon"></i>
+                                        <p>السلف وطلبات الشراء</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-door-open"></i>
+                                <p>
+                                    المعاشات وإنهاء الخدمة
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a asp-area="HR" asp-controller="Retirement" asp-action="Pending" class="nav-link">
+                                        <i class="fas fa-hourglass-end nav-icon"></i>
+                                        <p>المحالين للمعاش (قريباً)</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-area="HR" asp-controller="Retirement" asp-action="Files" class="nav-link">
+                                        <i class="fas fa-archive nav-icon"></i>
+                                        <p>تجهيز ملفات المعاشات</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-area="HR" asp-controller="Terminations" asp-action="Index" class="nav-link text-danger">
+                                        <i class="fas fa-user-slash nav-icon"></i>
+                                        <p>قرارات إنهاء الخدمة/فصل</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        
+                        <li class="nav-header">إعدادات النظام</li>
+                        <li class="nav-item">
+                            <a asp-area="HR" asp-controller="Departments" asp-action="Index" class="nav-link">
+                                <i class="fas fa-sitemap nav-icon"></i>
+                                <p>الهيكل الإداري</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-area="HR" asp-controller="Lookups" asp-action="Index" class="nav-link">
+                                <i class="fas fa-cogs nav-icon"></i>
+                                <p>أكواد النظام (درجات/فئات)</p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </nav>
+                
+            </div>
+            
+        </aside>
+        <div class="content-wrapper">
+            @RenderBody()
+        </div>
+        
+        <footer style="background: #0f172a !important; border-top: 1px solid rgba(255,255,255,0.1) !important; padding: 1.5rem 0 !important; font-family: 'Cairo', sans-serif !important; height: auto !important; min-height: 60px !important; display: block !important;">
+            <div class="container-fluid text-center">
+                <p style="color: #fff !important; margin: 0 !important; font-size: 0.9rem !important; font-weight: 500 !important; opacity: 0.85 !important; line-height: 1.8 !important; padding: 0 1.5rem !important; word-wrap: break-word !important; white-space: normal !important;">
+                    حقوق الطبع والنشر &copy; الإدارة العامة لنظم المعلومات والتحول الرقمي <a href="#" style="color: #3b82f6 !important; font-weight: 700 !important; text-decoration: none !important; display: inline-block !important;">إدارة النظم والتطبيقات</a>.
+                </p>
+            </div>
+        </footer>
+        
+        
+        <script src="~/js/jquery/jquery.min.js"></script>
+        
+        <script src="~/js/jquery/jquery-ui.min.js"></script>
+        
+        <script src="~/js/bootstrap/bootstrap.bundle.min.js"></script>
+        
+        <script src="~/js/all.min.js"></script>
+        
+        <script src="~/js/jquery/jquery.dataTables.min.js"></script>
+        <script src="~/js/bootstrap/dataTables.bootstrap5.min.js"></script>
+        <script src="~/js/datatable/dataTables.responsive.min.js"></script>
+        <script src="~/js/bootstrap/responsive.bootstrap5.min.js"></script>
+        <script src="~/js/datatable/dataTables.buttons.min.js"></script>
+        <script src="~/js/bootstrap/buttons.bootstrap5.min.js"></script>
+        <script src="~/js/datatable/jszip.min.js"></script>
+        <script src="~/js/datatable/pdfmake.min.js"></script>
+        <script src="~/js/datatable/vfs_fonts.js"></script>
+        <script src="~/js/datatable/buttons.html5.min.js"></script>
+        <script src="~/js/datatable/buttons.print.min.js"></script>
+        <script src="~/js/datatable/buttons.colVis.min.js"></script>
+        
+        <script src="~/js/datatable/db.js"></script>
+        <script src="~/js/datatable/jsgrid.min.js"></script>
+        
+        <script src="~/js/global/adminlte.js"></script>
+        
+        <script src="~/js/chart/Chart.min.js"></script>
+
+        
+        <script src="~/js/global/main.js"></script>
+
+        <script src="~/js/animate/wow.min.js"></script>
+        <script>
+            new WOW().init();
+        </script>
+        <script>
+            $(function () {
+                $('.select2').select2()
+            });
+        </script>
+
+        
+        
+        <script>
+            $(function () {
+                $("#jsGrid1").jsGrid({
+                    height: "100%",
+                    width: "100%",
+
+                    sorting: true,
+                    paging: true,
+
+                    data: db.clients,
+
+                    fields: [
+                        { name: "Name", type: "text", width: 150 },
+                        { name: "Age", type: "number", width: 50 },
+                        { name: "Address", type: "text", width: 200 },
+                        { name: "Country", type: "select", items: db.countries, valueField: "Id", textField: "Name" },
+                        { name: "Married", type: "checkbox", title: "Is Married" }
+                    ]
+                });
+            });
+        </script>
+        @RenderSection("Scripts", required: false)
+
+</body>
+</html>

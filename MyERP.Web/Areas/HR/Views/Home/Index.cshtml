@@ -1,0 +1,337 @@
+@{
+    ViewData["Title"] = "لوحة الإحصائيات العامة (HR)";
+}
+
+<link rel="stylesheet" href="~/css/modern-luxe.css">
+
+<style>
+    /* Welcome Banner - Creative Redesign */
+    .welcome-banner {
+        background: #0f172a;
+        background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+        border-radius: 1.5rem;
+        padding: 3rem 2.5rem;
+        color: white;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 2.5rem;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255,255,255,0.05);
+    }
+    
+    /* Glowing creative elements */
+    .welcome-banner::before {
+        content: '';
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+        top: -100px;
+        left: -50px;
+        border-radius: 50%;
+        filter: blur(40px);
+        z-index: 1;
+    }
+    .welcome-banner::after {
+        content: '';
+        position: absolute;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
+        bottom: -150px;
+        right: -100px;
+        border-radius: 50%;
+        filter: blur(50px);
+        z-index: 1;
+    }
+
+    .welcome-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .welcome-title { font-size: 1.6rem; font-weight: 900; margin-bottom: 0.75rem; letter-spacing: -0.5px; }
+    .welcome-sub { color: rgba(255,255,255,0.75); font-size: 0.95rem; max-width: 650px; line-height: 1.7; }
+</style>
+
+<!-- ChartJS -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="dashboard-container animate__animated animate__fadeIn">
+    
+    <!-- Welcome Banner (Header Section) -->
+    <div class="welcome-banner wow fadeIn">
+        <div class="welcome-content">
+            <h1 class="welcome-title">موقف الموارد البشرية</h1>
+            <p class="welcome-sub">نظرة عامة شاملة على القوة البشرية، إحصائيات الحضور والغياب، ومتابعة حالة المهام والتنبيهات الحالية.</p>
+        </div>
+    </div>
+
+    <!-- 1. عدادات القوة البشرية (Top Stats) - Full Width Grid -->
+    <div class="stat-grid-horizontal">
+        <div class="modern-stat-card stat-primary">
+            <div class="stat-icon-box">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="stat-info">
+                <div class="stat-value">150</div>
+                <div class="stat-label">إجمالي الموظفين</div>
+            </div>
+            <a asp-controller="Employees" asp-action="Index" class="stretched-link"></a>
+        </div>
+
+        <div class="modern-stat-card stat-success">
+            <div class="stat-icon-box">
+                <i class="fas fa-user-check"></i>
+            </div>
+            <div class="stat-info">
+                <div class="stat-value">135</div>
+                <div class="stat-label">حضور اليوم (90%)</div>
+            </div>
+            <a asp-controller="Attendance" asp-action="Index" class="stretched-link"></a>
+        </div>
+
+        <div class="modern-stat-card stat-warning">
+            <div class="stat-icon-box">
+                <i class="fas fa-plane-departure"></i>
+            </div>
+            <div class="stat-info">
+                <div class="stat-value">5</div>
+                <div class="stat-label">أجازات ومأموريات</div>
+            </div>
+            <a asp-controller="Leaves" asp-action="Regular" class="stretched-link"></a>
+        </div>
+
+        <div class="modern-stat-card stat-danger">
+            <div class="stat-icon-box">
+                <i class="fas fa-user-times"></i>
+            </div>
+            <div class="stat-info">
+                <div class="stat-value">10</div>
+                <div class="stat-label">غياب وتأخير</div>
+            </div>
+            <a asp-controller="Absence" asp-action="Settlement" class="stretched-link"></a>
+        </div>
+    </div>
+
+    <!-- 2. الرسوم البيانية (Charts) - Displayed in a row to save vertical space -->
+    <div class="row g-4 mb-4">
+        <div class="col-xl-6">
+            <div class="section-card h-100 mb-0">
+                <div class="section-header">
+                    <h3 class="section-title">
+                        <i class="fas fa-chart-pie text-primary"></i> نسب الحضور والغياب اليومي
+                    </h3>
+                    <div class="section-actions text-start">
+                        <button class="btn btn-sm btn-light rounded-pill px-3">تحديث البيانات</button>
+                    </div>
+                </div>
+                <div class="section-body">
+                    <div style="height: 250px; width: 100%;">
+                        <canvas id="attendanceChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-6">
+            <div class="section-card h-100 mb-0">
+                <div class="section-header">
+                    <h3 class="section-title">
+                        <i class="fas fa-chart-bar text-success"></i> توزيع الموظفين على الإدارات
+                    </h3>
+                </div>
+                <div class="section-body">
+                    <div style="height: 250px; width: 100%;">
+                        <canvas id="deptChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. التنبيهات والإجراءات المعلقة (Pending Actions) - Full Width Table -->
+    <div class="section-card">
+        <div class="section-header">
+            <h3 class="section-title">
+                <i class="fas fa-tasks text-secondary"></i> طلبات معلقة بانتظار الاعتماد
+            </h3>
+            <a href="javascript:void(0)" class="btn btn-sm btn-outline-primary rounded-pill px-3">عرض الكل</a>
+        </div>
+        <div class="section-body p-0">
+            <div class="table-responsive">
+                <table class="table modern-table mb-0">
+                    <thead>
+                        <tr>
+                            <th class="ps-4">رقم الطلب</th>
+                            <th>الموظف</th>
+                            <th>نوع الطلب</th>
+                            <th>تاريخ الطلب</th>
+                            <th>الحالة</th>
+                            <th class="pe-4 text-center">الإجراء</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="ps-4"><span>OR9842</span></td>
+                            <td>
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="avatar-sm bg-light rounded-circle p-2 text-center" style="width: 35px; height: 35px; line-height: 20px;">ف</div>
+                                    <span>فاطمة الشرباني</span>
+                                </div>
+                            </td>
+                            <td><span class="badge-modern bg-light text-purple" style="color: #6b21a8; background: #faf5ff;">أجازة اعتيادي</span></td>
+                            <td>12/06/2024</td>
+                            <td><span class="badge-modern bg-light text-warning" style="color: #92400e; background: #fffbeb;">انتظار</span></td>
+                            <td class="pe-4 text-center"><button class="btn btn-sm btn-primary rounded-pill px-4">اعتماد</button></td>
+                        </tr>
+                        <tr>
+                            <td class="ps-4"><span>OR1848</span></td>
+                            <td>
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="avatar-sm bg-light rounded-circle p-2 text-center" style="width: 35px; height: 35px; line-height: 20px;">م</div>
+                                    <span>محمد فؤاد</span>
+                                </div>
+                            </td>
+                            <td><span class="badge-modern bg-light text-info" style="color: #075985; background: #f0f9ff;">إذن تأخير</span></td>
+                            <td>13/06/2024</td>
+                            <td><span class="badge-modern bg-light text-warning" style="color: #92400e; background: #fffbeb;">انتظار</span></td>
+                            <td class="pe-4 text-center"><button class="btn btn-sm btn-primary rounded-pill px-4">اعتماد</button></td>
+                        </tr>
+                        <tr>
+                            <td class="ps-4"><span>OR7429</span></td>
+                            <td>
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="avatar-sm bg-light rounded-circle p-2 text-center" style="width: 35px; height: 35px; line-height: 20px;">ب</div>
+                                    <span>بهجت إبراهيم</span>
+                                </div>
+                            </td>
+                            <td><span class="badge-modern bg-light text-danger" style="color: #991b1b; background: #fef2f2;">سلفة مالية</span></td>
+                            <td>14/06/2024</td>
+                            <td><span class="badge-modern bg-light text-secondary">مراجعة</span></td>
+                            <td class="pe-4 text-center"><button class="btn btn-sm btn-outline-primary rounded-pill px-4">مراجعة</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. تنبيهات هامة -->
+    <div class="section-card">
+        <div class="section-header">
+            <h3 class="section-title">
+                <i class="fas fa-exclamation-circle text-danger"></i> تنبيهات المواعيد النهائية (Deadline Alerts)
+            </h3>
+            <span class="badge bg-danger rounded-pill px-4 py-2" style="font-size: 0.9rem;">3 تنبيهات</span>
+        </div>
+        <div class="section-body">
+            <div class="row">
+                <div class="col-12">
+                    <div class="modern-alert-item alert-danger">
+                        <div class="stat-icon-box bg-white shadow-sm">
+                            <i class="fas fa-hourglass-end"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h5 class="mb-1 fw-bold text-dark" style="font-size: 1.05rem;">إحالة للمعاش قريباً</h5>
+                            <p class="text-muted mb-0">الموظف: فاطمة عبدالفتاح الشرباني - الموعد النهائي: <span class="text-danger fw-bold">خلال شهر واحد</span></p>
+                        </div>
+                        <a href="#" class="btn btn-sm btn-light rounded-pill">التفاصيل</a>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="modern-alert-item alert-warning">
+                        <div class="stat-icon-box bg-white shadow-sm">
+                            <i class="fas fa-file-contract"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h5 class="mb-1 fw-bold text-dark" style="font-size: 1.05rem;">تجديد عقد مؤقت</h5>
+                            <p class="text-muted mb-0">الموظف: أمنة جمعة (السكرتارية) - الموعد النهائي: <span class="text-warning fw-bold">15 يوم</span></p>
+                        </div>
+                        <a href="#" class="btn btn-sm btn-light rounded-pill">التفاصيل</a>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="modern-alert-item alert-info">
+                        <div class="stat-icon-box bg-white shadow-sm">
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h5 class="mb-1 fw-bold text-dark" style="font-size: 1.05rem;">تقارير كفاءة متأخرة</h5>
+                            <p class="text-muted mb-0">إدارة الشئون الهندسية - عدد التقارير: <span class="text-info fw-bold">20 تقرير</span></p>
+                        </div>
+                        <a href="#" class="btn btn-sm btn-light rounded-pill">التفاصيل</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    $(function () {
+        /* -- CHART 1: Attendance (Doughnut) -- */
+        var attendanceCanvas = $('#attendanceChart').get(0).getContext('2d');
+        new Chart(attendanceCanvas, {
+            type: 'doughnut',
+            data: {
+                labels: ['حضور', 'غياب', 'مأموريات/أجازة', 'تأخير'],
+                datasets: [{
+                    data: [135, 2, 5, 8],
+                    backgroundColor: ['#22c55e', '#ef4444', '#f59e0b', '#3b82f6'],
+                    borderWidth: 0,
+                    hoverOffset: 15
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            font: { family: 'Cairo', size: 14 },
+                            padding: 20
+                        }
+                    }
+                },
+                cutout: '70%'
+            }
+        });
+
+        /* -- CHART 2: Departments (Bar) -- */
+        var deptCanvas = $('#deptChart').get(0).getContext('2d');
+        new Chart(deptCanvas, {
+            type: 'bar',
+            data: {
+                labels: ['نظم المعلومات', 'التخطيط العمراني', 'الشئون القانونية', 'المالية', 'الهندسية'],
+                datasets: [{
+                    label: 'عدد الموظفين',
+                    backgroundColor: 'rgba(59, 130, 246, 0.8)',
+                    borderColor: '#3b82f6',
+                    borderWidth: 1,
+                    borderRadius: 10,
+                    data: [25, 40, 15, 30, 45]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { 
+                        beginAtZero: true,
+                        grid: { display: false }
+                    },
+                    x: {
+                        grid: { display: false },
+                        labels: { font: { family: 'Cairo' } }
+                    }
+                },
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
+    });
+</script>

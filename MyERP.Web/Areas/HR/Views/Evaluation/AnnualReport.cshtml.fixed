@@ -1,0 +1,214 @@
+@{
+    ViewData["Title"] = "تقارير تقويم الأداء السنوية";
+}
+
+<link rel="stylesheet" href="~/css/global/hr-custom.css" asp-append-version="true">
+
+<div class="hr-page-container animate__animated animate__fadeIn">
+    
+    <div class="page-header d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h4 font-weight-bold text-dark mb-1">تقارير الكفاءة السنوية</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0 small mb-0">
+                    <li class="breadcrumb-item"><a href="#">الموارد البشرية</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">تقويم الأداء</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="d-flex gap-2">
+            <button class="hr-btn hr-btn-primary px-4 shadow-sm" data-bs-toggle="modal" data-bs-target="#evaluationModal">
+                <i class="fas fa-plus-circle me-2"></i> تحرير تقرير جديد
+            </button>
+        </div>
+    </div>
+
+    
+    <div class="hr-card border-0 shadow-sm mb-4">
+        <div class="p-3">
+            <div class="row align-items-center g-3">
+                <div class="col-md-auto">
+                    <span class="text-muted small fw-bold">العام المالي الحالي:</span>
+                </div>
+                <div class="col-md-2">
+                    <select class="form-select hr-form-control py-1 fw-bold text-primary border-primary-soft">
+                        <option>2023 - 2024</option>
+                        <option>2022 - 2023</option>
+                    </select>
+                </div>
+                <div class="col-12 mt-2">
+                    <div class="small text-dark p-2 rounded-3 w-100" style="background-color: #d1fae5; border: 1px solid #a7f3d0;">
+                        <i class="fas fa-info-circle me-1" style="color: #059669;"></i> يتم اعتماد التقارير النهائية بقرار من لجنة الموارد البشرية.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="hr-card border-0 shadow-sm">
+        <div class="hr-card-header bg-white d-flex justify-content-between align-items-center">
+            <h3 class="hr-card-title text-dark">سجل التقييمات المحررة</h3>
+            <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-outline-secondary border-light">تصدير ملف اكسيل</button>
+            </div>
+        </div>
+        <div class="hr-table-wrapper">
+            <table id="evalTable" class="table hr-table text-center mb-0">
+                <thead>
+                    <tr>
+                        <th style="width: 5%">م</th>
+                        <th>الموظف</th>
+                        <th>الدرجة الوظيفية</th>
+                        <th>الدرجة (100)</th>
+                        <th>التقدير العام</th>
+                        <th>المُقيّم</th>
+                        <th>الحالة</th>
+                        <th style="width: 100px">الخيارات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td class="fw-bold">رانيا أبو النصر</td>
+                        <td>الأولى (أ)</td>
+                        <td><span class="fw-bold text-success fs-5">96</span></td>
+                        <td><span class="badge bg-success-soft text-success border border-success px-3 py-2" style="font-size: 0.85rem;">ممتاز</span></td>
+                        <td><small>مدير التنظيم</small></td>
+                        <td>معتمد نهائي</td>
+                        <td>
+                            <button class="hr-action-btn" title="طباعة">
+                                <i class="fas fa-print"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td class="fw-bold text-dark">محمد فؤاد ابراهيم</td>
+                        <td>الثانية (ب)</td>
+                        <td><span class="fw-bold text-primary fs-5">85</span></td>
+                        <td><span class="badge bg-primary-soft text-primary border border-primary px-3 py-2" style="font-size: 0.85rem;">كفء</span></td>
+                        <td><small>مدير الموارد البشرية</small></td>
+                        <td>تم الإخطار</td>
+                        <td>
+                            <button class="hr-action-btn" title="تعديل">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="evaluationModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 16px;">
+            <div class="modal-header bg-primary text-white border-0 py-3 d-flex align-items-center" style="border-radius: 16px 16px 0 0;">
+                <h5 class="modal-title fw-bold flex-grow-1 text-end"><i class="fas fa-edit me-2"></i> استمارة تقويم الأداء</h5>
+                <button type="button" class="btn-close btn-close-white ms-3 m-0" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-3" style="font-size: 0.9rem;">
+                <form id="evalForm">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="hr-label mb-1">الموظف المراد تقييمه</label>
+                            <select class="form-select hr-form-control select2">
+                                <option>بحث بالاسم...</option>
+                                <option>بهجت إبراهيم</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="hr-label mb-1">القائم بالتقويم</label>
+                            <input type="text" class="form-control hr-form-control bg-light" value="@User.Identity?.Name" readonly>
+                        </div>
+                        
+                        <div class="col-12 mt-4">
+                            <div class="p-3 bg-light rounded-4">
+                                <div class="mb-4">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <label class="fw-bold small">1. جودة العمل والإنجاز (30 درجة)</label>
+                                        <span class="badge bg-white text-dark border px-3" id="val1">15</span>
+                                    </div>
+                                    <input type="range" class="form-range" min="0" max="30" id="score1" oninput="calcTotal()">
+                                </div>
+                                <div class="mb-4">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <label class="fw-bold small">2. السلوك والانضباط (30 درجة)</label>
+                                        <span class="badge bg-white text-dark border px-3" id="val2">15</span>
+                                    </div>
+                                    <input type="range" class="form-range" min="0" max="30" id="score2" oninput="calcTotal()">
+                                </div>
+                                <div class="mb-2">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <label class="fw-bold small">3. المبادرة والتعاون (40 درجة)</label>
+                                        <span class="badge bg-white text-dark border px-3" id="val3">20</span>
+                                    </div>
+                                    <input type="range" class="form-range" min="0" max="40" id="score3" oninput="calcTotal()">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 text-center py-3">
+                            <div class="display-6 fw-bold text-primary mb-1" id="totalScore">50</div>
+                            <div class="h5 mb-0"><span class="badge bg-secondary-soft text-muted border px-4" id="totalGrade">متوسط</span></div>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="hr-label mb-1">ملاحظات التقييم</label>
+                            <textarea class="form-control hr-form-control" rows="2" placeholder="اكتب أي ملاحظات إيجابية أو سلبية هنا..."></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer bg-light border-0 py-3" style="border-radius: 0 0 16px 16px;">
+                <button type="button" class="hr-btn hr-btn-outline" data-bs-dismiss="modal">إلغاء</button>
+                <button type="button" class="hr-btn hr-btn-primary px-5 shadow-sm">حفظ واعتماد</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#evalTable').DataTable({
+                "searching": false,
+                "lengthChange": false,
+                "language": {
+                    "emptyTable": "لا توجد بيانات متاحة",
+                    "info": "سجل _START_ - _END_ من _TOTAL_",
+                    "paginate": { "next": "التالي", "previous": "السابق" }
+                },
+                "responsive": false,
+                "scrollX": true,
+                "autoWidth": false,
+                "paging": true,
+                "info": false,
+                "dom": 'rt<"d-flex flex-column align-items-center mt-3"<"mb-1"p>i>'
+            });
+        });
+
+        function calcTotal() {
+            var s1 = parseInt(document.getElementById('score1').value);
+            var s2 = parseInt(document.getElementById('score2').value);
+            var s3 = parseInt(document.getElementById('score3').value);
+
+            document.getElementById('val1').innerText = s1;
+            document.getElementById('val2').innerText = s2;
+            document.getElementById('val3').innerText = s3;
+
+            var total = s1 + s2 + s3;
+            document.getElementById('totalScore').innerText = total;
+
+            var gradeEl = document.getElementById('totalGrade');
+            if (total >= 90) { gradeEl.innerText = "ممتاز"; gradeEl.className = "badge bg-success-soft text-success border-success px-4"; }
+            else if (total >= 80) { gradeEl.innerText = "كفء"; gradeEl.className = "badge bg-primary-soft text-primary border-primary px-4"; }
+            else if (total >= 65) { gradeEl.innerText = "فوق المتوسط"; gradeEl.className = "badge bg-info-soft text-info border-info px-4"; }
+            else { gradeEl.innerText = "ضعيف"; gradeEl.className = "badge bg-danger-soft text-danger border-danger px-4"; }
+        }
+    </script>
+}
+

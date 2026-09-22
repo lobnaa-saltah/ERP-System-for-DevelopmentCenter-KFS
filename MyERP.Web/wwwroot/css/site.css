@@ -1,0 +1,123 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+
+body {
+    font-size: 0.95rem !important;
+}
+body, h1, h2, h3, h4, h5, h6, p, a, span, div, .nav-link, .btn, input, select, textarea, button, table, td, th {
+    font-family: 'Cairo', sans-serif !important;
+    font-variant-numeric: tabular-nums lining-nums;
+}
+
+
+.table td:first-child {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(59, 130, 246, 0.3);
+    border-radius: 20px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(59, 130, 246, 0.7);
+}
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(59, 130, 246, 0.3) transparent;
+}
+
+
+.os-scrollbar-handle {
+    background: rgba(59, 130, 246, 0.3) !important;
+    background-color: rgba(59, 130, 246, 0.3) !important;
+    border-radius: 20px !important;
+}
+
+.os-scrollbar:hover .os-scrollbar-handle,
+.os-scrollbar-handle:hover,
+.os-scrollbar-handle.active {
+    background: rgba(59, 130, 246, 0.7) !important;
+    background-color: rgba(59, 130, 246, 0.7) !important;
+}
+
+.os-scrollbar-vertical {
+    width: 6px !important;
+    padding: 0 !important;
+}
+
+.os-scrollbar-horizontal {
+    height: 6px !important;
+    padding: 0 !important;
+}
+
+
+.small-box h3,
+.small-box .inner h3,
+.info-box .info-box-number,
+.card-value,
+.stat-number,
+.hr-stat-value,
+.legal-dashboard .card-value {
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+}
+
+/* Custom Button Styles */
+.btn-export-excel {
+    color: #217346 !important;
+    border-color: #217346 !important;
+    background-color: transparent !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
+}
+
+.btn-export-excel:hover {
+    background-color: #217346 !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(33, 115, 70, 0.2) !important;
+}
+
+.btn-print-custom {
+    background-color: #f4f4f4 !important;
+    color: #495057 !important;
+    border: 1px solid #dee2e6 !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
+}
+
+.btn-print-custom:hover {
+    background-color: #e9ecef !important;
+    color: #212529 !important;
+    border-color: #ced4da !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+}

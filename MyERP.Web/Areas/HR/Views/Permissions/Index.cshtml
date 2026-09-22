@@ -1,0 +1,233 @@
+@{
+    ViewData["Title"] = "الأذونات وساعات التأخير";
+}
+
+<link rel="stylesheet" href="~/css/global/hr-custom.css" asp-append-version="true">
+
+<div class="hr-page-container animate__animated animate__fadeIn">
+    <!-- 1. Header Section -->
+    <div class="page-header d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h4 font-weight-bold text-dark mb-1">الأذونات وساعات التأخير</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0 small mb-0">
+                    <li class="breadcrumb-item"><a href="#">الموارد البشرية</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">الأذونات</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="d-flex gap-2">
+            <button class="hr-btn hr-btn-primary" data-bs-toggle="collapse" href="#newRequestCollapse">
+                <i class="fas fa-plus-circle me-2"></i> تسجيل جديد
+            </button>
+        </div>
+    </div>
+
+    <!-- 2. Modern Stats Cards -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-4">
+            <div class="hr-card p-3 d-flex align-items-center gap-3 border-0 shadow-sm" style="background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%);">
+                <div class="stat-icon-circle bg-primary-light text-primary" style="width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                    <i class="fas fa-running"></i>
+                </div>
+                <div>
+                    <p class="text-muted small mb-0">إجمالي الأذونات (الشهر)</p>
+                    <h4 class="fw-bold mb-0 text-primary">45 <small class="fw-normal">ساعة</small></h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="hr-card p-3 d-flex align-items-center gap-3 border-0 shadow-sm" style="background: linear-gradient(135deg, #ffffff 0%, #fffbf0 100%);">
+                <div class="stat-icon-circle bg-warning-soft text-warning" style="width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div>
+                    <p class="text-muted small mb-0">دقائق التأخير (للجميع)</p>
+                    <h4 class="fw-bold mb-0 text-warning">320 <small class="fw-normal">دقيقة</small></h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="hr-card p-3 d-flex align-items-center gap-3 border-0 shadow-sm" style="background: linear-gradient(135deg, #ffffff 0%, #fff1f1 100%);">
+                <div class="stat-icon-circle bg-danger-soft text-danger" style="width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div>
+                    <p class="text-muted small mb-0">تجاوز الحد (جزاءات)</p>
+                    <h4 class="fw-bold mb-0 text-danger">8 <small class="fw-normal">موظفين</small></h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Form Section (Collapsed) -->
+    <div class="collapse mb-4" id="newRequestCollapse">
+        <div class="hr-card border-0 shadow-sm">
+            <div class="hr-card-header bg-white border-bottom-0 pb-0">
+                <ul class="nav nav-pills gap-2" id="formTabs" role="tablist">
+                    <li class="nav-item">
+                        <button class="nav-link active rounded-pill px-4" id="perm-tab" data-bs-toggle="pill" data-bs-target="#perm-content" type="button">إذن خروج</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link rounded-pill px-4" id="late-tab" data-bs-toggle="pill" data-bs-target="#late-content" type="button">تأخير يدوي</button>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body p-4 pt-3">
+                <div class="tab-content" id="formTabsContent">
+                    <!-- Permission Tab -->
+                    <div class="tab-pane fade show active" id="perm-content" role="tabpanel">
+                        <form method="post">
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <label class="hr-label mb-1">الموظف</label>
+                                    <select class="form-select hr-form-control select2">
+                                        <option>ابحث عن الموظف...</option>
+                                        <option>فاطمة الشرباني</option>
+                                        <option>محمد فؤاد</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="hr-label mb-1">نوع الإذن</label>
+                                    <select class="form-select hr-form-control">
+                                        <option>إذن شخصي (يخصم من الرصيد)</option>
+                                        <option>إذن مأمورية عمل (لا يخصم)</option>
+                                        <option>إذن مرضي (عيادة)</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="hr-label mb-1">التاريخ</label>
+                                    <input type="date" class="form-control hr-form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="hr-label mb-1">وقت الخروج</label>
+                                    <input type="time" class="form-control hr-form-control" id="permFrom" onchange="calcDuration()">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="hr-label mb-1">وقت العودة</label>
+                                    <input type="time" class="form-control hr-form-control" id="permTo" onchange="calcDuration()">
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="hr-label mb-1">المدة</label>
+                                    <input type="text" readonly class="form-control hr-form-control bg-light text-primary fw-bold text-center" id="permTotal">
+                                </div>
+                                <div class="col-md-4 d-flex align-items-end justify-content-end gap-2">
+                                    <button type="submit" class="hr-btn hr-btn-primary px-5 shadow-sm">حفظ الإذن</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- Late Tab -->
+                    <div class="tab-pane fade" id="late-content" role="tabpanel">
+                        <form method="post">
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <label class="hr-label mb-1">الموظف المتأخر</label>
+                                    <select class="form-select hr-form-control select2">
+                                        <option>رانيا ابو النصر</option>
+                                        <option>بهجت إبراهيم</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="hr-label mb-1">التاريخ</label>
+                                    <input type="date" class="form-control hr-form-control">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="hr-label mb-1">ميعاد الحضور الفعلي</label>
+                                    <input type="time" class="form-control hr-form-control" value="09:15">
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="hr-label mb-1">دقائق التأخير</label>
+                                    <input type="number" class="form-control hr-form-control text-danger fw-bold text-center" value="75">
+                                </div>
+                                <div class="col-12 d-flex justify-content-end mt-3">
+                                    <button type="submit" class="hr-btn hr-btn-primary px-5 shadow-sm">تسجيل التأخير</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. Log Table -->
+    <div class="hr-card border-0 shadow-sm">
+        <div class="hr-card-header bg-white">
+            <h3 class="hr-card-title text-dark">سجل الحركة اليومية</h3>
+        </div>
+        <div class="hr-table-wrapper">
+            <table id="permTable" class="table hr-table text-center mb-0">
+                <thead>
+                    <tr>
+                        <th style="width: 10%">التاريخ</th>
+                        <th>الموظف</th>
+                        <th>النوع</th>
+                        <th>التوقيت</th>
+                        <th>المدة</th>
+                        <th>الملاحظات</th>
+                        <th>الحالة</th>
+                        <th style="width: 10%">الخيارات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2024/06/12</td>
+                        <td class="fw-bold">فاطمة الشرباني</td>
+                        <td><span class="d-inline-block px-3 py-1 small fw-bold text-primary text-nowrap" style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px;">إذن شخصي</span></td>
+                        <td><small>10:00 ص - 12:00 م</small></td>
+                        <td>120 دقيقة</td>
+                        <td class="small text-muted">ظرف عائلي طارئ</td>
+                        <td><span class="hr-status-badge hr-status-inactive text-nowrap d-inline-block px-3" style="border-radius: 8px;">مخصوم</span></td>
+                        <td><button class="btn btn-sm bg-light text-danger border-0 rounded-circle" style="width: 32px; height: 32px;"><i class="fas fa-trash-alt"></i></button></td>
+                    </tr>
+                    <tr>
+                        <td>2024/06/14</td>
+                        <td class="fw-bold">محمد فؤاد</td>
+                        <td><span class="d-inline-block px-3 py-1 small fw-bold text-dark text-nowrap" style="background-color: #fffbeb; border: 1px solid #fde68a; border-radius: 6px;">تأخير صباحي</span></td>
+                        <td><small>حضور 08:45 ص</small></td>
+                        <td class="text-danger fw-bold">45 دقيقة</td>
+                        <td class="small text-muted">عطل مواصلات</td>
+                        <td><span class="hr-status-badge text-danger text-nowrap d-inline-block px-3" style="background-color: #fef2f2; border: 1px solid #fecaca; border-radius: 8px;">مرحل للجزاء</span></td>
+                        <td><button class="btn btn-sm bg-light text-info border-0 rounded-circle" style="width: 32px; height: 32px;"><i class="fas fa-edit"></i></button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#permTable').DataTable({
+                "language": {
+                    "emptyTable": "لا توجد بيانات متاحة",
+                    "info": "سجل _START_ - _END_ من _TOTAL_",
+                    "paginate": { "next": "التالي", "previous": "السابق" }
+                },
+                "responsive": false,
+                "scrollX": true,
+                "dom": 'rt<"d-flex flex-column align-items-center mt-3"<"mb-2"p>i>'
+            });
+        });
+
+        function calcDuration() {
+            var startTime = document.getElementById("permFrom").value;
+            var endTime = document.getElementById("permTo").value;
+            if (startTime && endTime) {
+                var start = new Date("2000-01-01 " + startTime);
+                var end = new Date("2000-01-01 " + endTime);
+                var diffMs = end - start;
+                if(diffMs >= 0) {
+                    var diffMins = Math.round(diffMs / 60000);
+                    var hours = Math.floor(diffMins / 60);
+                    var minutes = diffMins % 60;
+                    document.getElementById("permTotal").value = hours + "س " + minutes + "د";
+                } else {
+                    document.getElementById("permTotal").value = "خطأ";
+                }
+            }
+        }
+    </script>
+}

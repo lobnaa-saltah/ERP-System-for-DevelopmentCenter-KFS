@@ -1,0 +1,255 @@
+@{
+    ViewData["Title"] = "الحسابات والمالية";
+}
+
+<style>
+    .accounting-dashboard {
+        background: #f8fafc;
+        min-height: 100vh;
+        font-family: 'Cairo', sans-serif;
+        padding: 1.5rem 0 3rem 0;
+    }
+
+    /* Welcome Banner - Creative Redesign */
+    .welcome-banner {
+        background: #0f172a;
+        background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+        border-radius: 1.5rem;
+        padding: 3rem 2.5rem;
+        color: white;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 2.5rem;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255,255,255,0.05);
+    }
+    
+    /* Glowing creative elements */
+    .welcome-banner::before {
+        content: '';
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%);
+        top: -100px;
+        left: -50px;
+        border-radius: 50%;
+        filter: blur(40px);
+        z-index: 1;
+    }
+    .welcome-banner::after {
+        content: '';
+        position: absolute;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(245, 158, 11, 0.1) 0%, transparent 70%);
+        bottom: -150px;
+        right: -100px;
+        border-radius: 50%;
+        filter: blur(50px);
+        z-index: 1;
+    }
+
+    .welcome-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .welcome-title { font-size: 1.8rem; font-weight: 900; margin-bottom: 1rem; letter-spacing: -0.5px; }
+    .welcome-sub { color: rgba(255,255,255,0.75); font-size: 0.95rem; max-width: 650px; line-height: 1.7; }
+
+    /* New Modern Card Design - Stacked Vertical & Compact */
+    .accounting-dashboard .modern-card {
+        background: white !important;
+        border-radius: 1rem !important;
+        padding: 1.25rem !important;
+        border: 1px solid rgba(226, 232, 240, 0.7) !important;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.02) !important;
+        transition: all 0.3s ease !important;
+        height: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        gap: 0.5rem !important;
+    }
+    .accounting-dashboard .modern-card:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 8px 15px rgba(0,0,0,0.05) !important;
+        border-color: #10b98144 !important;
+    }
+
+    /* Icon Box Style */
+    .accounting-dashboard .icon-box {
+        width: 45px !important;
+        height: 45px !important;
+        border-radius: 0.85rem !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 1.1rem !important;
+        flex-shrink: 0 !important;
+        margin-bottom: 0.15rem !important;
+    }
+    
+    .accounting-dashboard .card-title { font-size: 0.85rem !important; font-weight: 700 !important; color: #1e293b !important; margin-bottom: 0.15rem !important; display: block !important; }
+    .accounting-dashboard .card-subtitle { font-size: 0.7rem !important; color: #94a3b8 !important; font-weight: 500 !important; display: block !important; margin-bottom: 0.4rem !important; }
+    .accounting-dashboard .card-value { font-size: 1.25rem !important; font-weight: 900 !important; color: #0f172a !important; display: block !important; line-height: 1 !important; }
+
+    /* Section Title */
+    .section-header {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+        margin-top: 1rem;
+    }
+    .section-header h2 {
+        font-size: 1.15rem;
+        font-weight: 800;
+        color: #0f172a;
+        margin: 0;
+    }
+    .section-header .line {
+        flex: 1;
+        height: 1px;
+        background: #e2e8f0;
+    }
+
+    /* Quick Action Card */
+    .qa-card-modern {
+        background: white;
+        border-radius: 1.5rem;
+        padding: 2rem 1.5rem;
+        text-align: center;
+        text-decoration: none !important;
+        border: 1px solid #e2e8f0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+    .qa-card-modern:hover {
+        border-color: #10b981;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.06);
+        transform: translateY(-6px);
+    }
+    .qa-card-modern .icon-box {
+        width: 55px; height: 55px; border-radius: 1rem;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.4rem; margin-bottom: 1.25rem;
+    }
+</style>
+
+<div class="accounting-dashboard">
+    <div class="container-fluid px-4">
+        
+        <!-- Welcome Banner -->
+        <div class="welcome-banner wow fadeIn">
+            <div class="welcome-content">
+                <h1 class="welcome-title">مرحباً بك في النظام المالي</h1>
+                <p class="welcome-sub">إدارة الموازنة العامة، القيود المحاسبية، وإصدار التقارير المالية لضمان الشفافية والدقة المالية الكاملة.</p>
+            </div>
+        </div>
+
+        <!-- Dashboard Stats -->
+        <div class="full-width-section">
+            <div class="section-header">
+                <i class="fa-solid fa-coins text-success"></i>
+                <h2>المؤشرات المالية الرئيسية</h2>
+                <div class="line"></div>
+            </div>
+            <div class="row g-3">
+                <div class="col-md-6 col-lg-3 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="modern-card">
+                        <div class="icon-box" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <span class="card-title">الموازنة المتاحة</span>
+                        <span class="card-subtitle">الاعتماد المالي</span>
+                        <div class="card-value">5.4M</div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 wow fadeInUp" data-wow-delay="0.2s">
+                    <div class="modern-card">
+                        <div class="icon-box" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                        </div>
+                        <span class="card-title">قيد المراجعة</span>
+                        <span class="card-subtitle">مطالبات معلقة</span>
+                        <div class="card-value">32</div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="modern-card">
+                        <div class="icon-box" style="background: rgba(139, 92, 246, 0.1); color: #8b5cf6;">
+                            <i class="fas fa-receipt"></i>
+                        </div>
+                        <span class="card-title">قيود اليومية</span>
+                        <span class="card-subtitle">عمليات اليوم</span>
+                        <div class="card-value">120</div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 wow fadeInUp" data-wow-delay="0.4s">
+                    <div class="modern-card">
+                        <div class="icon-box" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
+                            <i class="fas fa-piggy-bank"></i>
+                        </div>
+                        <span class="card-title">إجمالي المنصرف</span>
+                        <span class="card-subtitle">خلال الشهر</span>
+                        <div class="card-value">1.2M</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="full-width-section">
+            <div class="section-header">
+                <i class="fa-solid fa-bolt text-warning"></i>
+                <h2>الإجراءات السريعة</h2>
+                <div class="line"></div>
+            </div>
+            <div class="row g-3">
+                <div class="col-6 col-md-3 wow fadeInUp" data-wow-delay="0.1s">
+                    <a href="#" class="qa-card-modern">
+                        <div class="icon-box" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
+                            <i class="fas fa-plus-circle"></i>
+                        </div>
+                        <span class="card-title">قيد جديد</span>
+                        <span class="card-subtitle">إضافة قيد يدوي</span>
+                    </a>
+                </div>
+                <div class="col-6 col-md-3 wow fadeInUp" data-wow-delay="0.2s">
+                    <a href="#" class="qa-card-modern">
+                        <div class="icon-box" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">
+                            <i class="fas fa-search-dollar"></i>
+                        </div>
+                        <span class="card-title">مراجعة مطالبة</span>
+                        <span class="card-subtitle">فحص المستندات</span>
+                    </a>
+                </div>
+                <div class="col-6 col-md-3 wow fadeInUp" data-wow-delay="0.3s">
+                    <a href="#" class="qa-card-modern">
+                        <div class="icon-box" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <span class="card-title">المركز المالي</span>
+                        <span class="card-subtitle">ميزان المراجعة</span>
+                    </a>
+                </div>
+                <div class="col-6 col-md-3 wow fadeInUp" data-wow-delay="0.4s">
+                    <a href="#" class="qa-card-modern">
+                        <div class="icon-box" style="background: rgba(167, 139, 250, 0.1); color: #8b5cf6;">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <span class="card-title">التقارير</span>
+                        <span class="card-subtitle">الموازنة والمصروفات</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

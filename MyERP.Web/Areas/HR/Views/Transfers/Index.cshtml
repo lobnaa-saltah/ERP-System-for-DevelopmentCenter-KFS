@@ -1,0 +1,238 @@
+@{
+    ViewData["Title"] = "حركة النقل والندب";
+}
+
+<link rel="stylesheet" href="~/css/global/hr-custom.css" asp-append-version="true">
+
+<div class="hr-page-container animate__animated animate__fadeIn">
+    
+    <div class="page-header d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h4 font-weight-bold text-dark mb-1">إدارة التنقلات والندب</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0 small mb-0">
+                    <li class="breadcrumb-item"><a href="#">شئون العاملين</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">التنقلات</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+            <button class="hr-btn hr-btn-primary" data-bs-toggle="modal" data-bs-target="#internalModal">
+                <i class="fas fa-plus-circle me-2"></i> نقل داخلي جديد
+            </button>
+            <button class="hr-btn hr-btn-outline border-primary text-primary px-4" data-bs-toggle="modal" data-bs-target="#externalModal" style="min-height: 42px;">
+                <i class="fas fa-globe me-2"></i> نقل/ندب خارجي
+            </button>
+        </div>
+    </div>
+
+    
+    <div class="hr-card border-0 shadow-sm mb-4">
+        <div class="hr-card-header bg-white pb-0 border-bottom-0 d-flex justify-content-between align-items-end">
+            <ul class="nav nav-tabs border-0 gap-3" id="transferTabs" role="tablist">
+                <li class="nav-item">
+                    <button class="nav-link active fw-bold border-0 border-bottom border-3 px-4 pb-2" id="internal-tab" data-bs-toggle="tab" data-bs-target="#internal-pane" type="button">
+                        <i class="fas fa-building me-2"></i> التنقلات الداخلية
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link fw-bold border-0 border-bottom border-3 px-4 pb-2 text-muted" id="external-tab" data-bs-toggle="tab" data-bs-target="#external-pane" type="button">
+                        <i class="fas fa-external-link-alt me-2"></i> النقل الخارجي والندب
+                    </button>
+                </li>
+            </ul>
+            <button class="btn btn-sm btn-export-excel py-1 mb-1 border-success-soft">
+                <i class="fas fa-file-excel me-1"></i> تصدير Excel
+            </button>
+        </div>
+        <div class="p-4 pt-0">
+            <div class="tab-content" id="transferTabsContent">
+                
+                <div class="tab-pane fade show active py-3" id="internal-pane" role="tabpanel">
+                    <div class="alert bg-primary-soft text-primary border-0 rounded-3 mb-4 d-flex align-items-center gap-3">
+                        <i class="fas fa-info-circle fs-5"></i>
+                        <span class="small">يتم النقل الداخلي بين الإدارات والأقسام بناءً على موافقة السلطة المختصة وتحقيقاً لمصلحة العمل.</span>
+                    </div>
+                    <div class="table-responsive hr-table-wrapper">
+                        <table id="internalTable" class="table hr-table text-center mb-0" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th style="width: 5%">م</th>
+                                    <th>الموظف</th>
+                                    <th>من إدارة</th>
+                                    <th>إلى إدارة</th>
+                                    <th>السبب</th>
+                                    <th>التاريخ</th>
+                                    <th>الحالة</th>
+                                    <th>الخيارات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td class="fw-bold">فاطمة الشرباني</td>
+                                    <td>المخازن</td>
+                                    <td class="text-primary fw-bold">التخطيط العمراني</td>
+                                    <td class="small">حاجة العمل</td>
+                                    <td><small>2024/01/01</small></td>
+                                    <td><span class="hr-status-badge hr-status-active">منفذ</span></td>
+                                    <td><button class="btn btn-sm btn-light border"><i class="fas fa-eye"></i></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                
+                <div class="tab-pane fade py-3" id="external-pane" role="tabpanel">
+                    <div class="alert bg-warning-soft text-dark border-0 rounded-3 mb-4 d-flex align-items-center gap-3">
+                        <i class="fas fa-exclamation-triangle text-warning fs-5"></i>
+                        <span class="small">يشترط للنقل الخارجي موافقة الجهتين (المنقول منها وإليها) وإنهاء كافة إجراءات إخلاء الطرف المالي والإداري.</span>
+                    </div>
+                    <div class="table-responsive hr-table-wrapper">
+                        <table id="externalTable" class="table hr-table text-center mb-0" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th style="width: 5%">م</th>
+                                    <th>الموظف</th>
+                                    <th>النوع</th>
+                                    <th>الجهة</th>
+                                    <th>المدة</th>
+                                    <th>الموقف</th>
+                                    <th>المرفق</th>
+                                    <th>الخيارات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td class="fw-bold">رانيا أبو النصر</td>
+                                    <td><span class="badge bg-info-soft text-info border border-info px-3 py-2" style="font-size: 0.85rem;">ندب خارجي</span></td>
+                                    <td class="small">إلى: وزارة العدل</td>
+                                    <td>1 سنة</td>
+                                    <td><span class="hr-status-badge hr-status-active">ساري</span></td>
+                                    <td><i class="fas fa-file-pdf text-danger"></i></td>
+                                    <td><button class="btn btn-sm btn-light border"><i class="fas fa-edit"></i></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="internalModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 16px;">
+            <div class="modal-header bg-primary text-white border-0 py-3 d-flex align-items-center" style="border-radius: 16px 16px 0 0;">
+                <h5 class="modal-title flex-grow-1 text-end"><i class="fas fa-exchange-alt me-2"></i> قرار نقل داخلي</h5>
+                <button type="button" class="btn-close btn-close-white ms-3 m-0" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="mb-3">
+                    <label class="hr-label mb-1">الموظف</label>
+                    <select class="form-select hr-form-control select2">
+                        <option>ابحث بالاسم...</option>
+                        <option>فاطمة الشرباني</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="hr-label mb-1">الإدارة المستهدفة</label>
+                    <select class="form-select hr-form-control">
+                        <option>التخطيط العمراني</option>
+                        <option>مركز استدامة</option>
+                    </select>
+                </div>
+                <div class="row g-2">
+                    <div class="col-6 mb-3">
+                        <label class="hr-label mb-1">تاريخ التنفيذ</label>
+                        <input type="date" class="form-control hr-form-control">
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label class="hr-label mb-1">المسمى الوظيفي</label>
+                        <input type="text" class="form-control hr-form-control" placeholder="اختياري">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer bg-light border-0 py-3 d-flex justify-content-end" style="border-radius: 0 0 16px 16px;">
+                <button type="submit" class="hr-btn hr-btn-primary px-5 shadow-sm d-flex justify-content-center align-items-center">حفظ الحركة</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="externalModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 16px;">
+            <div class="modal-header bg-primary text-white border-0 py-3 d-flex align-items-center" style="border-radius: 16px 16px 0 0;">
+                <h5 class="modal-title flex-grow-1 text-end"><i class="fas fa-globe me-2"></i> قرار نقل/ندب خارجي</h5>
+                <button type="button" class="btn-close btn-close-white ms-3 m-0" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="mb-3">
+                    <label class="hr-label mb-1">الموظف</label>
+                    <select class="form-select hr-form-control select2">
+                        <option>ابحث بالاسم...</option>
+                        <option>رانيا أبو النصر</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="hr-label mb-1">نوع الحركة</label>
+                    <select class="form-select hr-form-control">
+                        <option>نقل خارجي</option>
+                        <option>ندب خارجي</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="hr-label mb-1">الجهة المستقبلة</label>
+                    <input type="text" class="form-control hr-form-control" placeholder="مثال: وزارة العدل">
+                </div>
+                <div class="row g-2">
+                    <div class="col-6 mb-3">
+                        <label class="hr-label mb-1">مدة الندب</label>
+                        <input type="text" class="form-control hr-form-control" placeholder="مثال: 6 أشهر">
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label class="hr-label mb-1">تاريخ التنفيذ</label>
+                        <input type="date" class="form-control hr-form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer bg-light border-0 py-3 d-flex justify-content-end" style="border-radius: 0 0 16px 16px;">
+                <button type="submit" class="hr-btn hr-btn-primary px-5 shadow-sm d-flex justify-content-center align-items-center">حفظ الحركة</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var dtOpts = {
+                "searching": false,
+                "lengthChange": false,
+                "language": {
+                    "emptyTable": "لا توجد بيانات",
+                    "paginate": { "next": "التالي", "previous": "السابق" }
+                },
+                "responsive": false,
+                "scrollX": false,
+                "paging": true,
+                "info": false,
+                "dom": 'rt<"d-flex flex-column align-items-center mt-3"<"mb-1"p>i>'
+            };
+            $('#internalTable').DataTable(dtOpts);
+            $('#externalTable').DataTable(dtOpts);
+
+            $('button[data-bs-toggle="tab"]').on('shown.bs.tab', function () {
+                setTimeout(function() {
+                    $.fn.dataTable.tables({ visible: true, api: true }).columns.adjust();
+                }, 100);
+            });
+        });
+    </script>
+}

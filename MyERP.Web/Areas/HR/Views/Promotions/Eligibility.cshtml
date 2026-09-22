@@ -1,0 +1,186 @@
+@{
+    ViewData["Title"] = "بحث استحقاق الترقيات والعلاوات";
+}
+
+<link rel="stylesheet" href="~/css/global/hr-custom.css" asp-append-version="true">
+
+<div class="hr-page-container animate__animated animate__fadeIn">
+    <!-- 1. Header Section -->
+    <div class="page-header d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h4 font-weight-bold text-dark mb-1">حركة الترقيات والعلاوات</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0 small mb-0">
+                    <li class="breadcrumb-item"><a href="#">الموارد البشرية</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">بحث الاستحقاق</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="d-flex gap-2">
+            <button class="hr-btn hr-btn-primary" onclick="submitCycle()">
+                <i class="fas fa-check-double me-2"></i> اعتماد الكشف المختار
+            </button>
+        </div>
+    </div>
+
+    <!-- 2. Criteria Card -->
+    <div class="hr-card border-0 shadow-sm mb-4">
+        <div class="hr-card-header bg-white">
+            <h3 class="hr-card-title text-primary"><i class="fas fa-filter me-2"></i> معايير البحث عن المستحقين</h3>
+        </div>
+        <div class="p-4">
+            <form id="criteriaForm">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label class="hr-label mb-1">نوع الحركة</label>
+                        <select class="form-select hr-form-control" id="cycleType" onchange="toggleCriteria()">
+                            <option value="Promotion">ترقية درجة وظيفية (Promotion)</option>
+                            <option value="Periodic">علاوة دورية سنوية (7%)</option>
+                            <option value="Incentive">علاوة تشجيعية (الـ 10% كفاءة)</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="hr-label mb-1">تاريخ الاستحقاق</label>
+                        <input type="date" class="form-control hr-form-control" value="2024-07-01">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="hr-label mb-1">الحد الأدنى للكفاءة</label>
+                        <select class="form-select hr-form-control">
+                            <option>ممتاز (90% فأكثر)</option>
+                            <option>كفء (80% فأكثر)</option>
+                            <option>فوق المتوسط</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="hr-label mb-1">الموقف القانوني</label>
+                        <select class="form-select hr-form-control">
+                            <option>بدون جزاءات نهائياً</option>
+                            <option selected>أقل من 10 أيام جزاء</option>
+                            <option>الكل</option>
+                        </select>
+                    </div>
+                    <div class="col-12 mt-4">
+                        <div class="rounded-3 p-3 mb-3 d-flex align-items-start gap-3" style="background-color: #f1f6fe;">
+                            <i class="fas fa-info-circle text-primary fs-5 mt-1"></i>
+                            <span class="text-dark small">عدد المستحقين المتوقع وفق المعايير: <strong>42 موظف</strong></span>
+                        </div>
+                        <div class="d-grid d-md-flex gap-2 justify-content-md-start">
+                            <button type="reset" class="hr-btn hr-btn-outline d-flex justify-content-center align-items-center">إعادة تعيين</button>
+                            <button type="button" class="hr-btn hr-btn-primary px-5 shadow-sm d-flex justify-content-center align-items-center">
+                                <i class="fas fa-search me-2"></i> تحديث البحث
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 3. Results Table -->
+    <div class="hr-card border-0 shadow-sm">
+        <div class="hr-card-header bg-white">
+            <h3 class="hr-card-title text-dark">كشف الموظفين المرشحين</h3>
+            <div class="d-flex gap-2 flex-wrap">
+                <button class="btn btn-sm btn-export-excel border-success-soft"><i class="fas fa-file-excel me-1"></i> Excel</button>
+                <button class="btn btn-sm btn-print-custom"><i class="fas fa-print me-1"></i> طباعة</button>
+            </div>
+        </div>
+        <div class="table-responsive hr-table-wrapper">
+            <table id="promoTable" class="table hr-table text-center mb-0" style="width:100%">
+                <thead>
+                    <tr>
+                        <th style="width: 5%">م</th>
+                        <th>الموظف</th>
+                        <th>الدرجة</th>
+                        <th>تاريخها</th>
+                        <th>الأقدمية</th>
+                        <th>كفاءة 2022</th>
+                        <th>كفاءة 2023</th>
+                        <th>الإجراء</th>
+                        <th>الاستحقاق</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="fw-bold text-muted">1</td>
+                        <td class="fw-bold">فاطمة عبدالفتاح الشرباني</td>
+                        <td class="fw-bold">الثانية (ب)</td>
+                        <td><small>2020/07/01</small></td>
+                        <td class="fw-bold text-primary">4 سنوات</td>
+                        <td><span class="text-success small">98%</span></td>
+                        <td><span class="text-success small">97%</span></td>
+                        <td class="text-success fw-bold">ترقية للأولى (ب)</td>
+                        <td class="text-success fw-bold">مستوفي</td>
+                    </tr>
+                    <tr>
+                        <td class="fw-bold text-muted">2</td>
+                        <td class="fw-bold">رانيا أبو النصر</td>
+                        <td class="fw-bold">الثالثة (أ)</td>
+                        <td><small>2022/07/01</small></td>
+                        <td>2 سنة</td>
+                        <td><span class="text-success small">95%</span></td>
+                        <td><span class="text-success small">96%</span></td>
+                        <td class="text-primary fw-bold">علاوة تشجيعية</td>
+                        <td class="text-info fw-bold">مرشح</td>
+                    </tr>
+                    <tr class="opacity-50">
+                        <td class="fw-bold text-muted">3</td>
+                        <td class="fw-bold">بهجت إبراهيم</td>
+                        <td class="text-muted">الثالثة (ب)</td>
+                        <td><small>2020/07/01</small></td>
+                        <td>4 سنوات</td>
+                        <td><span class="text-warning small">82%</span></td>
+                        <td><span class="text-warning small">80%</span></td>
+                        <td class="text-muted">-</td>
+                        <td class="text-danger fw-bold">مانع قانوني</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#promoTable').DataTable({
+                "searching": false,
+                "lengthChange": false,
+                "language": {
+                    "emptyTable": "لا توجد بيانات متاحة",
+                    "info": "سجل _START_ - _END_ من _TOTAL_",
+                    "paginate": { "next": "التالي", "previous": "السابق" }
+                },
+                "responsive": false,
+                "scrollX": false,
+                "paging": true,
+                "info": false,
+                "dom": 'rt<"d-flex flex-column align-items-center mt-3"<"mb-1"p>i>'
+            });
+        });
+
+        function toggleCriteria() {
+            var type = document.getElementById("cycleType").value;
+            if(type === 'Incentive') {
+                Swal.fire({
+                    title: 'ضوابط العلاوة التشجيعية',
+                    text: 'تمنح لنسبة 10% فقط من شاغلي الدرجة، ويشترط تقرير (ممتاز) عن آخر عامين.',
+                    icon: 'info',
+                    confirmButtonText: 'فهمت'
+                });
+            }
+        }
+
+        function submitCycle() {
+            Swal.fire({
+                title: 'اعتماد كشف المستحقين؟',
+                text: 'سيتم تحويل الموظفين المختارين إلى سجل القرارات تمهيداً لإصدار القرار الجماعي.',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#8b5cf6',
+                confirmButtonText: 'نعم، اعتماد',
+                cancelButtonText: 'إلغاء'
+            });
+        }
+    </script>
+}

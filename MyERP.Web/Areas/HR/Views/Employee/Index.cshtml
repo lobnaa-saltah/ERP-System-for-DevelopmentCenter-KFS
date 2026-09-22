@@ -1,0 +1,114 @@
+@model IEnumerable<MyERP.Web.Areas.HR.Models.Employee>
+
+@{
+    ViewData["Title"] = "سجل الكادر الوظيفي";
+}
+
+<link rel="stylesheet" href="~/css/global/hr-custom.css" asp-append-version="true">
+
+<div class="hr-page-container animate__animated animate__fadeIn">
+    <!-- 1. Page Header -->
+    <div class="page-header d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h4 font-weight-bold text-dark mb-1">سجل الكادر الوظيفي</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0 small mb-0">
+                    <li class="breadcrumb-item"><a href="#">الموارد البشرية</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">قائمة الموظفين</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="d-flex gap-2">
+            <a asp-action="Create" class="hr-btn hr-btn-primary shadow-sm">
+                <i class="fas fa-user-plus me-2"></i> إضافة موظف جديد
+            </a>
+            <button class="btn btn-sm btn-export-excel shadow-sm">
+                <i class="fas fa-file-export me-2"></i> تصدير البيانات
+            </button>
+        </div>
+    </div>
+
+    <!-- 2. Stats Summary (Optional/Modern) -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="hr-card p-3 d-flex align-items-center gap-3" style="border-right: 4px solid #3b82f6;">
+                <div class="icon-box bg-primary-light text-primary" style="background: rgba(59, 130, 246, 0.1); width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div>
+                    <small class="text-muted d-block">إجمالي الموظفين</small>
+                    <span class="h5 fw-bold mb-0">@Model.Count()</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Employee Table Card -->
+    <div class="hr-card shadow-sm border-0">
+        <div class="hr-card-header d-flex justify-content-between align-items-center">
+            <h3 class="hr-card-title"><i class="fas fa-list-ul me-2"></i> كشف بيانات الموظفين</h3>
+            <div class="search-box" style="max-width: 250px;">
+                <input type="text" class="form-control form-control-sm border-0 bg-light" placeholder="بحث سريع...">
+            </div>
+        </div>
+        <div class="hr-table-wrapper">
+            <table class="table hr-table mb-0">
+                <thead>
+                    <tr>
+                        <th>الموظف</th>
+                        <th>الكود</th>
+                        <th>البيانات الأساسية</th>
+                        <th>تاريخ التعيين</th>
+                        <th>الحالة</th>
+                        <th class="text-center">الإجراءات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="avatar-circle bg-light text-primary fw-bold" style="width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid #e2e8f0;">
+                                        @item.Name.Substring(0, 1)
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold text-dark" style="font-size: 0.9rem;">@item.Name</div>
+                                        <small class="text-muted">@item.Code</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="badge bg-light text-dark border">@item.Code</span></td>
+                            <td>
+                                <div class="small">
+                                    <div class="mb-1"><i class="far fa-envelope me-1 opacity-50"></i> @item.Email</div>
+                                    <div><i class="fas fa-phone-alt me-1 opacity-50"></i> @item.Phone</div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="text-muted small"><i class="far fa-calendar-alt me-1"></i> @item.HireDate.ToString("yyyy/MM/dd")</span>
+                            </td>
+                            <td>
+                                @if (item.IsActive)
+                                {
+                                    <span class="hr-status-badge hr-status-active"><i class="fas fa-check-circle me-1"></i> نشط</span>
+                                }
+                                else
+                                {
+                                    <span class="hr-status-badge hr-status-inactive"><i class="fas fa-times-circle me-1"></i> غير نشط</span>
+                                }
+                            </td>
+                            <td class="text-center">
+                                <div class="btn-group shadow-sm" style="border-radius: 8px; overflow: hidden;">
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-light btn-sm px-3" title="تعديل"><i class="fas fa-edit text-warning"></i></a>
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-light btn-sm px-3" title="تفاصيل"><i class="fas fa-info-circle text-info"></i></a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-light btn-sm px-3" title="حذف"><i class="fas fa-trash-alt text-danger"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

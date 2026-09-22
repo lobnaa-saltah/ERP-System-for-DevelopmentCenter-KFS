@@ -1,0 +1,217 @@
+@{
+    ViewData["Title"] = "صناديق الزمالة";
+}
+
+<link rel="stylesheet" href="~/css/global/hr-custom.css" asp-append-version="true">
+
+<div class="hr-page-container animate__animated animate__fadeIn">
+    <!-- 1. Header Section -->
+    <div class="page-header d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h4 font-weight-bold text-dark mb-1">صناديق الزمالة والتكافل الاجتماعي</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0 small mb-0">
+                    <li class="breadcrumb-item"><a href="#">الموارد البشرية</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">الصناديق الخاصة</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="d-flex gap-2">
+            <button class="hr-btn hr-btn-primary px-4 shadow-sm" data-bs-toggle="modal" data-bs-target="#subscriptionModal">
+                <i class="fas fa-user-plus me-2"></i> إضافة مشترك
+            </button>
+        </div>
+    </div>
+
+    <!-- 2. Statistics Row -->
+    <div class="row g-3 mb-4 text-center">
+        <div class="col-md-4">
+            <div class="hr-card border-0 shadow-sm p-3 bg-white">
+                <div class="icon-circle bg-primary-soft text-primary mx-auto mb-2"><i class="fas fa-users"></i></div>
+                <div class="text-muted small">إجمالي المشتركين</div>
+                <div class="h4 fw-bold mb-0">85 موظف</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="hr-card border-0 shadow-sm p-3 bg-white">
+                <div class="icon-circle bg-success-soft text-success mx-auto mb-2"><i class="fas fa-money-check-alt"></i></div>
+                <div class="text-muted small">قيمة اشتراكات الشهر</div>
+                <div class="h4 fw-bold mb-0">8,500 <small>جم</small></div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="hr-card border-0 shadow-sm p-3 bg-white border-bottom border-warning border-3">
+                <div class="icon-circle bg-warning-soft text-warning mx-auto mb-2"><i class="fas fa-hand-holding-usd"></i></div>
+                <div class="text-muted small">طلبات صرف واردة</div>
+                <div class="h4 fw-bold mb-0">2 حالة</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Tabs and Tables -->
+    <div class="hr-card border-0 shadow-sm overflow-hidden p-4">
+        <div class="bg-light rounded-pill mb-4 mx-auto p-2" style="max-width: max-content;">
+            <ul class="nav nav-pills custom-tabs mb-0 gap-2" id="fundsTabs" role="tablist">
+                <li class="nav-item">
+                    <button class="nav-link active px-4 py-2 rounded-pill fw-bold border-0" id="members-tab" data-bs-toggle="pill" data-bs-target="#members" type="button">سجل المشتركين</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link px-4 py-2 rounded-pill fw-bold border-0" id="requests-tab" data-bs-toggle="pill" data-bs-target="#requests" type="button">طلبات الصرف</button>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <div class="tab-content" id="fundsTabsContent">
+                <!-- سجل المشتركين -->
+                <div class="tab-pane fade show active" id="members" role="tabpanel">
+                    <div class="table-responsive hr-table-wrapper">
+                        <table id="membersTable" class="table hr-table text-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th>م</th>
+                                    <th>الموظف</th>
+                                    <th>تاريخ الاشتراك</th>
+                                    <th>النوع</th>
+                                    <th>الخصم الشهري</th>
+                                    <th>إجمالي المسدد</th>
+                                    <th>الحالة</th>
+                                    <th style="width: 80px">الخيارات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td class="fw-bold text-dark">فاطمة الشرباني</td>
+                                    <td>2020/01/01</td>
+                                    <td>زمالة</td>
+                                    <td class="fw-bold">100 جم</td>
+                                    <td class="text-success fw-bold">4,800 جم</td>
+                                    <td>نشط</td>
+                                    <td>
+                                        <button class="hr-action-btn" title="عرض السجل">
+                                            <i class="fas fa-file-alt"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- طلبات الصرف -->
+                <div class="tab-pane fade" id="requests" role="tabpanel">
+                    <div class="table-responsive hr-table-wrapper">
+                        <table id="requestsTable" class="table hr-table text-center mb-0" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>م</th>
+                                    <th>مقدم الطلب</th>
+                                    <th>السبب</th>
+                                    <th>تاريخ الحدث</th>
+                                    <th>المبلغ</th>
+                                    <th>المرفقات</th>
+                                    <th>الحالة</th>
+                                    <th style="width: 100px">الخيارات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td class="fw-bold text-dark">محمد فؤاد ابراهيم</td>
+                                    <td>منحة زواج</td>
+                                    <td>2024/06/01</td>
+                                    <td class="fw-bold">5,000 جم</td>
+                                    <td>
+                                        <button class="hr-action-btn" title="ملف PDF">
+                                            <i class="fas fa-file-pdf text-danger"></i>
+                                        </button>
+                                    </td>
+                                    <td>موافقة</td>
+                                    <td>
+                                        <button class="hr-action-btn text-primary" title="إصدار شيك">
+                                            <i class="fas fa-money-check-alt"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modals for Add/Request -->
+<div class="modal fade" id="subscriptionModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-header border-0 pb-0 d-flex justify-content-between align-items-center">
+                <h5 class="modal-title fw-bold m-0">اشتراك جديد في الصناديق</h5>
+                <button type="button" class="btn-close shadow-none m-0" data-bs-dismiss="modal" style="margin-left: 0 !important; margin-right: auto !important;"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form>
+                    <div class="mb-3">
+                        <label class="hr-label mb-1">الموظف</label>
+                        <select class="form-select hr-form-control select2">
+                            <option>بحث بالاسم...</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="hr-label mb-1">تاريخ البدء</label>
+                        <input type="month" class="form-control hr-form-control">
+                    </div>
+                    <div class="mb-3 p-3 bg-light rounded-3">
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="f1" checked>
+                            <label class="form-check-label small" for="f1">صندوق الزمالة (1% خصم)</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="f2">
+                            <label class="form-check-label small" for="f2">التكافل الاجتماعي (50ج ثابت)</label>
+                        </div>
+                    </div>
+                    <button type="submit" class="hr-btn hr-btn-primary w-100 py-2 shadow d-flex justify-content-center align-items-center">تأكيد الاشتراك</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var dtOptions = {
+                "searching": false,
+                "lengthChange": false,
+                "language": {
+                    "emptyTable": "لا توجد بيانات متاحة",
+                    "info": "سجل _START_ - _END_ من _TOTAL_",
+                    "paginate": { "next": "التالي", "previous": "السابق" }
+                },
+                "responsive": false,
+                "scrollX": false,
+                "paging": true,
+                "info": false,
+                "dom": 'rt<"d-flex flex-column align-items-center mt-3"<"mb-1"p>i>'
+            };
+
+            $('#membersTable').DataTable(dtOptions);
+            $('#requestsTable').DataTable(dtOptions);
+
+            // Adjust Select2 for modal
+            $('.select2').select2({
+                theme: 'bootstrap-5',
+                dropdownParent: $('#subscriptionModal')
+            });
+
+            // Fix DataTables rendering inside hidden tabs
+            $('button[data-bs-toggle="pill"]').on('shown.bs.tab', function (e) {
+                setTimeout(function() {
+                    $.fn.dataTable.tables({ visible: true, api: true }).columns.adjust().responsive.recalc();
+                }, 100);
+            });
+        });
+    </script>
+}

@@ -1,0 +1,147 @@
+@{
+    ViewData["Title"] = "تنفيذ الأحكام القضائية";
+}
+
+<link rel="stylesheet" href="~/css/global/hr-custom.css" asp-append-version="true">
+
+<div class="hr-page-container animate__animated animate__fadeIn">
+    
+    <div class="page-header d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h4 font-weight-bold text-dark mb-1">متابعة الأحكام والصيغ التنفيذية</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0 small mb-0">
+                    <li class="breadcrumb-item"><a href="#">الموارد البشرية</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">الشئون القانونية</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="d-flex gap-2">
+        </div>
+    </div>
+
+    <div class="alert text-dark border-0 d-flex align-items-center gap-3 p-3 mb-4 rounded-3" style="background-color: #ffecec;">
+        <div class="icon-circle text-danger bg-white shadow-sm" style="width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-exclamation-triangle animate__animated animate__pulse animate__infinite"></i>
+        </div>
+        <div>
+            <span class="fw-bold text-danger">تنبيه قانوني هام:</span> 
+            يوجد عدد <span class="fw-bold text-danger">2</span> حكم قضائي نهائي بانتظار التنفيذ. التأخير قد يعرض المنشأة للمسائلة القانونية.
+        </div>
+    </div>
+
+    <div class="hr-card border-0 shadow-sm">
+        <div class="hr-card-header bg-white d-flex justify-content-between align-items-center">
+            <h3 class="hr-card-title text-dark">سجل الأحكام والقرارات القضائية</h3>
+            <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-export-excel border-light">تصدير اكسيل</button>
+            </div>
+        </div>
+        <div class="hr-table-wrapper">
+            <table id="rulingsTable" class="table hr-table text-center mb-0 text-nowrap">
+                <thead>
+                    <tr>
+                        <th>رقم الدعوى</th>
+                        <th>السنة</th>
+                        <th>المدعي</th>
+                        <th>منطوق الحكم</th>
+                        <th>النوع</th>
+                        <th>المرفق</th>
+                        <th>الموقف</th>
+                        <th>الخيارات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="fw-bold text-primary">5642</td>
+                        <td>68 ق</td>
+                        <td class="fw-bold text-dark">محمد فؤاد ابراهيم</td>
+                        <td class="text-start small">
+                            إلغاء القرار الإداري رقم 50 فيما تضمنه من تخطي المذكور في الترقية مع ما يترتب على ذلك من آثار...
+                        </td>
+                        <td>تعديل ترقية</td>
+                        <td>
+                            <button class="hr-action-btn text-danger border-danger">
+                                <i class="fas fa-file-pdf"></i>
+                            </button>
+                        </td>
+                        <td>لم ينفذ</td>
+                        <td>
+                            <button class="hr-action-btn" title="تنفيذ الحكم" onclick="confirmExec('5642', 'ترقية بأثر رجعي')">
+                                <i class="fas fa-check-circle"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="fw-bold text-primary">1020</td>
+                        <td>70 ق</td>
+                        <td class="fw-bold text-dark">رانيا أبو النصر</td>
+                        <td class="text-start small">
+                            أحقية المدعية في صرف مقابل رصيد الأجازات الاعتيادية بواقع 400 يوم...
+                        </td>
+                        <td>صرف مالي</td>
+                        <td>
+                            <button class="hr-action-btn">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </td>
+                        <td>تم التنفيذ</td>
+                        <td>
+                            <button class="hr-action-btn" title="أرشفة">
+                                <i class="fas fa-archive"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/plugins/sweetalert2/sweetalert2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#rulingsTable').DataTable({
+                "searching": false,
+                "lengthChange": false,
+                "language": {
+                    "emptyTable": "لا توجد بيانات متاحة",
+                    "info": "سجل _START_ - _END_ من _TOTAL_",
+                    "paginate": { "next": "التالي", "previous": "السابق" }
+                },
+                "responsive": false,
+                "scrollX": true,
+                "autoWidth": false,
+                "paging": true,
+                "info": false,
+                "dom": 'rt<"d-flex flex-column align-items-center mt-3"<"mb-1"p>i>'
+            });
+        });
+
+        function confirmExec(caseNo, actionType) {
+            Swal.fire({
+                title: 'تأكيد تنفيذ الحكم رقم ' + caseNo,
+                html: "الإجراء المطلوب: <b class='text-primary'>" + actionType + "</b><br>سيتم إنشاء قرار تنفيذي وتعديل ملف الموظف فوراً.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#007bff',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'تأكيد التنفيذ',
+                cancelButtonText: 'إلغاء',
+                customClass: {
+                    popup: 'rounded-4 shadow-lg border-0'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'تم التنفيذ!',
+                        text: 'تم إصدار القرار التنفيذي بنجاح.',
+                        icon: 'success',
+                        customClass: { popup: 'rounded-4 shadow-lg border-0' }
+                    });
+                }
+            });
+        }
+    </script>
+}

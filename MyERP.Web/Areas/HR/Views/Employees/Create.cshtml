@@ -1,0 +1,252 @@
+@{
+    ViewData["Title"] = "إضافة موظف جديد";
+}
+
+<link rel="stylesheet" href="~/css/global/hr-custom.css" asp-append-version="true">
+
+<div class="hr-page-container animate__animated animate__fadeIn">
+    <!-- 1. Header Section -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h5 font-weight-bold text-dark mb-1">فتح ملف موظف جديد</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0 small mb-0">
+                    <li class="breadcrumb-item"><a asp-action="Index">سجل الموظفين</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">إضافة جديد</li>
+                </ol>
+            </nav>
+        </div>
+        <a asp-action="Index" class="hr-btn hr-btn-outline">
+            <i class="fas fa-arrow-right"></i> العودة للسجل
+        </a>
+    </div>
+
+    <!-- 2. Form Section -->
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
+        <div class="hr-card">
+            <!-- Navigation Tabs -->
+            <ul class="nav nav-tabs hr-tabs border-0" id="employeeTabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="personal-tab" data-bs-toggle="tab" href="#personal" role="tab">
+                        <i class="fas fa-user-circle"></i> البيانات الشخصية
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="job-tab" data-bs-toggle="tab" href="#job" role="tab">
+                        <i class="fas fa-briefcase"></i> الوظيفة والدرجة
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="files-tab" data-bs-toggle="tab" href="#files" role="tab">
+                        <i class="fas fa-clone"></i> مسوغات التعيين
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="financial-tab" data-bs-toggle="tab" href="#financial" role="tab">
+                        <i class="fas fa-wallet"></i> البيانات المالية
+                    </a>
+                </li>
+            </ul>
+
+            <div class="hr-table-wrapper p-5">
+                <div class="tab-content" id="employeeTabsContent">
+
+                    <!-- 1. Personal Data -->
+                    <div class="tab-pane fade show active" id="personal" role="tabpanel">
+                        <!-- Profile Image Section -->
+                        <div class="row justify-content-center mb-4 mt-2">
+                            <div class="col-auto text-center">
+                                <div class="d-inline-block position-relative shadow-sm" style="width: 130px; height: 130px; border-radius: 50%; background-color: #f8f9fa; border: 2px solid #ced4da; display: flex !important; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; transition: 0.3s;" onmouseover="this.style.borderColor='#0d6efd'; this.style.backgroundColor='#f1f6fe'" onmouseout="this.style.borderColor='#ced4da'; this.style.backgroundColor='#f8f9fa'" onclick="document.getElementById('profileImageInput').click()">
+                                    <img id="imgPreview" src="" alt="Profile" style="width: 100%; height: 100%; object-fit: cover; display: none;">
+                                    <i id="cameraIcon" class="fas fa-camera text-primary" style="font-size: 2.5rem; opacity: 0.7;"></i>
+                                    <input type="file" id="profileImageInput" name="ProfileImage" accept="image/*" style="display: none;" onchange="previewImage(this)">
+                                </div>
+                                <p class="text-dark small mt-3 fw-bold">رفع صورة شخصية (اختياري)</p>
+                            </div>
+                        </div>
+
+                        <!-- Personal Info Form -->
+                        <div class="row gx-4 gy-3 text-dark">
+                            <div class="col-md-4 hr-form-group">
+                                <label class="text-dark fw-bold mb-1">الاسم الأول</label>
+                                <input type="text" class="form-control hr-form-control text-dark fw-bold" placeholder="مثال: محمد">
+                            </div>
+                            <div class="col-md-4 hr-form-group">
+                                <label class="text-dark fw-bold mb-1">اسم الأب</label>
+                                <input type="text" class="form-control hr-form-control text-dark fw-bold" placeholder="أحمد">
+                            </div>
+                            <div class="col-md-4 hr-form-group">
+                                <label class="text-dark fw-bold mb-1">اسم العائلة (اللقب)</label>
+                                <input type="text" class="form-control hr-form-control text-dark fw-bold" placeholder="المنشاوي">
+                            </div>
+
+                            <div class="col-md-6 hr-form-group">
+                                <label class="text-dark fw-bold mb-1">* الرقم القومي (14 رقم)</label>
+                                <input type="text" class="form-control hr-form-control text-dark fw-bold" maxlength="14" placeholder="2990901xxxxxxx">
+                                <small class="text-muted d-block mt-1">سيتم استخراج تاريخ الميلاد والمحافظة تلقائياً</small>
+                            </div>
+                            <div class="col-md-3 hr-form-group">
+                                <label class="text-dark fw-bold mb-1">تاريخ الميلاد</label>
+                                <input type="date" class="form-control hr-form-control text-dark fw-bold">
+                            </div>
+                            <div class="col-md-3 hr-form-group">
+                                <label class="text-dark fw-bold mb-1">النوع</label>
+                                <select class="form-select hr-form-control text-dark fw-bold">
+                                    <option>ذكر</option>
+                                    <option>أنثى</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 hr-form-group">
+                                <label class="text-dark fw-bold mb-1">رقم الموبايل</label>
+                                <input type="tel" class="form-control hr-form-control text-dark fw-bold" placeholder="01x xxxx xxxx">
+                            </div>
+                            <div class="col-md-6 hr-form-group">
+                                <label class="text-dark fw-bold mb-1">العنوان بالتفصيل</label>
+                                <input type="text" class="form-control hr-form-control text-dark fw-bold" placeholder="المحافظة - المركز - الشارع">
+                            </div>
+
+                            <div class="col-12 mt-4">
+                                <div class="bg-light p-3 rounded-4 d-flex align-items-center justify-content-between shadow-sm border">
+                                    <div>
+                                        <h6 class="mb-1 text-dark fw-bold">فئة خاصة (ذوي الهمم)</h6>
+                                        <p class="text-muted small mb-0">تفعيل هذه الحالة يرفع رصيد الأجازات الاعتيادية إلى 45 يوم تلقائياً</p>
+                                    </div>
+                                    <div class="form-check form-switch m-0">
+                                        <input class="form-check-input" type="checkbox" id="isDisabled" style="width: 3rem; height: 1.5rem;">
+                                        <label class="form-check-label text-dark fw-bold" for="isDisabled" style="margin-right: 2.8rem;">(الـ 5%)</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Job Data -->
+                    <div class="tab-pane fade" id="job" role="tabpanel">
+                        <div class="row">
+                            <div class="col-md-6 hr-form-group">
+                                <label>الإدارة التابع لها</label>
+                                <select class="form-select hr-form-control">
+                                    <option>-- اختر الإدارة --</option>
+                                    <option>الإدارة العامة لنظم المعلومات والتحول الرقمي</option>
+                                    <option>الإدارة العامة للتخطيط والتنمية العمرانية</option>
+                                    <option>الشئون الهندسية</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 hr-form-group">
+                                <label>المسمى الوظيفي</label>
+                                <input type="text" class="form-control hr-form-control" placeholder="مثال: أخصائي تشغيل حاسب">
+                            </div>
+
+                            <div class="col-md-6 hr-form-group">
+                                <label>المؤهل الدراسي</label>
+                                <input type="text" class="form-control hr-form-control">
+                            </div>
+                            <div class="col-md-3 hr-form-group">
+                                <label>الدرجة المالية</label>
+                                <select class="form-select hr-form-control">
+                                    <option>الأولى</option>
+                                    <option>الثانية</option>
+                                    <option>الثالثة</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 hr-form-group">
+                                <label>نوع الكادر</label>
+                                <select class="form-select hr-form-control">
+                                    <option>دائم (موازنة)</option>
+                                    <option>مكافأة شاملة</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 hr-form-group">
+                                <label>تاريخ التعيين الفعلي</label>
+                                <input type="date" class="form-control hr-form-control">
+                            </div>
+                            <div class="col-md-6 hr-form-group">
+                                <label>تاريخ الحصول على الدرجة</label>
+                                <input type="date" class="form-control hr-form-control">
+                                <small class="text-muted">هام جداً لاحتساب أقدمية الترقية</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. E-File Documents -->
+                    <div class="tab-pane fade" id="files" role="tabpanel">
+                        <div class="rounded-3 p-3 mb-4 d-flex align-items-start gap-3 border-0" style="background-color: #f1f6fe;">
+                            <i class="fas fa-lightbulb text-primary fs-4 mt-1"></i>
+                            <div>
+                                <h6 class="mb-1 text-dark fw-bold">نظام الأرشفة الإلكترونية (E-File)</h6>
+                                <p class="mb-0 text-dark small">يفضل رفع جميع المستندات بصيغة PDF لسهولة العرض في ملف الموظف لاحقاً</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            @for (int i = 1; i <= 6; i++) {
+                                string[] labels = { "", "صورة بطاقة الرقم القومي", "صورة المؤهل الدراسي", "شهادة الميلاد المميكنة", "الموقف من التجنيد", "قرار التعيين / العقد", "فيش جنائي حديث" };
+                                <div class="col-md-6 hr-form-group">
+                                    <label>@labels[i]</label>
+                                    <div class="input-group">
+                                        <input type="file" class="form-control hr-form-control" id="file@i">
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- 4. Financial Data -->
+                    <div class="tab-pane fade" id="financial" role="tabpanel">
+                        <div class="row">
+                            <div class="col-md-6 hr-form-group">
+                                <label>الرقم التأميني</label>
+                                <input type="text" class="form-control hr-form-control">
+                            </div>
+                            <div class="col-md-6 hr-form-group">
+                                <label>رقم بطاقة الدفع (ميزة)</label>
+                                <input type="text" class="form-control hr-form-control" placeholder="أرقام البطاقة...">
+                            </div>
+
+                            <div class="col-md-6 hr-form-group">
+                                <label>البنك</label>
+                                <select class="form-select hr-form-control">
+                                    <option>البنك الأهلي المصري</option>
+                                    <option>بنك مصر</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 hr-form-group">
+                                <label>إجمالي الاستحقاق (Gross)</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control hr-form-control" placeholder="0.00">
+                                    <span class="input-group-text bg-light">جم</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="hr-card-footer bg-light p-4 d-flex justify-content-end align-items-center border-top gap-2">
+                <a asp-action="Index" class="btn px-4 fw-bold shadow-sm" style="background-color: #a0aec0; color: white; transition: 0.3s;" onmouseover="this.style.backgroundColor='#718096'" onmouseout="this.style.backgroundColor='#a0aec0'">
+                    إلغاء العملية
+                </a>
+                <button type="submit" class="hr-btn hr-btn-primary px-5 shadow-sm">
+                    <i class="fas fa-check-circle me-1"></i> حفظ وتفعيل الملف
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    function previewImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var img = document.getElementById('imgPreview');
+                img.src = e.target.result;
+                img.style.display = 'block';
+                document.getElementById('cameraIcon').style.display = 'none';
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>

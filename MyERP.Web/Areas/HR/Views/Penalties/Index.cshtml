@@ -1,0 +1,182 @@
+@{
+    ViewData["Title"] = "الجزاءات والمخالفات";
+}
+
+<link rel="stylesheet" href="~/css/global/hr-custom.css" asp-append-version="true">
+
+<div class="hr-page-container animate__animated animate__fadeIn">
+    
+    <div class="page-header d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h4 font-weight-bold text-dark mb-1">سجل المخالفات والجزاءات</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0 small mb-0">
+                    <li class="breadcrumb-item"><a href="#">الموارد البشرية</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">الشئون القانونية</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="d-flex gap-2">
+            <button class="hr-btn hr-btn-primary px-4 shadow-sm" data-bs-toggle="collapse" data-bs-target="#newPenaltyCard">
+                <i class="fas fa-gavel me-2"></i> توقيع جزاء جديد
+            </button>
+        </div>
+    </div>
+
+    
+    <div class="collapse mb-4" id="newPenaltyCard">
+        <div class="hr-card border-0 shadow-sm rounded-4 overflow-hidden">
+            <div class="hr-card-header bg-white">
+                <h3 class="hr-card-title text-primary fw-bold"><i class="fas fa-file-signature me-2"></i> بيانات المخالفة والعقوبة</h3>
+            </div>
+            <div class="p-4">
+                <form>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="hr-label mb-1">الموظف المخالف</label>
+                            <select class="form-select hr-form-control select2">
+                                <option>بحث بالاسم...</option>
+                                <option>محمد فؤاد ابراهيم</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="hr-label mb-1">نوع المخالفة</label>
+                            <select class="form-select hr-form-control">
+                                <option>تأخير وغياب</option>
+                                <option>سلوك غير لائق</option>
+                                <option>إهمال وتقصير</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="hr-label mb-1">تاريخ الواقعة</label>
+                            <input type="date" class="form-control hr-form-control">
+                        </div>
+                        
+                        <div class="col-12"><hr class="my-2 border-dashed"></div>
+
+                        <div class="col-md-4">
+                            <label class="hr-label mb-1">نوع الجزاء</label>
+                            <select class="form-select hr-form-control fw-bold" id="penaltyType" onchange="toggleDeduct()">
+                                <option value="Warning">إنذار / لفت نظر</option>
+                                <option value="Deduct" selected>خصم من الراتب (أيام)</option>
+                                <option value="Hold">وقف عن العمل</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4" id="daysDiv">
+                            <label class="hr-label mb-1">المدة (يوم)</label>
+                            <input type="number" class="form-control hr-form-control fw-bold" value="3">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="hr-label mb-1">شهر التنفيذ</label>
+                            <input type="month" class="form-control hr-form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="hr-label mb-1">رقم القرار</label>
+                            <input type="text" class="form-control hr-form-control" placeholder="رقم وتاريخ القرار">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="hr-label mb-1">مرفق القرار</label>
+                            <input type="file" class="form-control hr-form-control">
+                        </div>
+                        <div class="col-12">
+                            <label class="hr-label mb-1">أسباب وحيثيات العقوبة</label>
+                            <textarea class="form-control hr-form-control" rows="2" placeholder="وذلك لأنه قام بـ...."></textarea>
+                        </div>
+                        <div class="col-12 d-flex justify-content-end">
+                            <button type="submit" class="hr-btn hr-btn-primary px-5 shadow">اعتماد وتوقيع الجزاء</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="hr-card border-0 shadow-sm">
+        <div class="hr-card-header bg-white d-flex justify-content-between align-items-center">
+            <h3 class="hr-card-title text-dark">أرشيف الجزاءات السابقة</h3>
+            <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-print-custom border-light"><i class="fas fa-print me-1"></i> طباعة</button>
+            </div>
+        </div>
+        <div class="hr-table-wrapper">
+            <table id="penaltyTable" class="table hr-table text-center mb-0">
+                <thead>
+                    <tr>
+                        <th>التاريخ</th>
+                        <th>الموظف</th>
+                        <th>المخالفة</th>
+                        <th>الجزاء</th>
+                        <th>الشهر</th>
+                        <th>القرار</th>
+                        <th>الأثر</th>
+                        <th style="width: 100px">الخيارات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><small>2024/06/12</small></td>
+                        <td class="fw-bold">رانيا أبو النصر</td>
+                        <td>تأخير متكرر</td>
+                        <td>خصم 3 أيام</td>
+                        <td><small>يونيو 2024</small></td>
+                        <td><small>105/ق</small></td>
+                        <td><i class="fas fa-money-bill-wave text-warning" title="خصم مالي"></i></td>
+                        <td>
+                            <button class="hr-action-btn text-danger border-danger" title="حذف">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><small>2024/01/05</small></td>
+                        <td class="fw-bold text-dark">فاطمة الشرباني</td>
+                        <td>مخالفة تعليمات</td>
+                        <td>لفت نظر</td>
+                        <td><small>يناير 2024</small></td>
+                        <td><small>20/ق</small></td>
+                        <td><i class="fas fa-file-contract text-muted"></i></td>
+                        <td>
+                            <button class="hr-action-btn" title="تعديل">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#penaltyTable').DataTable({
+                "searching": false,
+                "lengthChange": false,
+                "language": {
+                    "emptyTable": "لا توجد بيانات متاحة",
+                    "info": "سجل _START_ - _END_ من _TOTAL_",
+                    "paginate": { "next": "التالي", "previous": "السابق" }
+                },
+                "responsive": false,
+                "scrollX": true,
+                "autoWidth": false,
+                "paging": true,
+                "info": false,
+                "dom": 'rt<"d-flex flex-column align-items-center mt-3"<"mb-1"p>i>'
+            });
+        });
+
+        function toggleDeduct() {
+            var type = document.getElementById("penaltyType").value;
+            var div = document.getElementById("daysDiv");
+            if (type === "Deduct" || type === "Hold") {
+                div.style.display = "block";
+            } else {
+                div.style.display = "none";
+            }
+        }
+    </script>
+}
+

@@ -1,0 +1,206 @@
+@{
+    ViewData["Title"] = "الأجازات المرضية واللجان الطبية";
+}
+
+<link rel="stylesheet" href="~/css/global/hr-custom.css" asp-append-version="true">
+
+<div class="hr-page-container animate__animated animate__fadeIn">
+    <!-- 1. Header Section -->
+    <div class="page-header d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h4 font-weight-bold text-dark mb-1">إدارة الأجازات المرضية واللجان</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0 small mb-0">
+                    <li class="breadcrumb-item"><a href="#">الأجازات</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">الأجازات المرضية</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="d-flex gap-2">
+            <button class="hr-btn hr-btn-primary" data-bs-toggle="collapse" href="#newMedicalCollapse">
+                <i class="fas fa-file-medical-alt me-2"></i> تسجيل قرار لجنة طبية
+            </button>
+        </div>
+    </div>
+
+    <!-- 2. Registration Form (Collapsed) -->
+    <div class="collapse mb-4" id="newMedicalCollapse">
+        <div class="hr-card shadow-sm border-0">
+            <div class="hr-card-header bg-white">
+                <h3 class="hr-card-title text-dark"><i class="fas fa-plus-circle me-2"></i> بيانات تقرير اللجنة الطبية</h3>
+            </div>
+            <div class="p-4 bg-light bg-opacity-50">
+                <form method="post">
+                    <!-- Section 1: Basic Info -->
+                    <div class="bg-white p-4 rounded-4 border shadow-sm mb-4">
+                        <h6 class="fw-bold text-primary mb-3"><i class="fas fa-info-circle me-2"></i>البيانات الأساسية</h6>
+                        <div class="row g-4">
+                            <div class="col-md-4">
+                                <label class="hr-label mb-2 text-muted small fw-bold">الموظف</label>
+                                <select class="form-select hr-form-control select2">
+                                    <option>بهجت إبراهيم</option>
+                                    <option>رانيا أبو النصر</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="hr-label mb-2 text-muted small fw-bold">جهة التقرير الطبي</label>
+                                <select class="form-select hr-form-control">
+                                    <option>اللجنة الطبية العامة (القومسيون)</option>
+                                    <option>التأمين الصحي</option>
+                                    <option>مستشفى حكومي (دخول طوارئ)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="hr-label mb-2 text-muted small fw-bold">رقم القرار / التقرير</label>
+                                <input type="text" class="form-control hr-form-control" placeholder="رقم وتاريخ...">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 2: Duration and Salary -->
+                    <div class="bg-white p-4 rounded-4 border shadow-sm mb-4">
+                        <h6 class="fw-bold text-primary mb-3"><i class="fas fa-calendar-alt me-2"></i>بيانات المدة والاستحقاق</h6>
+                        <div class="row g-4 align-items-end">
+                            <div class="col-md-3">
+                                <label class="hr-label mb-2 text-muted small fw-bold">تاريخ البدء</label>
+                                <input type="date" class="form-control hr-form-control" id="startMedicalDate" onchange="calcMedical()">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="hr-label mb-2 text-muted small fw-bold">تاريخ الانتهاء</label>
+                                <input type="date" class="form-control hr-form-control" id="endMedicalDate" onchange="calcMedical()">
+                            </div>
+                            <div class="col-md-2">
+                                <label class="hr-label mb-2 text-muted small fw-bold">عدد الأيام</label>
+                                <input type="text" class="form-control hr-form-control bg-light text-center fw-bold" id="medicalDays" placeholder="0" readonly>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="hr-label mb-2 text-muted small fw-bold">نسبة استحقاق الراتب</label>
+                                <select class="form-select hr-form-control fw-bold text-dark">
+                                    <option value="100">أجر كامل (مرض عادي / عمليات)</option>
+                                    <option value="100">أجر كامل (مرض مزمن)</option>
+                                    <option value="75">75% من الأجر</option>
+                                    <option value="0">بدون أجر (تجاوز المدة)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 3: Medical Details -->
+                    <div class="bg-white p-4 rounded-4 border shadow-sm mb-4">
+                        <h6 class="fw-bold text-primary mb-3"><i class="fas fa-stethoscope me-2"></i>التفاصيل الطبية والمرفقات</h6>
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <label class="hr-label mb-2 text-muted small fw-bold">التشخيص (سري للغاية)</label>
+                                <textarea class="form-control hr-form-control" placeholder="أدخل ملخص التشخيص المعتمد..." rows="2" style="resize: none;"></textarea>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="hr-label mb-2 text-muted small fw-bold">المرفق الطبي (PDF/JPG)</label>
+                                <div class="file-upload-zone text-center" onclick="document.getElementById('medicalFile').click()" 
+                                     style="cursor: pointer; border: 2px dashed #cbd5e1; border-radius: 12px; background-color: #f8fafc; padding: 12px; transition: 0.3s; min-height: 60px; display: flex; align-items: center; justify-content: center;">
+                                    <input type="file" id="medicalFile" class="d-none" onchange="document.getElementById('medicalFileContent').innerHTML = '<i class=\'fas fa-file-alt text-primary me-2\'></i><span class=\'text-dark font-weight-bold small\'>' + this.files[0].name + '</span>'; this.parentElement.style.borderColor = '#3b82f6'; this.parentElement.style.backgroundColor = '#eff6ff';">
+                                    <div id="medicalFileContent" class="d-flex align-items-center justify-content-center text-muted small">
+                                        <i class="fas fa-cloud-upload-alt me-2 fs-5"></i> اضغط هنا لرفع الملف
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="d-flex justify-content-end gap-2 mt-2 pt-3 border-top">
+                        <button type="button" class="hr-btn hr-btn-outline px-4" data-bs-toggle="collapse" href="#newMedicalCollapse">إلغاء</button>
+                        <button type="submit" class="hr-btn hr-btn-primary px-5 shadow-sm">
+                            <i class="fas fa-save me-2"></i> حفظ وتسكين الأجازة
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Medical History Table -->
+    <div class="hr-card shadow-sm">
+        <div class="hr-card-header bg-white">
+            <h3 class="hr-card-title text-dark">سجل الحالات الطبية</h3>
+            <div class="header-actions">
+                <button class="btn btn-sm btn-print-custom"><i class="fas fa-print me-1"></i> طباعة السجل</button>
+            </div>
+        </div>
+        <div class="hr-table-wrapper">
+            <table id="medicalTable" class="table hr-table text-center mb-0">
+                <thead>
+                    <tr>
+                        <th style="width: 5%">م</th>
+                        <th>الموظف</th>
+                        <th>التشخيص / السبب</th>
+                        <th>الفترة الزمنية</th>
+                        <th>المدة</th>
+                        <th>الأجر</th>
+                        <th>الحالة</th>
+                        <th style="width: 80px">الخيارات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td class="fw-bold">فاطمة الشرباني</td>
+                        <td>مرض مزمن (قرار 102)</td>
+                        <td><small>01/01/2024 - 31/12/2026</small></td>
+                        <td><span class="badge bg-light text-primary border">3 سنوات</span></td>
+                        <td><span class="text-success fw-bold">100% كامل</span></td>
+                        <td>سارية</td>
+                        <td>
+                            <button class="hr-action-btn" title="عرض">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td class="fw-bold">رانيا ابو النصر</td>
+                        <td>أجازة وضع (3 شهور)</td>
+                        <td><small>01/02/2024 - 01/05/2024</small></td>
+                        <td><span class="badge bg-light text-dark border">90 يوم</span></td>
+                        <td><span class="text-success fw-bold">100% كامل</span></td>
+                        <td>منتهية</td>
+                        <td>
+                            <button class="hr-action-btn" title="عرض">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#medicalTable').DataTable({
+                "searching": false,
+                "lengthChange": false,
+                "language": {
+                    "emptyTable": "لا توجد بيانات متاحة",
+                    "info": "سجل _START_ - _END_ من _TOTAL_",
+                    "paginate": { "next": "التالي", "previous": "السابق" }
+                },
+                "responsive": false,
+                "scrollX": true,
+                "dom": 'rtp'
+            });
+        });
+
+        function calcMedical() {
+            var d1 = new Date(document.getElementById("startMedicalDate").value);
+            var d2 = new Date(document.getElementById("endMedicalDate").value);
+            if(d1 && d2){
+                var diff = (d2.getTime() - d1.getTime()) / (1000 * 3600 * 24);
+                if (diff >= 0) {
+                    document.getElementById("medicalDays").value = (diff + 1) + " يوم";
+                }
+            }
+        }
+    </script>
+}

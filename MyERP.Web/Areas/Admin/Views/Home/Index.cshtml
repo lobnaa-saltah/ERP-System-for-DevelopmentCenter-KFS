@@ -1,0 +1,342 @@
+@{
+    ViewData["Title"] = "لوحة التحكم";
+}
+
+<style>
+    .admin-dashboard {
+        background: #f8fafc;
+        min-height: 100vh;
+        font-family: 'Cairo', sans-serif;
+        padding: 1.5rem 0 3rem 0;
+    }
+
+    /* Welcome Banner - Creative Redesign */
+    .welcome-banner {
+        background: #0f172a;
+        background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+        border-radius: 1.5rem;
+        padding: 3rem 2.5rem;
+        color: white;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 2.5rem;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255,255,255,0.05);
+    }
+    
+    /* Glowing creative elements */
+    .welcome-banner::before {
+        content: '';
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+        top: -100px;
+        left: -50px;
+        border-radius: 50%;
+        filter: blur(40px);
+        z-index: 1;
+    }
+    .welcome-banner::after {
+        content: '';
+        position: absolute;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
+        bottom: -150px;
+        right: -100px;
+        border-radius: 50%;
+        filter: blur(50px);
+        z-index: 1;
+    }
+
+    .welcome-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .welcome-title { font-size: 1.8rem; font-weight: 900; margin-bottom: 1rem; letter-spacing: -0.5px; }
+    .welcome-sub { color: rgba(255,255,255,0.75); font-size: 0.95rem; max-width: 650px; line-height: 1.7; }
+
+    /* New Modern Card Design - Stacked Vertical & Compact */
+    .admin-dashboard .modern-card {
+        background: white !important;
+        border-radius: 1rem !important;
+        padding: 1.25rem !important;
+        border: 1px solid rgba(226, 232, 240, 0.7) !important;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.02) !important;
+        transition: all 0.3s ease !important;
+        height: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        gap: 0.5rem !important;
+    }
+    .admin-dashboard .modern-card:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 8px 15px rgba(0,0,0,0.05) !important;
+        border-color: #3b82f644 !important;
+    }
+
+    /* Icon Box Style - Scaled Down */
+    .admin-dashboard .icon-box {
+        width: 45px !important;
+        height: 45px !important;
+        border-radius: 0.85rem !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 1.1rem !important;
+        flex-shrink: 0 !important;
+        margin-bottom: 0.15rem !important;
+    }
+    
+    .admin-dashboard .card-content { width: 100% !important; }
+    .admin-dashboard .card-title { font-size: 0.85rem !important; font-weight: 700 !important; color: #1e293b !important; margin-bottom: 0.15rem !important; display: block !important; }
+    .admin-dashboard .card-subtitle { font-size: 0.7rem !important; color: #94a3b8 !important; font-weight: 500 !important; display: block !important; margin-bottom: 0.4rem !important; }
+    .admin-dashboard .card-value { font-size: 1.25rem !important; font-weight: 900 !important; color: #0f172a !important; display: block !important; line-height: 1 !important; }
+
+    /* Section Title */
+    .section-header {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+        margin-top: 1rem;
+    }
+    .section-header h2 {
+        font-size: 1.15rem;
+        font-weight: 800;
+        color: #0f172a;
+        margin: 0;
+    }
+    .section-header .line {
+        flex: 1;
+        height: 1px;
+        background: #e2e8f0;
+    }
+
+    /* Quick Action Card (Vertical Style) */
+    .qa-card-modern {
+        background: white;
+        border-radius: 1.5rem;
+        padding: 2rem 1.5rem;
+        text-align: center;
+        text-decoration: none !important;
+        border: 1px solid #e2e8f0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+    .qa-card-modern:hover {
+        background: #fff;
+        border-color: #3b82f6;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.06);
+        transform: translateY(-6px);
+    }
+    .qa-card-modern .icon-box {
+        margin-bottom: 1.25rem;
+    }
+
+    /* Full Width Sections */
+    .full-width-section {
+        margin-bottom: 2.5rem;
+    }
+
+    /* Activity List */
+    .activity-list {
+        background: white;
+        border-radius: 1.25rem;
+        border: 1px solid #e2e8f0;
+        padding: 0.5rem;
+    }
+    .activity-row {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem 1.25rem;
+        border-bottom: 1px solid #f1f5f9;
+        transition: background 0.2s;
+    }
+    .activity-row:last-child { border-bottom: none; }
+    .activity-row:hover { background: #f8fafc; }
+    .activity-icon-sm {
+        width: 40px; height: 40px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 0.9rem; flex-shrink: 0;
+    }
+</style>
+
+<div class="admin-dashboard">
+    <div class="container-fluid px-4">
+
+        <!-- Welcome Banner -->
+        <div class="welcome-banner wow fadeIn">
+            <div class="welcome-content">
+                <h1 class="welcome-title">مرحباً بك في الإدارة المركزية</h1>
+                <p class="welcome-sub">لوحة التحكم الشاملة لإدارة المستخدمين، الصلاحيات، ومراقبة أداء الوحدات البرمجية المختلفة للنظام.</p>
+            </div>
+        </div>
+
+        <!-- KPI Stats Section -->
+        <div class="full-width-section">
+            <div class="section-header">
+                <i class="fa-solid fa-chart-line text-primary"></i>
+                <h2>إحصائيات سريعة</h2>
+                <div class="line"></div>
+            </div>
+            <div class="row g-3">
+                <div class="col-md-6 col-lg-3 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="modern-card">
+                        <div class="icon-box" style="background: rgba(59,130,246,0.1); color: #3b82f6;">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <span class="card-title">المستخدمين</span>
+                        <span class="card-subtitle">إجمالي المسجلين</span>
+                        <div class="card-value">248</div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 wow fadeInUp" data-wow-delay="0.2s">
+                    <div class="modern-card">
+                        <div class="icon-box" style="background: rgba(16,185,129,0.1); color: #10b981;">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+                        <span class="card-title">الوحدات</span>
+                        <span class="card-subtitle">وحدات نشطة</span>
+                        <div class="card-value">8</div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="modern-card">
+                        <div class="icon-box" style="background: rgba(245,158,11,0.1); color: #f59e0b;">
+                            <i class="fa-solid fa-key"></i>
+                        </div>
+                        <span class="card-title">الصلاحيات</span>
+                        <span class="card-subtitle">أدوار محددة</span>
+                        <div class="card-value">15</div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 wow fadeInUp" data-wow-delay="0.4s">
+                    <div class="modern-card">
+                        <div class="icon-box" style="background: rgba(139,92,246,0.1); color: #8b5cf6;">
+                            <i class="fa-solid fa-right-to-bracket"></i>
+                        </div>
+                        <span class="card-title">الدخول</span>
+                        <span class="card-subtitle">اليوم</span>
+                        <div class="card-value">34</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Activity Feed (Full Width) -->
+        <div class="full-width-section">
+            <div class="section-header">
+                <i class="fa-solid fa-clock-rotate-left text-info"></i>
+                <h2>آخر الأنشطة والعمليات</h2>
+                <div class="line"></div>
+            </div>
+            <div class="activity-list wow fadeInUp">
+                <div class="activity-row">
+                    <div class="activity-icon-sm" style="background:rgba(59,130,246,0.1);color:#3b82f6;"><i class="fa-solid fa-user-plus"></i></div>
+                    <div class="flex-grow-1">
+                        <div style="font-size: 0.9rem; font-weight: 700; color: #1e293b;">تمت إضافة مستخدم جديد — <strong>Ahmed Mohamed</strong></div>
+                        <div style="font-size: 0.75rem; color: #94a3b8;">منذ 12 دقيقة</div>
+                    </div>
+                </div>
+                <div class="activity-row">
+                    <div class="activity-icon-sm" style="background:rgba(245,158,11,0.1);color:#f59e0b;"><i class="fa-solid fa-key"></i></div>
+                    <div class="flex-grow-1">
+                        <div style="font-size: 0.9rem; font-weight: 700; color: #1e293b;">تم تعديل صلاحيات دور <strong>مشرف المخازن</strong></div>
+                        <div style="font-size: 0.75rem; color: #94a3b8;">منذ 38 دقيقة</div>
+                    </div>
+                </div>
+                <div class="activity-row">
+                    <div class="activity-icon-sm" style="background:rgba(16,185,129,0.1);color:#10b981;"><i class="fa-solid fa-right-to-bracket"></i></div>
+                    <div class="flex-grow-1">
+                        <div style="font-size: 0.9rem; font-weight: 700; color: #1e293b;">تسجيل دخول ناجح من <strong>مدير الإدارة المركزية</strong></div>
+                        <div style="font-size: 0.75rem; color: #94a3b8;">منذ ساعة واحدة</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modules Status (Full Width) -->
+        <div class="full-width-section">
+            <div class="section-header">
+                <i class="fa-solid fa-cubes text-warning"></i>
+                <h2>حالة الوحدات والموديولات</h2>
+                <div class="line"></div>
+            </div>
+            <div class="row g-3">
+                <div class="col-md-4 wow fadeInUp">
+                    <div class="modern-card">
+                        <div class="icon-box" style="background:rgba(59,130,246,0.08);color:#3b82f6;"><i class="fa-solid fa-users"></i></div>
+                        <span class="badge rounded-pill" style="background:#dcfce7;color:#16a34a;padding: 0.4rem 0.8rem; font-size: 0.7rem; margin-bottom: 0.5rem;">نشط الآن</span>
+                        <span class="card-title">الموارد البشرية</span>
+                        <span class="card-subtitle">HR Module</span>
+                    </div>
+                </div>
+                <div class="col-md-4 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="modern-card">
+                        <div class="icon-box" style="background:rgba(16,185,129,0.08);color:#10b981;"><i class="fa-solid fa-scale-balanced"></i></div>
+                        <span class="badge rounded-pill" style="background:#dcfce7;color:#16a34a;padding: 0.4rem 0.8rem; font-size: 0.7rem; margin-bottom: 0.5rem;">نشط الآن</span>
+                        <span class="card-title">الشئون القانونية</span>
+                        <span class="card-subtitle">Legal Module</span>
+                    </div>
+                </div>
+                <div class="col-md-4 wow fadeInUp" data-wow-delay="0.2s">
+                    <div class="modern-card">
+                        <div class="icon-box" style="background:rgba(245,158,11,0.08);color:#f59e0b;"><i class="fa-solid fa-warehouse"></i></div>
+                        <span class="badge rounded-pill" style="background:#dcfce7;color:#16a34a;padding: 0.4rem 0.8rem; font-size: 0.7rem; margin-bottom: 0.5rem;">نشط الآن</span>
+                        <span class="card-title">المخازن والمشتريات</span>
+                        <span class="card-subtitle">Inventory Module</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions (Bottom & Full Width) -->
+        <div class="full-width-section">
+            <div class="section-header">
+                <i class="fa-solid fa-bolt" style="color:#f59e0b;"></i>
+                <h2>الإجراءات السريعة</h2>
+                <div class="line"></div>
+            </div>
+            <div class="row g-3">
+                <div class="col-6 col-lg-3 wow fadeInUp" data-wow-delay="0.1s">
+                    <a asp-area="Admin" asp-controller="Users" asp-action="Index" class="qa-card-modern">
+                        <div class="icon-box" style="background:rgba(59,130,246,0.1);color:#3b82f6;"><i class="fa-solid fa-user-plus"></i></div>
+                        <span class="card-title">إدارة المستخدمين</span>
+                        <span class="card-subtitle">إضافة وتعديل وحذف</span>
+                    </a>
+                </div>
+                <div class="col-6 col-lg-3 wow fadeInUp" data-wow-delay="0.2s">
+                    <a asp-area="Admin" asp-controller="Roles" asp-action="Index" class="qa-card-modern">
+                        <div class="icon-box" style="background:rgba(16,185,129,0.1);color:#10b981;"><i class="fa-solid fa-shield-halved"></i></div>
+                        <span class="card-title">الأدوار</span>
+                        <span class="card-subtitle">إدارة الصلاحيات</span>
+                    </a>
+                </div>
+                <div class="col-6 col-lg-3 wow fadeInUp" data-wow-delay="0.3s">
+                    <a asp-area="Admin" asp-controller="Audit" asp-action="LoginHistory" class="qa-card-modern">
+                        <div class="icon-box" style="background:rgba(245,158,11,0.1);color:#f59e0b;"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                        <span class="card-title">سجل الدخول</span>
+                        <span class="card-subtitle">مراقبة النشاط</span>
+                    </a>
+                </div>
+                <div class="col-6 col-lg-3 wow fadeInUp" data-wow-delay="0.4s">
+                    <a asp-area="Admin" asp-controller="Audit" asp-action="SystemLogs" class="qa-card-modern">
+                        <div class="icon-box" style="background:rgba(239,68,68,0.1);color:#ef4444;"><i class="fa-solid fa-clipboard-list"></i></div>
+                        <span class="card-title">سجل الأحداث</span>
+                        <span class="card-subtitle">System Logs</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

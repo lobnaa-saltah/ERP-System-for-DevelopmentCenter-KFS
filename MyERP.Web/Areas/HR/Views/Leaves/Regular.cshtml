@@ -1,0 +1,629 @@
+@{
+    ViewData["Title"] = "الأجازات الاعتيادية والعارضة";
+}
+
+<style>
+    /* Soft & Calm Theme Variables */
+    :root {
+        --soft-bg: #f8fafc;
+        --soft-card: #ffffff;
+        --soft-text-main: #334155;
+        --soft-text-muted: #94a3b8;
+        --soft-primary: #3b82f6; /* Soft Blue */
+        --soft-primary-light: #eff6ff;
+        --soft-success: #34d399;
+        --soft-success-light: #d1fae5;
+        --soft-warning: #fbbf24;
+        --soft-warning-light: #fef3c7;
+        --soft-danger: #f87171;
+        --soft-danger-light: #fee2e2;
+        --soft-border: rgba(226, 232, 240, 0.6);
+        --soft-shadow: 0 10px 40px -10px rgba(148, 163, 184, 0.1);
+        --btn-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.25);
+    }
+
+    /* Base Layout */
+    .calm-wrapper {
+        background-color: var(--soft-bg);
+        min-height: 100vh;
+        padding: 2.5rem 2rem;
+        font-family: inherit;
+        color: var(--soft-text-main);
+    }
+
+    /* Typography */
+    .soft-title {
+        font-size: 1.6rem;
+        font-weight: 600;
+        color: var(--soft-text-main);
+        letter-spacing: -0.02em;
+    }
+    .soft-breadcrumb {
+        font-size: 0.85rem;
+        color: var(--soft-text-muted);
+    }
+    .soft-breadcrumb a {
+        color: var(--soft-primary);
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+    .soft-breadcrumb a:hover {
+        color: #2563eb;
+    }
+
+    /* Soft Cards */
+    .soft-card {
+        background: var(--soft-card);
+        border-radius: 20px;
+        padding: 1.7rem;
+        border: 1px solid var(--soft-border);
+        box-shadow: var(--soft-shadow);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .soft-card:hover {
+        box-shadow: 0 20px 40px -10px rgba(148, 163, 184, 0.15);
+        transform: translateY(-2px);
+    }
+
+    /* Stat Items */
+    .stat-container {
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+    }
+    .stat-icon-wrapper {
+        width: 54px;
+        height: 54px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+    }
+    .stat-content h3 {
+        font-size: 1.35rem;
+        font-weight: 700;
+        margin: 0 0 0.2rem 0;
+        color: var(--soft-text-main);
+        line-height: 1;
+    }
+    .stat-content p {
+        font-size: 0.85rem;
+        color: var(--soft-text-muted);
+        margin: 0;
+        font-weight: 500;
+    }
+
+    /* Search & Filters */
+    .soft-input {
+        background-color: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 14px;
+        padding: 0.7rem 1.2rem;
+        color: var(--soft-text-main);
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        height: auto;
+        text-align: right;
+    }
+    select.soft-input {
+        text-align: left !important;
+        direction: ltr !important;
+        padding-right: 2.5rem !important;
+    }
+    .soft-input:focus {
+        background-color: #fff;
+        border-color: var(--soft-primary-light);
+        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+        outline: none;
+    }
+    .soft-label {
+        font-size: 0.8rem;
+        color: var(--soft-text-muted);
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+
+    /* Buttons */
+    .soft-btn {
+        border-radius: 14px;
+        padding: 0.7rem 1.5rem;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        border: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+    }
+    .soft-btn-primary {
+        background-color: var(--soft-primary);
+        color: white;
+        box-shadow: var(--btn-shadow);
+    }
+    .soft-btn-primary:hover {
+        background-color: #2563eb;
+        box-shadow: 0 6px 20px 0 rgba(59, 130, 246, 0.3);
+        transform: translateY(-1px);
+        color: white;
+    }
+    .soft-btn-outline {
+        background-color: white;
+        color: var(--soft-primary);
+        border: 1px solid var(--soft-primary-light);
+    }
+    .soft-btn-outline:hover {
+        background-color: var(--soft-primary-light);
+        color: var(--soft-primary);
+    }
+    .soft-btn-action {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f1f5f9;
+        color: var(--soft-text-muted);
+        transition: all 0.2s;
+        border: none;
+    }
+    .soft-btn-action:hover {
+        background: var(--soft-primary);
+        color: white;
+    }
+
+    /* Table */
+    .soft-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 8px;
+    }
+    .soft-table thead th {
+        color: var(--soft-text-main);
+        font-weight: 700;
+        font-size: 0.9rem;
+        padding: 1rem;
+        border: none;
+        border-bottom: 1px dashed var(--soft-border);
+    }
+    .soft-table td {
+        padding: 1.2rem 1rem;
+        background: #fff;
+        font-size: 0.9rem;
+        color: var(--soft-text-main);
+        border-top: 1px solid transparent;
+        border-bottom: 1px solid transparent;
+        transition: background 0.2s ease;
+    }
+    .soft-table tbody tr:hover td {
+        background: #f8fafc;
+    }
+    /* Rounded edges for rows */
+    .soft-table td:first-child { border-right: 1px solid transparent; border-top-right-radius: 12px; border-bottom-right-radius: 12px; }
+    .soft-table td:last-child { border-left: 1px solid transparent; border-top-left-radius: 12px; border-bottom-left-radius: 12px; }
+    /* Simulate borders with box-shadow for softer look */
+    .soft-table tbody tr {
+        box-shadow: 0 2px 8px -2px rgba(148, 163, 184, 0.05);
+    }
+    .soft-table tbody td {
+        border-top: 1px solid #f1f5f9;
+        border-bottom: 1px solid #f1f5f9;
+    }
+    .soft-table tbody td:first-child { border-right: 1px solid #f1f5f9; }
+    .soft-table tbody td:last-child { border-left: 1px solid #f1f5f9; }
+
+    /* Badges */
+    .soft-badge {
+        padding: 0.4rem 0.8rem;
+        border-radius: 8px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        display: inline-block;
+    }
+    .soft-badge-primary { background: var(--soft-primary-light); color: var(--soft-primary); }
+    .soft-badge-success { background: var(--soft-success-light); color: #059669; }
+    .soft-badge-warning { background: var(--soft-warning-light); color: #d97706; }
+    .soft-badge-danger { background: var(--soft-danger-light); color: #dc2626; }
+
+    /* Modal Styling */
+    .modal-content.soft-modal {
+        border-radius: 24px;
+        border: none;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+    }
+    .modal-header.soft-modal-header {
+        border-bottom: 1px solid #f1f5f9;
+        padding: 2rem 2rem 1rem 2rem;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+    }
+    .modal-body.soft-modal-body {
+        padding: 2rem;
+    }
+    .modal-footer.soft-modal-footer {
+        border-top: 1px solid #f1f5f9;
+        padding: 1rem 2rem 2rem 2rem;
+        background: #f8fafc;
+        border-bottom-left-radius: 24px;
+        border-bottom-right-radius: 24px;
+    }
+
+    /* Custom Radio */
+    .soft-radio-group {
+        display: flex;
+        gap: 1.5rem;
+    }
+    .soft-radio-item {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+    }
+    .soft-radio-item input[type="radio"] {
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        border: 2px solid var(--soft-border);
+        border-radius: 50%;
+        outline: none;
+        transition: all 0.2s ease;
+        position: relative;
+    }
+    .soft-radio-item input[type="radio"]:checked {
+        border-color: var(--soft-primary);
+    }
+    .soft-radio-item input[type="radio"]:checked::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 10px;
+        height: 10px;
+        background: var(--soft-primary);
+        border-radius: 50%;
+    }
+    .soft-radio-item span {
+        color: var(--soft-text-main);
+        font-size: 0.95rem;
+    }
+
+    /* Select2 Soft Override */
+    .select2-container--bootstrap4 .select2-selection {
+        background-color: #f8fafc !important;
+        border: 1px solid transparent !important;
+        border-radius: 14px !important;
+        height: 48px !important;
+        display: flex;
+        align-items: center;
+    }
+    .select2-container--bootstrap4.select2-container--focus .select2-selection {
+        background-color: #fff !important;
+        border-color: var(--soft-primary-light) !important;
+        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15) !important;
+    }
+
+    /* Responsive Adjustments */
+    @@media (max-width: 768px) {
+        .calm-wrapper { padding: 1rem; }
+        .header-actions { margin-top: 1rem; width: 100%; }
+        .header-actions button { flex: 1; justify-content: center; }
+        .soft-table th, .soft-table td { white-space: nowrap !important; }
+    }
+</style>
+
+<div class="calm-wrapper">
+    <!-- Header -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-5">
+        <div>
+            <h1 class="soft-title mb-1">منظومة الأجازات</h1>
+            <div class="soft-breadcrumb">
+                <a asp-controller="Home" asp-action="Index">الموارد البشرية</a> <i class="fas fa-chevron-left mx-2" style="font-size:0.7rem; opacity:0.6;"></i> سجل الاعتيادي والعارضة
+            </div>
+        </div>
+        <div class="header-actions gap-3 d-flex">
+            <button class="btn btn-sm btn-print-custom">
+                <i class="fas fa-print me-1"></i> تقرير الرصيد
+            </button>
+            <button class="soft-btn soft-btn-primary" data-bs-toggle="modal" data-bs-target="#leaveModal">
+                <i class="fas fa-plus"></i> طلب أجازة
+            </button>
+        </div>
+    </div>
+
+    <!-- Soft Stat Cards -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-3 col-sm-6">
+            <div class="soft-card">
+                <div class="stat-container">
+                    <div class="stat-icon-wrapper" style="background: var(--soft-primary-light); color: var(--soft-primary);">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>21</h3>
+                        <p>اعتيادي متبقي</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="soft-card">
+                <div class="stat-container">
+                    <div class="stat-icon-wrapper" style="background: var(--soft-warning-light); color: var(--soft-warning);">
+                        <i class="fas fa-running"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>3</h3>
+                        <p>عارضة متبقي</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="soft-card">
+                <div class="stat-container">
+                    <div class="stat-icon-wrapper" style="background: #f1f5f9; color: var(--soft-text-main);">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>9</h3>
+                        <p>أيام مستهلكة</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="soft-card">
+                <div class="stat-container">
+                    <div class="stat-icon-wrapper" style="background: var(--soft-success-light); color: var(--soft-success);">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>15</h3>
+                        <p>مرحل سابقاً</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="soft-card p-0 overflow-hidden">
+        
+        <!-- Filters Area -->
+        <div class="p-4 border-bottom" style="border-bottom-color: var(--soft-border) !important; background: #fafafa;">
+            <div class="d-flex align-items-center mb-4">
+                <h5 class="m-0 fw-bold" style="color: var(--soft-text-main); font-size: 1.1rem;">
+                    <i class="fas fa-filter ms-2" style="color: var(--soft-primary);"></i> أدوات العرض والتصفية
+                </h5>
+            </div>
+            <form>
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label class="soft-label">الموظف</label>
+                        <select class="form-control soft-input select2 w-100">
+                            <option>الكل</option>
+                            <option>محمد فؤاد ابراهيم</option>
+                            <option>رانيا أبو النصر</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="soft-label">نوع الأجازة</label>
+                        <select class="form-control soft-input w-100">
+                            <option>الكل</option>
+                            <option>اعتيادي</option>
+                            <option>عارضة</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="soft-label">الحالة</label>
+                        <select class="form-control soft-input w-100">
+                            <option>الكل</option>
+                            <option>معتمدة</option>
+                            <option>قيد الموافقة</option>
+                            <option>مرفوضة</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 d-flex align-items-end">
+                        <button type="submit" class="soft-btn soft-btn-primary w-100" style="height: 48px; justify-content: center;">
+                            <i class="fas fa-search px-1"></i> تصفية
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Table Area -->
+        <div class="p-4">
+            <div class="table-responsive">
+                <table id="leavesTable" class="table hr-table text-center">
+                    <thead>
+                        <tr>
+                            <th style="width: 60px;">الطلب</th>
+                            <th>الموظف</th>
+                            <th>النوع</th>
+                            <th>البداية</th>
+                            <th>النهاية</th>
+                            <th>المدة</th>
+                            <th>بديل العمل</th>
+                            <th>الحالة</th>
+                            <th style="width: 100px">المزيد</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="fw-bold">1015</td>
+                            <td class="fw-bold">محمد فؤاد ابراهيم</td>
+                            <td>اعتيادي</td>
+                            <td>01/05/2024</td>
+                            <td>05/05/2024</td>
+                            <td>5 أيام</td>
+                            <td>أحمد محمود</td>
+                            <td>معتمدة</td>
+                            <td>
+                                <button class="hr-action-btn btn-print-custom" title="طباعة">
+                                    <i class="fas fa-print"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">1016</td>
+                            <td class="fw-bold">رانيا أبو النصر</td>
+                            <td>عارضة</td>
+                            <td>10/05/2024</td>
+                            <td>11/05/2024</td>
+                            <td>2 يوم</td>
+                            <td>فاطمة الشرباني</td>
+                            <td>قيد الموافقة</td>
+                            <td>
+                                <button class="hr-action-btn" title="تعديل">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">1017</td>
+                            <td class="fw-bold">بهجت إبراهيم</td>
+                            <td>اعتيادي</td>
+                            <td>20/05/2024</td>
+                            <td>25/05/2024</td>
+                            <td>6 أيام</td>
+                            <td>-</td>
+                            <td>مرفوضة</td>
+                            <td>
+                                <button class="hr-action-btn" title="معاينة">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Soft Modal -->
+<div class="modal fade" id="leaveModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content soft-modal">
+            <form method="post" asp-action="CreateRegularRequest">
+                <div class="modal-header soft-modal-header w-100">
+                    <h5 class="modal-title m-0 fw-bold" style="color: var(--soft-text-main);">
+                        تقديم طلب أجازة
+                    </h5>
+                    <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close" style="box-shadow:none;"></button>
+                </div>
+
+                <div class="modal-body soft-modal-body">
+                    <div class="row g-4">
+                        <div class="col-md-12">
+                            <label class="soft-label">نوع الأجازة</label>
+                            <div class="soft-radio-group">
+                                <label class="soft-radio-item">
+                                    <input type="radio" name="LeaveType" value="Regular" checked>
+                                    <span>أجازة اعتيادية</span>
+                                </label>
+                                <label class="soft-radio-item">
+                                    <input type="radio" name="LeaveType" value="Casual">
+                                    <span>أجازة عارضة</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="soft-label">الموظف مقدم الطلب</label>
+                            <select class="form-select soft-input w-100">
+                                <option>محمد فؤاد ابراهيم</option>
+                                <option>فاطمة الشرباني</option>
+                                <option>رانيا ابو النصر</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label class="soft-label">القائم بالعمل بدلاً منه</label>
+                            <select class="form-select soft-input w-100">
+                                <option>-- اختر --</option>
+                                <option>بهجت إبراهيم</option>
+                                <option>أمنة جمعة</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="soft-label">تاريخ البداية</label>
+                            <input type="date" class="form-control soft-input" id="startDate" onchange="calculateDays()">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="soft-label">تاريخ النهاية</label>
+                            <input type="date" class="form-control soft-input" id="endDate" onchange="calculateDays()">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="soft-label">المدة المطلوبة</label>
+                            <input type="text" class="form-control soft-input" id="daysCount" readonly value="0" style="background:#f1f5f9; cursor:not-allowed; text-align:center; font-weight:bold;">
+                        </div>
+                        
+                        <div class="col-md-12">
+                            <label class="soft-label">بيانات التواصل المتاحة أثناء الأجازة</label>
+                            <input type="text" class="form-control soft-input" placeholder="اكتب رقم موبايل أو وسيلة تواصل...">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer soft-modal-footer d-flex justify-content-end gap-2">
+                    <button type="button" class="soft-btn text-muted" data-bs-dismiss="modal" style="background:transparent;">إلغاء الأمر</button>
+                    <button type="submit" class="soft-btn soft-btn-primary">
+                        <i class="fas fa-check"></i> حفظ وإرسال
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('select.select2').each(function() {
+            var $this = $(this);
+            var parent = $this.closest('.modal').length ? $this.closest('.modal') : $(document.body);
+            $this.select2({
+                theme: 'bootstrap4',
+                dropdownParent: parent,
+                dir: "rtl"
+            });
+        });
+
+        $('#leavesTable').DataTable({
+            "searching": false,
+            "lengthChange": false,
+            "language": {
+                "emptyTable": "لا توجد طلبات لعرضها حالياً",
+                "info": "عرض _START_ إلى _END_ من أصل _TOTAL_",
+                "paginate": { "next": "التالي", "previous": "السابق" }
+            },
+            "dom": 'rtp',
+            "pageLength": 10
+        });
+    });
+
+    function calculateDays() {
+        var start = document.getElementById("startDate").value;
+        var end = document.getElementById("endDate").value;
+        if(start && end) {
+            var d1 = new Date(start);
+            var d2 = new Date(end);
+            var dayDiff = (d2.getTime() - d1.getTime()) / (1000 * 3600 * 24);
+            var total = dayDiff + 1;
+            document.getElementById("daysCount").value = total > 0 ? total + " أيام" : "تاريخ غير صالح";
+        }
+    }
+</script>

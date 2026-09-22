@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewData["Title"] - المنصة الرقمية</title>
+    <!-- 1. SEO Meta Tags -->
+    <meta name="description" content="المنصة الرقمية الموحدة لمحافظة كفر الشيخ - نظام ERP شامل لإدارة الموارد البشرية، المخازن، الشئون القانونية، والحملة">
+    <meta name="keywords" content="ERP, كفر الشيخ, موارد بشرية, مخازن, حكومة الكترونية, تحول رقمي">
+    <meta name="author" content="الإدارة العامة لنظم المعلومات والتحول الرقمي">
+    <!-- Google Fonts - Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="~/css/bootstrap/bootstrap.min.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/css/all.min.css">
+    <!-- animate -->
+    <link rel="stylesheet" href="~/css/animate/animate.css">
+    <!-- Modern Luxe Stylesheet -->
+    <link rel="stylesheet" href="~/css/modern-luxe.css?v=@DateTime.Now.Ticks">
+    
+</head>
+<body style="margin:0;">
+
+
+    <!-- Start Navbar (Modernized) -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+
+            <!-- Branding (logo only) -->
+            <div class="navbar-brand d-flex align-items-center" style="cursor: default;">
+                <img src="~/imgs/kfslogo.jpg" class="ms-2 nav-logo" alt="KFS Logo">
+            </div>
+
+            <!-- Toggle Menu -->
+            <button class="navbar-toggler border-0 shadow-none text-white p-1" type="button" data-bs-toggle="collapse" data-bs-target="#main">
+                <i class="fa-solid fa-bars" style="font-size: 1.5rem;"></i>
+            </button>
+
+            <div class="collapse navbar-collapse" id="main">
+                <!-- Main Nav Links -->
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0 wow fadeIn text-center" data-wow-duration="1s">
+                    <li class="nav-item">
+                        <a class="nav-link active fw-bold text-white shadow-none d-inline-flex align-items-center" asp-area="" asp-controller="Home" asp-action="Index">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 1.15rem; height: 1.15rem; margin-left: 6px;" class="opacity-50"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" /></svg>
+                            الرئيسية
+                        </a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle fw-bold text-white opacity-75 shadow-none d-inline-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 1.15rem; height: 1.15rem; margin-left: 6px;" class="opacity-50"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" /></svg>
+                            الأنظمة والتطبيقات
+                        </a>
+                        <ul class="dropdown-menu p-0 text-end shadow-lg border-0 rounded-4 overflow-hidden" aria-labelledby="navbarDropdown">
+                            <li><h6 class="dropdown-header py-3 bg-light fw-bold" style="color: #3b82f6; font-size: 1.1rem;">المكاتب الداخلية</h6></li>
+                            <li><a class="dropdown-item py-2 px-4" asp-area="HR" asp-controller="Home" asp-action="Index"><i class="fa-solid fa-users-gear ms-2 opacity-25"></i>الموارد البشرية</a></li>
+                            <li><a class="dropdown-item py-2 px-4" asp-area="Accounting" asp-controller="Home" asp-action="Index"><i class="fa-solid fa-file-invoice-dollar ms-2 opacity-25"></i>الحسابات والمالية</a></li>
+                            <li><a class="dropdown-item py-2 px-4" asp-area="Legal" asp-controller="Home" asp-action="Index"><i class="fa-solid fa-scale-balanced ms-2 opacity-25"></i>الشئون القانونية</a></li>
+                            <li><hr class="dropdown-divider my-0"></li>
+                            <li><h6 class="dropdown-header py-3 bg-light fw-bold" style="color: #3b82f6; font-size: 1.1rem;">التشغيل والمشاريع</h6></li>
+                            <li><a class="dropdown-item py-2 px-4" asp-area="Inventory" asp-controller="Home" asp-action="Index"><i class="fa-solid fa-warehouse ms-2 opacity-25"></i>المخازن والمشتريات</a></li>
+                            <li><a class="dropdown-item py-2 px-4" asp-area="Fleet" asp-controller="Home" asp-action="Index"><i class="fa-solid fa-truck-front ms-2 opacity-25"></i>الحملة المركزية</a></li>
+                            <li><a class="dropdown-item py-2 px-4" asp-area="Projects" asp-controller="Home" asp-action="Index"><i class="fa-solid fa-diagram-project ms-2 opacity-25"></i>التخطيط والمشاريع</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link fw-bold shadow-none d-inline-flex align-items-center" style="color: #3b82f6;" asp-area="Admin" asp-controller="Home" asp-action="Index">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 1.15rem; height: 1.15rem; margin-left: 6px;"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>
+                            الإدارة المركزية
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- User Profile / Login / State Logo -->
+                <ul class="navbar-nav align-items-center text-center">
+                    <partial name="_LoginPartial" />
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- End Navbar -->
+
+    <!-- Main Content Injection -->
+    <main class="content-wrapper animate-bottom">
+        @RenderBody()
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-modern bg-dark py-4 mt-auto">
+
+        <div class="container">
+            <div class="row text-center">
+                <div class="col">
+                    <p class="copyright-text">
+                        حقوق الطبع والنشر <span> &copy; @DateTime.Now.Year </span> الإدارة العامة لنظم المعلومات
+                        <a class="dev-team-link" href="#">فريق التطوير</a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="~/js/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="~/js/all.min.js"></script>
+    <script src="~/js/global/main.js"></script>
+    <script src="~/js/animate/wow.min.js"></script>
+    <script>
+        new WOW().init();
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

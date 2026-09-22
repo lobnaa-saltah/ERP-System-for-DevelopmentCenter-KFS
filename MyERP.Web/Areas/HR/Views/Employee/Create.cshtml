@@ -1,0 +1,325 @@
+@model MyERP.Web.Areas.HR.Models.Employee
+
+@{
+    ViewData["Title"] = "إضافة موظف جديد";
+}
+
+<link rel="stylesheet" href="~/css/global/hr-custom.css" asp-append-version="true">
+
+<div class="hr-page-container animate__animated animate__fadeIn">
+    <!-- 1. Page Header -->
+    <div class="page-header d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h4 font-weight-bold text-dark mb-1">تسجيل موظف جديد</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0 small mb-0">
+                    <li class="breadcrumb-item"><a href="#">الموارد البشرية</a></li>
+                    <li class="breadcrumb-item"><a asp-action="Index">قائمة الموظفين</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">إضافة سجل</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="d-flex gap-2">
+            <a asp-action="Index" class="hr-btn hr-btn-outline">
+                <i class="fas fa-arrow-right me-2"></i> العودة للقائمة
+            </a>
+        </div>
+    </div>
+
+    <!-- 2. Form Card -->
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="hr-card shadow-sm border-0">
+                <div class="hr-card-header bg-primary text-white py-3">
+                    <h3 class="hr-card-title text-white mb-0"><i class="fas fa-user-plus me-2"></i> نموذج إدخال بيانات الموظف</h3>
+                </div>
+                <div class="p-4">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3 small"></div>
+                        
+                        <div class="row g-4">
+                            <!-- Personal Info Section -->
+                            <div class="col-12 border-bottom pb-2 mb-2">
+                                <h5 class="text-primary fw-bold mb-0" style="font-size: 1rem;"><i class="fas fa-info-circle me-2"></i> المعلومات الشخصية</h5>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Name" class="hr-label mb-1">اسم الموظف بالكامل</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0"><i class="fas fa-user text-muted"></i></span>
+                                        <input asp-for="Name" class="form-control hr-form-control border-start-0" placeholder="أدخل الاسم الرباعي...">
+                                    </div>
+                                    <span asp-validation-for="Name" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Code" class="hr-label mb-1">الكود الوظيفي</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0"><i class="fas fa-hashtag text-muted"></i></span>
+                                        <input asp-for="Code" class="form-control hr-form-control border-start-0" placeholder="مثال: 10020">
+                                    </div>
+                                    <span asp-validation-for="Code" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <!-- Contact Info Section -->
+                            <div class="col-12 border-bottom pb-2 mb-2 mt-4">
+                                <h5 class="text-primary fw-bold mb-0" style="font-size: 1rem;"><i class="fas fa-phone-alt me-2"></i> بيانات التواصل</h5>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Email" class="hr-label mb-1">البريد الإلكتروني</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0"><i class="fas fa-envelope text-muted"></i></span>
+                                        <input asp-for="Email" class="form-control hr-form-control border-start-0" placeholder="example@domain.com">
+                                    </div>
+                                    <span asp-validation-for="Email" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Phone" class="hr-label mb-1">رقم الهاتف</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0"><i class="fas fa-phone-alt text-muted"></i></span>
+                                        <input asp-for="Phone" class="form-control hr-form-control border-start-0" placeholder="01xxxxxxxxx">
+                                    </div>
+                                    <span asp-validation-for="Phone" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <!-- Employment Info -->
+                            <div class="col-12 border-bottom pb-2 mb-2 mt-4">
+                                <h5 class="text-primary fw-bold mb-0" style="font-size: 1rem;"><i class="fas fa-briefcase me-2"></i> تفاصيل التعيين</h5>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="HireDate" class="hr-label mb-1">تاريخ التوظيف</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0"><i class="fas fa-calendar-day text-muted"></i></span>
+                                        <input asp-for="HireDate" class="form-control hr-form-control border-start-0" type="date">
+                                    </div>
+                                    <span asp-validation-for="HireDate" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 d-flex align-items-end pb-1">
+                                <div class="form-check form-switch mb-2 ms-2">
+                                    <input class="form-check-input" type="checkbox" asp-for="IsActive" id="flexSwitchCheckDefault" checked>
+                                    <label class="form-check-label fw-bold ms-2" for="flexSwitchCheckDefault">تفعيل حساب الموظف فوراً</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Footer Actions -->
+                        <div class="d-flex justify-content-end gap-2 mt-5 border-top pt-4">
+                            <button type="reset" class="hr-btn hr-btn-outline px-4">إعادة ضبط</button>
+                            <button type="submit" class="hr-btn hr-btn-primary px-5 shadow-sm">
+                                <i class="fas fa-save me-2"></i> حفظ البيانات والتعميد
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+            <div class="card card-primary card-outline card-tabs">
+                <div class="card-header p-0 pt-1 border-bottom-0">
+                    <ul class="nav nav-tabs" id="employee-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="personal-info-tab" data-bs-toggle="pill" href="#personal-info" role="tab" aria-controls="personal-info" aria-selected="true">البيانات الشخصية</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="contact-info-tab" data-bs-toggle="pill" href="#contact-info" role="tab" aria-controls="contact-info" aria-selected="false">معلومات التواصل</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="employment-info-tab" data-bs-toggle="pill" href="#employment-info" role="tab" aria-controls="employment-info" aria-selected="false">بيانات التوظيف</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="education-info-tab" data-bs-toggle="pill" href="#education-info" role="tab" aria-controls="education-info" aria-selected="false">المؤهلات والتعليم</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card-body">
+                    <div class="tab-content" id="employee-tabs-content">
+
+                        <!-- Personal Information Tab -->
+                        <div class="tab-pane fade show active" id="personal-info" role="tabpanel" aria-labelledby="personal-info-tab">
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label asp-for="Name" class="control-label">الاسم <span class="text-danger">*</span></label>
+                                    <input asp-for="Name" class="form-control" />
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="NationalId" class="control-label">الرقم القومي</label>
+                                    <input asp-for="NationalId" class="form-control" />
+                                    <span asp-validation-for="NationalId" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label asp-for="DateOfBirth" class="control-label">تاريخ الميلاد</label>
+                                    <input asp-for="DateOfBirth" type="date" class="form-control" />
+                                    <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label asp-for="Gender" class="control-label">النوع</label>
+                                    <select asp-for="Gender" class="form-control">
+                                        <option value="">-- اختر --</option>
+                                        <option value="ذكر">ذكر</option>
+                                        <option value="أنثى">أنثى</option>
+                                    </select>
+                                    <span asp-validation-for="Gender" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label asp-for="MaritalStatus" class="control-label">الحالة الاجتماعية</label>
+                                    <select asp-for="MaritalStatus" class="form-control">
+                                        <option value="">-- اختر --</option>
+                                        <option value="أعزب">أعزب</option>
+                                        <option value="متزوج">متزوج</option>
+                                        <option value="مطلق">مطلق</option>
+                                        <option value="أرمل">أرمل</option>
+                                    </select>
+                                    <span asp-validation-for="MaritalStatus" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label asp-for="CityCenterId" class="control-label">المدينة/المركز</label>
+                                    <select asp-for="CityCenterId" class="form-control" asp-items="ViewBag.CityCenterId"></select>
+                                    <span asp-validation-for="CityCenterId" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label asp-for="VillageId" class="control-label">القرية</label>
+                                    <select asp-for="VillageId" class="form-control" asp-items="ViewBag.VillageId"></select>
+                                    <span asp-validation-for="VillageId" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label asp-for="Address" class="control-label">العنوان</label>
+                                    <input asp-for="Address" class="form-control" />
+                                    <span asp-validation-for="Address" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contact Information Tab -->
+                        <div class="tab-pane fade" id="contact-info" role="tabpanel" aria-labelledby="contact-info-tab">
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label asp-for="Phone" class="control-label">الهاتف</label>
+                                    <input asp-for="Phone" class="form-control" />
+                                    <span asp-validation-for="Phone" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="Email" class="control-label">البريد الإلكتروني</label>
+                                    <input asp-for="Email" class="form-control" />
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Employment Information Tab -->
+                        <div class="tab-pane fade" id="employment-info" role="tabpanel" aria-labelledby="employment-info-tab">
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label asp-for="Code" class="control-label">كود الموظف</label>
+                                    <input asp-for="Code" class="form-control" readonly="readonly" placeholder="يتم إنشاؤه تلقائياً" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label asp-for="HireDate" class="control-label">تاريخ التعيين <span class="text-danger">*</span></label>
+                                    <input asp-for="HireDate" type="date" class="form-control" />
+                                    <span asp-validation-for="HireDate" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label asp-for="TerminationDate" class="control-label">تاريخ انتهاء الخدمة</label>
+                                    <input asp-for="TerminationDate" type="date" class="form-control" />
+                                    <span asp-validation-for="TerminationDate" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label asp-for="EmploymentTypeId" class="control-label">نوع التوظيف</label>
+                                    <select asp-for="EmploymentTypeId" class="form-control" asp-items="ViewBag.EmploymentTypeId"></select>
+                                    <span asp-validation-for="EmploymentTypeId" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label asp-for="JobTitleId" class="control-label">المسمى الوظيفي</label>
+                                    <select asp-for="JobTitleId" class="form-control" asp-items="ViewBag.JobTitleId"></select>
+                                    <span asp-validation-for="JobTitleId" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label asp-for="JobGradeId" class="control-label">الدرجة الوظيفية</label>
+                                    <select asp-for="JobGradeId" class="form-control" asp-items="ViewBag.JobGradeId"></select>
+                                    <span asp-validation-for="JobGradeId" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label asp-for="FunctionalGroupId" class="control-label">المجموعة الوظيفية</label>
+                                    <select asp-for="FunctionalGroupId" class="form-control" asp-items="ViewBag.FunctionalGroupId"></select>
+                                    <span asp-validation-for="FunctionalGroupId" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="OrgUnitId" class="control-label">الوحدة التنظيمية</label>
+                                    <select asp-for="OrgUnitId" class="form-control" asp-items="ViewBag.OrgUnitId"></select>
+                                    <span asp-validation-for="OrgUnitId" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input class="form-check-input" asp-for="IsActive" />
+                                    <label class="form-check-label" asp-for="IsActive">نشط</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Education Information Tab -->
+                        <div class="tab-pane fade" id="education-info" role="tabpanel" aria-labelledby="education-info-tab">
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label asp-for="QualificationTypeId" class="control-label">نوع المؤهل</label>
+                                    <select asp-for="QualificationTypeId" class="form-control" asp-items="ViewBag.QualificationTypeId"></select>
+                                    <span asp-validation-for="QualificationTypeId" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="Specialization" class="control-label">التخصص</label>
+                                    <input asp-for="Specialization" class="form-control" />
+                                    <span asp-validation-for="Specialization" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">حفظ</button>
+                    <a asp-action="Index" class="btn btn-secondary">إلغاء</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        // Optional: Add any client-side script if needed, for example, for cascading dropdowns.
+    </script>
+}

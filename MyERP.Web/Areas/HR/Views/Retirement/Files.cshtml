@@ -1,0 +1,240 @@
+@{
+    ViewData["Title"] = "تجهيز ملفات المعاشات";
+}
+
+<link rel="stylesheet" href="~/css/global/hr-custom.css" asp-append-version="true">
+
+<div class="hr-page-container animate__animated animate__fadeIn">
+    <!-- 1. Header Section -->
+    <div class="page-header d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h4 font-weight-bold text-dark mb-1">متابعة ملفات نهاية الخدمة</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0 small mb-0">
+                    <li class="breadcrumb-item"><a href="#">الموارد البشرية</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">الأرشيف التأميني</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="d-flex gap-2">
+            <button class="hr-btn hr-btn-primary px-4 shadow-sm" onclick="location.reload()">
+                <i class="fas fa-sync-alt me-2"></i> تحديث الحالة
+            </button>
+        </div>
+    </div>
+
+    <!-- 2. Workflow Stats -->
+    <div class="row g-3 mb-4 text-center">
+        <div class="col-md-3">
+            <div class="hr-card border-0 shadow-sm p-3 bg-white border-bottom border-primary border-3">
+                <div class="h3 fw-bold text-primary mb-1">2</div>
+                <div class="text-muted small fw-bold">مراجعة مالية</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="hr-card border-0 shadow-sm p-3 bg-white border-bottom border-warning border-3">
+                <div class="h3 fw-bold text-warning mb-1">1</div>
+                <div class="text-muted small fw-bold">انتظار توقيعات</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="hr-card border-0 shadow-sm p-3 bg-white border-bottom border-success border-3">
+                <div class="h3 fw-bold text-success mb-1">5</div>
+                <div class="text-muted small fw-bold">تم التسليم</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="hr-card border-0 shadow-sm p-3 bg-white border-bottom border-danger border-3">
+                <div class="h3 fw-bold text-danger mb-1">0</div>
+                <div class="text-muted small fw-bold">ملفات مرتدة</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Tracking Table -->
+    <div class="hr-card border-0 shadow-sm">
+        <div class="hr-card-header bg-white d-flex justify-content-between align-items-center">
+            <h3 class="hr-card-title text-dark mb-0">متابعة الموقف التنفيذي للملفات</h3>
+            <div class="d-flex gap-2">
+                <input type="text" id="customSearchInput" class="form-control form-control-sm border-0 bg-light px-3" placeholder="بحث سريع..." style="border-radius: 8px; width: 200px;">
+                <button class="btn btn-sm btn-export-excel text-nowrap" onclick="exportToExcel()">
+                    <i class="fas fa-file-excel me-1"></i> تصدير Excel
+                </button>
+            </div>
+        </div>
+        <div class="hr-table-wrapper">
+            <table id="filesTable" class="table hr-table text-center mb-0">
+                <thead>
+                    <tr>
+                        <th>الموظف المحال</th>
+                        <th>تاريخ الإحالة</th>
+                        <th>السبب</th>
+                        <th>المرحلة الحالية</th>
+                        <th>المسئول</th>
+                        <th>تحديث</th>
+                        <th>الخيارات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="fw-bold text-dark text-nowrap">فاطمة الشرباني</td>
+                        <td class="text-danger fw-bold">2024/08/01</td>
+                        <td>بلوغ السن</td>
+                        <td><span class="hr-status-badge hr-status-pending">مراجعة التدرج</span></td>
+                        <td class="small">أ/ أحمد (شئون عاملين)</td>
+                        <td class="small text-muted">منذ يومين</td>
+                        <td>
+                            <button class="hr-btn hr-btn-primary btn-sm py-1 px-3 shadow-sm" onclick="openReviewModal('فاطمة الشرباني')">استكمال</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: File Wizard -->
+<div class="modal fade" id="reviewModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg overflow-hidden" style="border-radius: 20px;">
+            <div class="modal-header bg-primary text-white border-0 py-3 d-flex justify-content-between align-items-center">
+                <h5 class="modal-title fw-bold small m-0">معالجة الملف: <span id="empNameTitle"></span></h5>
+                <button type="button" class="btn-close btn-close-white shadow-none m-0" data-bs-dismiss="modal" style="margin-left: 0 !important; margin-right: auto !important;"></button>
+            </div>
+            <div class="modal-body p-4">
+                <ul class="nav nav-pills nav-fill bg-light p-1 mb-4" id="pills-tab" role="tablist" style="border-radius: 12px;">
+                    <li class="nav-item">
+                        <button class="nav-link active fw-bold py-2" data-bs-toggle="pill" data-bs-target="#step1" type="button" style="border-radius: 10px;">1. مراجعة التدرج</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link fw-bold py-2" data-bs-toggle="pill" data-bs-target="#step2" type="button" style="border-radius: 10px;">2. البيانات المالية</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link fw-bold py-2" data-bs-toggle="pill" data-bs-target="#step3" type="button" style="border-radius: 10px;">3. الطباعة والتسليم</button>
+                    </li>
+                </ul>
+
+                <div class="tab-content" style="min-height: 250px;">
+                    <div class="tab-pane fade show active" id="step1">
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <h6 class="fw-bold text-primary border-bottom pb-2 mb-3">بيانات التعيين والضم</h6>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" checked disabled>
+                                    <label class="form-check-label small">قرار التعيين الأصلي موجود</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="chkJoin">
+                                    <label class="form-check-label small" for="chkJoin">تم ضم مدد الخدمة السابقة</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="fw-bold text-primary border-bottom pb-2 mb-3">التسويات والأجازات</h6>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="chkLeaves">
+                                    <label class="form-check-label small" for="chkLeaves">تمت مراجعة الأجازات الخاصة (بدون أجر)</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-pane fade" id="step2">
+                        <div class="alert bg-blue-soft border-0 rounded-3 small mb-4">
+                            يرجى مراجعة قيم الأجر التأميني للخمس سنوات الأخيرة لضمان دقة احتساب معاش الأجر المتغير.
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-bordered text-center align-middle small">
+                                <thead class="bg-light">
+                                    <tr>
+                                        <th>السنة</th>
+                                        <th>2020</th>
+                                        <th>2021</th>
+                                        <th>2022</th>
+                                        <th>2023</th>
+                                        <th>2024</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="fw-bold">أساسي تأميني</td>
+                                        <td><input type="number" class="form-control form-control-sm text-center border-0" value="1200"></td>
+                                        <td><input type="number" class="form-control form-control-sm text-center border-0" value="1350"></td>
+                                        <td><input type="number" class="form-control form-control-sm text-center border-0" value="1500"></td>
+                                        <td><input type="number" class="form-control form-control-sm text-center border-0" value="1750"></td>
+                                        <td><input type="number" class="form-control form-control-sm text-center border-0" value="2100"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade text-center py-5" id="step3">
+                        <div class="icon-circle bg-success-soft text-success mx-auto mb-3" style="width: 60px; height: 60px;">
+                            <i class="fas fa-check-circle fa-2x"></i>
+                        </div>
+                        <h5 class="fw-bold">الملف جاهز للأرشفة والتسليم</h5>
+                        <p class="text-muted small mb-4">يمكنك الآن طباعة نموذج (103) ع.ح وتسليم الملف لمندوب الهيئة.</p>
+                        <div class="d-flex justify-content-center gap-2 mt-4">
+                            <button class="btn btn-print-custom px-4 py-2 small rounded-pill"><i class="fas fa-print me-2"></i> طباعة النموذج</button>
+                            <button class="hr-btn hr-btn-primary px-4 py-2 shadow small rounded-pill" onclick="closeFile()"><i class="fas fa-archive me-2"></i> تأكيد التسليم</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-0 bg-light p-3 px-4">
+                <span class="small text-muted me-auto">آخر مراجعة: @DateTime.Now.ToShortDateString()</span>
+                <button type="button" class="btn btn-primary small px-4 rounded-pill" data-bs-dismiss="modal">إغلاق</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var table = $('#filesTable').DataTable({
+                "language": {
+                    "emptyTable": "لا توجد بيانات متاحة",
+                    "info": "سجل _START_ - _END_ من _TOTAL_",
+                    "paginate": { "next": "التالي", "previous": "السابق" }
+                },
+                "responsive": false,
+                "scrollX": true,
+                "paging": true,
+                "info": false,
+                "searching": true,
+                "lengthChange": false,
+                "dom": 'rt<"d-flex flex-column align-items-center mt-3"<"mb-1"p>i>'
+            });
+
+            $('#customSearchInput').on('keyup', function () {
+                table.search(this.value).draw();
+            });
+        });
+
+        function openReviewModal(name) {
+            $('#empNameTitle').text(name);
+            var myModal = new bootstrap.Modal(document.getElementById('reviewModal'));
+            myModal.show();
+        }
+
+        function closeFile() {
+            Swal.fire({
+                title: 'تم التسليم!',
+                text: 'تم أرشفة الملف وتغيير الحالة بنجاح.',
+                icon: 'success',
+                confirmButtonText: 'حسناً',
+                customClass: { confirmButton: 'hr-btn hr-btn-primary px-4' }
+            }).then(() => {
+                bootstrap.Modal.getInstance(document.getElementById('reviewModal')).hide();
+            });
+        }
+
+        function exportToExcel() {
+            var table = document.getElementById('filesTable');
+            var wb = XLSX.utils.table_to_book(table, { sheet: "متابعة الملفات" });
+            XLSX.writeFile(wb, 'retirement_files_' + new Date().getFullYear() + '.xlsx');
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+}

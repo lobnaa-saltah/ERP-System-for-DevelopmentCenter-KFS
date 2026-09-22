@@ -1,0 +1,214 @@
+@{
+    ViewData["Title"] = "الأجازات الخاصة والاستثنائية";
+}
+
+<link rel="stylesheet" href="~/css/global/hr-custom.css" asp-append-version="true">
+
+<div class="hr-page-container animate__animated animate__fadeIn">
+    <!-- 1. Header Section -->
+    <div class="page-header d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h4 font-weight-bold text-dark mb-1">إدارة الأجازات الاستثنائية</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0 small mb-0">
+                    <li class="breadcrumb-item"><a href="#">الأجازات</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">الأجازات الخاصة</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="d-flex gap-2">
+            <button class="hr-btn hr-btn-primary" data-bs-toggle="collapse" href="#newSpecialLeaveCollapse">
+                <i class="fas fa-star-half-alt me-2"></i> تسجيل أجازة خاصة
+            </button>
+        </div>
+    </div>
+
+    <!-- 2. Legal Note Banner -->
+    <div class="shadow-sm" style="background-color: #eff6ff; border: 1px solid #dbeafe; border-radius: 16px; display: flex; align-items: center; gap: 1rem; padding: 1rem 1.25rem; margin-bottom: 1.5rem;">
+        <div class="icon-circle shadow-sm" style="width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #e0f2fe; color: #0284c7; flex-shrink: 0;">
+            <i class="fas fa-info-circle fs-5"></i>
+        </div>
+        <div class="small text-muted" style="line-height: 1.6;">
+            <span class="fw-bold text-dark">تنويه قانوني:</span> 
+            تستحق الموظفة أجازة وضع لمدة <span class="fw-bold text-primary">4 أشهر</span> بأجر كامل. أجازة الحج تمنح <span class="fw-bold text-primary">مرة واحدة</span> في العمر لمدة 30 يوم بشرط قضاء 5 سنوات في الخدمة.
+        </div>
+    </div>
+
+    <!-- 3. Form Section (Collapsed) -->
+    <div class="collapse mb-4" id="newSpecialLeaveCollapse">
+        <div class="hr-card shadow-sm border-0">
+            <div class="hr-card-header bg-white">
+                <h3 class="hr-card-title text-dark"><i class="fas fa-plus-circle me-2"></i> طلب أجازة خاصة جديدة</h3>
+            </div>
+            <div class="p-4 bg-light bg-opacity-50">
+                <form method="post">
+                    <!-- Section 1: Basic Info -->
+                    <div class="bg-white p-4 rounded-4 border shadow-sm mb-4">
+                        <h6 class="fw-bold text-primary mb-3"><i class="fas fa-info-circle me-2"></i>البيانات الأساسية</h6>
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <label class="hr-label mb-2 text-muted small fw-bold">اسم الموظف/ة</label>
+                                <select class="form-select hr-form-control select2">
+                                    <option>-- ابحث بالاسم --</option>
+                                    <option>رانيا ابو النصر (إناث)</option>
+                                    <option>فاطمة الشرباني (إناث)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="hr-label mb-2 text-muted small fw-bold">نوع الأجازة الخاصة</label>
+                                <select class="form-select hr-form-control" id="leaveTypeSelect" onchange="toggleSpecialOptions()">
+                                    <option value="Maternity">أجازة وضع (Maternity)</option>
+                                    <option value="ChildCare">أجازة رعاية طفل</option>
+                                    <option value="Hajj">أجازة حج / زيارة مقدسة</option>
+                                    <option value="Exams">أجازة أداء امتحانات</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 2: Duration and Salary -->
+                    <div class="bg-white p-4 rounded-4 border shadow-sm mb-4">
+                        <h6 class="fw-bold text-primary mb-3"><i class="fas fa-calendar-alt me-2"></i>بيانات المدة والاستحقاق</h6>
+                        <div class="row g-4 align-items-end">
+                            <div class="col-md-4">
+                                <label class="hr-label mb-2 text-muted small fw-bold">تاريخ البداية</label>
+                                <input type="date" class="form-control hr-form-control">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="hr-label mb-2 text-muted small fw-bold">المدة المطلوبة</label>
+                                <div class="position-relative">
+                                    <input type="text" inputmode="numeric" class="form-control hr-form-control" placeholder="0" style="padding-left: 45px; text-align: right;">
+                                    <span class="position-absolute top-50 translate-middle-y text-muted small fw-bold" style="left: 15px;" id="unitLabel">يوم</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="hr-label mb-2 text-muted small fw-bold">الموقف المالي (الراتب)</label>
+                                <input type="text" class="form-control hr-form-control fw-bold bg-light" id="salaryStatus" value="أجر كامل (مدفوعة)" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 3: Special Conditions & Attachments -->
+                    <div class="bg-white p-4 rounded-4 border shadow-sm mb-4">
+                        <h6 class="fw-bold text-primary mb-3"><i class="fas fa-paperclip me-2"></i>المرفقات والشروط الخاصة</h6>
+                        <div class="row g-4">
+                            <!-- Dynamic Section: Maternity/ChildCare -->
+                            <div class="col-md-12" id="babySection">
+                                <label class="hr-label mb-2 text-dark small fw-bold"><i class="fas fa-baby me-1 text-primary"></i> بيانات الطفل (المولود)</label>
+                                <div class="d-flex gap-3">
+                                    <input type="text" class="form-control hr-form-control flex-grow-1" placeholder="اسم الطفل...">
+                                    <input type="date" class="form-control hr-form-control" style="width: 250px;">
+                                </div>
+                            </div>
+
+                            <!-- Dynamic Section: Hajj -->
+                            <div class="col-md-12" id="hajjSection" style="display:none">
+                                <label class="hr-label mb-2 text-dark small fw-bold"><i class="fas fa-kaaba me-1 text-primary"></i> تأشيرة الحج والخدمة</label>
+                                <div class="d-flex gap-3">
+                                    <input type="text" class="form-control hr-form-control bg-light" value="مستوفي الشروط (15 سنة خدمة)" readonly style="width: 300px;">
+                                    <div class="file-upload-zone text-center flex-grow-1" onclick="document.getElementById('hajjVisaFile').click()" 
+                                         style="cursor: pointer; border: 2px dashed #cbd5e1; border-radius: 12px; background-color: #f8fafc; padding: 10px; transition: 0.3s; display: flex; align-items: center; justify-content: center;">
+                                        <input type="file" id="hajjVisaFile" class="d-none" onchange="document.getElementById('hajjVisaContent').innerHTML = '<i class=\'fas fa-file-alt text-primary me-2\'></i><span class=\'text-dark font-weight-bold small\'>' + this.files[0].name + '</span>'; this.parentElement.style.borderColor = '#3b82f6'; this.parentElement.style.backgroundColor = '#eff6ff';">
+                                        <div id="hajjVisaContent" class="text-muted small">
+                                            <i class="fas fa-cloud-upload-alt me-2 fs-6"></i> ارفع صورة التأشيرة
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="d-flex justify-content-end gap-2 mt-2 pt-3 border-top">
+                        <button type="button" class="hr-btn hr-btn-outline px-4" data-bs-toggle="collapse" href="#newSpecialLeaveCollapse">إلغاء</button>
+                        <button type="submit" class="hr-btn hr-btn-primary px-5 shadow-sm">
+                            <i class="fas fa-save me-2"></i> إصدار القرار الرسمي
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. Listing Table -->
+    <div class="hr-card shadow-sm border-0">
+        <div class="hr-card-header bg-white">
+            <h3 class="hr-card-title">سجل الأجازات الخاصة المسجلة</h3>
+        </div>
+        <div class="hr-table-wrapper">
+            <table class="table hr-table text-center mb-0">
+                <thead>
+                    <tr>
+                        <th style="width: 5%">م</th>
+                        <th>الموظف</th>
+                        <th>نوع الأجازة</th>
+                        <th>الفترة</th>
+                        <th>الوضع المالي</th>
+                        <th>المرفقات</th>
+                        <th>الحالة</th>
+                        <th style="width: 80px">الخيارات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td class="fw-bold">فاطمة الشرباني</td>
+                        <td>أجازة وضع</td>
+                        <td><small>2023/01/01 - 2023/04/30</small></td>
+                        <td><span class="text-success fw-bold">أجر كامل</span></td>
+                        <td><i class="fas fa-file-pdf text-danger" title="شهادة ميلاد"></i></td>
+                        <td>منتهية</td>
+                        <td>
+                            <button class="hr-action-btn" title="عرض">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td class="fw-bold">رانيا ابو النصر</td>
+                        <td>رعاية طفل</td>
+                        <td><small>2023/06/01 - 2024/06/01</small></td>
+                        <td><span class="text-danger fw-bold">بدون أجر</span></td>
+                        <td><i class="fas fa-file-image text-info" title="صورة شهادة"></i></td>
+                        <td>سارية</td>
+                        <td>
+                            <button class="hr-action-btn" title="عرض">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function toggleSpecialOptions() {
+            var type = document.getElementById("leaveTypeSelect").value;
+            var babySec = document.getElementById("babySection");
+            var hajjSec = document.getElementById("hajjSection");
+            var salary = document.getElementById("salaryStatus");
+
+            if (type === "Maternity") {
+                babySec.style.display = "block";
+                hajjSec.style.display = "none";
+                salary.value = "أجر كامل (إجبارية)";
+            } else if (type === "ChildCare") {
+                babySec.style.display = "block";
+                hajjSec.style.display = "none";
+                salary.value = "بدون أجر (الموظفة تتحمل التأمينات)";
+            } else if (type === "Hajj") {
+                babySec.style.display = "none";
+                hajjSec.style.display = "block";
+                salary.value = "أجر كامل (مرة بالعمر)";
+            } else {
+                babySec.style.display = "none";
+                hajjSec.style.display = "none";
+                salary.value = "حسب اللائحة المالية";
+            }
+        }
+    </script>
+}

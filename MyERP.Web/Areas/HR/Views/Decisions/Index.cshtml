@@ -1,0 +1,155 @@
+@{
+    ViewData["Title"] = "سجل القرارات الإدارية";
+}
+
+<link rel="stylesheet" href="~/css/global/hr-custom.css" asp-append-version="true">
+
+<div class="hr-page-container animate__animated animate__fadeIn">
+    <!-- 1. Header Section - Matched Exactly -->
+    <div class="page-header d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h5 font-weight-bold text-dark mb-1">سجل القرارات الإدارية</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0 small mb-0">
+                    <li class="breadcrumb-item"><a href="#">التعينات</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">سجل القرارات</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="d-flex gap-2">
+            <button class="hr-btn hr-btn-primary" data-bs-toggle="collapse" href="#newDecisionCollapse">
+                <i class="fas fa-plus"></i> إضافة قرار جديد
+            </button>
+        </div>
+    </div>
+
+    <!-- 2. New Decision Form (Collapsed) - Matched Exactly -->
+    <div class="collapse mb-4" id="newDecisionCollapse">
+        <div class="hr-card shadow-sm" style="border-top: 2px solid #e2e8f0;">
+            <div class="hr-card-header bg-light">
+                <h3 class="hr-card-title"><i class="fas fa-plus-circle"></i> تسجيل قرار إداري جديد</h3>
+            </div>
+            <div class="hr-filter-section bg-white p-4">
+                <form method="post">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label class="small font-weight-bold mb-1">رقم القرار</label>
+                            <input type="text" class="form-control hr-form-control" placeholder="مثال: 128/2024">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="small font-weight-bold mb-1">تاريخ الصدور</label>
+                            <input type="date" class="form-control hr-form-control">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="small font-weight-bold mb-1">نوع القرار</label>
+                            <select class="form-select hr-form-control">
+                                <option>تعيين جديد</option>
+                                <option>تثبيت عمالة</option>
+                                <option>حركة ترقيات</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="small font-weight-bold mb-1">جهة الإصدار</label>
+                            <select class="form-select hr-form-control">
+                                <option>المحافظة</option>
+                                <option>رئيس الهيئة</option>
+                            </select>
+                        </div>
+                        <div class="col-12 mt-2">
+                            <label class="small font-weight-bold mb-1">موضوع القرار</label>
+                            <input type="text" class="form-control hr-form-control" placeholder="بشأن العمل على تثبيت العاملين ...">
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end mt-3 gap-2 border-top pt-3">
+                        <button type="button" class="hr-btn hr-btn-outline" data-bs-toggle="collapse" href="#newDecisionCollapse">إلغاء</button>
+                        <button type="submit" class="hr-btn hr-btn-primary px-5"><i class="fas fa-save"></i> حفظ القرار</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Table Section - Matched Exactly -->
+    <div class="hr-card">
+        <div class="hr-card-header">
+            <h3 class="hr-card-title">سجل القرارات التاريخي (History)</h3>
+            <div class="header-actions">
+                  <button class="btn btn-sm btn-export-excel">
+                    <i class="fas fa-file-excel text-success me-1"></i> تصدير للكشف
+                </button>
+            </div>
+        </div>
+        
+        <div class="hr-table-wrapper">
+             <table id="decisionsTable" class="table hr-table text-center">
+                <thead>
+                    <tr>
+                        <th style="width: 50px">#</th>
+                        <th>رقم القرار</th>
+                        <th>الموضوع</th>
+                        <th>النوع</th>
+                        <th>التاريخ</th>
+                        <th>الحالة</th>
+                        <th>الملف</th>
+                        <th style="width: 80px">خيارات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td class="font-weight-bold text-primary">128/2023</td>
+                        <td>
+                            <div>تثبيت العمالة المؤقتة دفعة 2018</div>
+                            <small class="text-muted">إدارة الموارد البشرية</small>
+                        </td>
+                        <td class="text-primary fw-bold">تثبيت</td>
+                        <td>01-01-2024</td>
+                        <td class="text-success fw-bold">نشط</td>
+                        <td><i class="fas fa-file-pdf text-danger fa-lg" style="cursor:pointer"></i></td>
+                        <td>
+                            <button class="hr-action-btn" title="تعديل">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td class="font-weight-bold text-primary">54/2024</td>
+                        <td>
+                            <div>ترقية العاملين للدرجة الأولى (أ)</div>
+                            <small class="text-muted">التنظيم والإدارة</small>
+                        </td>
+                        <td class="text-warning fw-bold">ترقية</td>
+                        <td>01-07-2024</td>
+                        <td class="text-success fw-bold">نشط</td>
+                        <td><i class="fas fa-file-pdf text-danger fa-lg" style="cursor:pointer"></i></td>
+                        <td>
+                            <button class="hr-action-btn" title="تعديل">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#decisionsTable').DataTable({
+                "scrollX": true,
+                "responsive": false,
+                "searching": false,
+                "lengthChange": false,
+                "language": {
+                    "emptyTable": "لا توجد بيانات متاحة",
+                    "info": "<div style='font-size: 0.8rem; margin-top: -8px;'>سجل _START_ - _END_ من _TOTAL_</div>",
+                    "paginate": { "next": "التالي", "previous": "السابق" }
+                },
+                "dom": 'rt<"d-flex flex-column align-items-center justify-content-center mt-3 w-100"p<"text-muted pt-0 mt-0"i>>'
+            });
+        });
+    </script>
+}

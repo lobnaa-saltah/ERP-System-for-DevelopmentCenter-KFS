@@ -1,0 +1,260 @@
+@{
+    ViewData["Title"] = "ضم مدد الخدمة السابقة";
+}
+
+<link rel="stylesheet" href="~/css/global/hr-custom.css" asp-append-version="true">
+
+<style>
+    /* Remove chevron arrows from inputs but keep for selects */
+    input.hr-form-control {
+        background-image: none !important;
+        padding-right: 1rem !important;
+    }
+
+    /* Responsive Adjustments */
+    @@media (max-width: 768px) {
+        .hr-table-wrapper {
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch;
+        }
+        .hr-table thead th,
+        .hr-table tbody td { white-space: nowrap !important; }
+    }
+</style>
+
+<div class="hr-page-container animate__animated animate__fadeIn">
+    <!-- 1. Header Section -->
+    <div class="page-header d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h5 font-weight-bold text-dark mb-1">تسجيل مدد الخدمة السابقة</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0 small mb-0">
+                    <li class="breadcrumb-item"><a href="#">التعيينات</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">ضم الخدمة</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="d-flex gap-2">
+            <button class="hr-btn hr-btn-primary" data-bs-toggle="collapse" href="#newRequestCollapse">
+                <i class="fas fa-plus"></i> تسجيل طلب جديد
+            </button>
+        </div>
+    </div>
+
+    <!-- 2. New Request Form (Collapsed) -->
+    <div class="collapse mb-4" id="newRequestCollapse">
+        <div class="hr-card shadow-sm">
+            <div class="hr-card-header">
+                <h3 class="hr-card-title"><i class="fas fa-plus-circle"></i> إضافة طلب ضم مدة جديد</h3>
+            </div>
+            <div class="hr-filter-section bg-white p-4">
+                <form asp-action="Create" method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-md-4 hr-form-group">
+                            <label>اسم الموظف</label>
+                            <select class="form-select hr-form-control select2">
+                                <option>-- ابحث بالاسم او الكود --</option>
+                                <option>فاطمة عبدالفتاح الشرباني</option>
+                                <option>محمد فؤاد ابراهيم</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 hr-form-group">
+                            <label>الجهة السابقة</label>
+                            <input type="text" class="form-control hr-form-control" placeholder="مكان العمل السابق...">
+                        </div>
+                        <div class="col-md-4 hr-form-group">
+                            <label>نوع المدة</label>
+                            <select class="form-select hr-form-control">
+                                <option>مدة حكومية (ضم كامل)</option>
+                                <option>قطاع خاص (خاضع للتأمينات)</option>
+                                <option>مدة تجنيد / خدمة عامة</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6 hr-form-group">
+                            <label class="small font-weight-bold mb-1">تاريخ بداية المدة</label>
+                            <input type="date" class="form-control hr-form-control" id="startDate" onchange="calculatePeriod()">
+                        </div>
+                        <div class="col-md-6 hr-form-group">
+                            <label class="small font-weight-bold mb-1">تاريخ نهاية المدة</label>
+                            <input type="date" class="form-control hr-form-control" id="endDate" onchange="calculatePeriod()">
+                        </div>
+
+                        <div class="col-md-6 mb-3 hr-form-group">
+                            <label>صافي المدة المحسوبة:</label>
+                            <div class="d-flex gap-1 bg-light p-1 rounded-3 border" style="height: 42px;">
+                                <input type="number" readonly class="form-control hr-form-control text-center bg-white py-0" id="calcYear" placeholder="سنة" style="height: 32px; font-size: 0.8rem;">
+                                <input type="number" readonly class="form-control hr-form-control text-center bg-white py-0" id="calcMonth" placeholder="شهر" style="height: 32px; font-size: 0.8rem;">
+                                <input type="number" readonly class="form-control hr-form-control text-center bg-white py-0" id="calcDay" placeholder="يوم" style="height: 32px; font-size: 0.8rem;">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3 hr-form-group">
+                            <label>رقم قرار اللجنة (إن وجد):</label>
+                            <input type="text" class="form-control hr-form-control" placeholder="أدخل رقم القرار..." style="height: 42px;">
+                        </div>
+
+                        <div class="col-12 hr-form-group">
+                            <label class="small font-weight-bold mb-1">المستندات المؤيدة (PDF)</label>
+                            <div class="file-upload-zone text-center" onclick="document.getElementById('supportingDocs').click()" 
+                                 style="cursor: pointer; border: 2px dashed #cbd5e1; border-radius: 12px; background-color: #f8fafc; padding: 12px; transition: 0.3s; min-height: 48px; display: flex; align-items: center; justify-content: center;">
+                                <input type="file" id="supportingDocs" class="d-none" onchange="document.getElementById('uploadContent').innerHTML = '<i class=\'fas fa-file-pdf text-danger ms-2\'></i><span class=\'text-primary font-weight-bold small\'>' + this.files[0].name + '</span>'; this.parentElement.style.borderColor = '#2196f3';">
+                                <div id="uploadContent" class="d-flex align-items-center justify-content-center">
+                                    <i class="fas fa-plus text-muted" style="font-size: 1.2rem;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end mt-3 gap-2 border-top pt-3">
+                        <button type="button" class="hr-btn hr-btn-outline" data-bs-toggle="collapse" href="#newRequestCollapse">إلغاء</button>
+                        <button type="submit" class="hr-btn hr-btn-primary px-5"><i class="fas fa-save"></i> حفظ وتفعيل الطلب</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Table Section -->
+    <div class="hr-card">
+        <div class="hr-card-header bg-white">
+            <h3 class="hr-card-title">سجل المدد المضمومة (History)</h3>
+            <div class="header-actions">
+                 <button id="exportExcelBtn" class="btn btn-sm btn-export-excel">
+                    <i class="fas fa-file-excel text-success me-1"></i> تصدير للكشف
+                </button>
+            </div>
+        </div>
+        
+        <div class="hr-table-wrapper">
+            <table id="serviceTable" class="hr-table table-hover">
+                <thead>
+                    <tr>
+                        <th style="width: 50px">#</th>
+                        <th>الموظف</th>
+                        <th>الجهة السابقة</th>
+                        <th>من تاريخ</th>
+                        <th>إلى تاريخ</th>
+                        <th>صافي المدة</th>
+                        <th>الحالة</th>
+                        <th>الأقدمية المعدلة</th>
+                        <th style="width: 100px">خيارات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td class="font-weight-bold">رانيا ابو النصر</td>
+                        <td>وزارة العدل (انتداب سابق)</td>
+                        <td>01-01-2015</td>
+                        <td>01-01-2019</td>
+                        <td><span class="hr-badge hr-badge-secondary">4 سنة</span></td>
+                        <td><span class="hr-badge hr-badge-success">تم الضم</span></td>
+                        <td class="text-success font-weight-bold">01-01-2015</td>
+                        <td>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-light btn-sm rounded-3 border" data-bs-toggle="dropdown">
+                                    <i class="fas fa-ellipsis-h text-muted"></i>
+                                </button>
+                                <ul class="dropdown-menu shadow border-0 p-2">
+                                    <li><a class="dropdown-item rounded-2" href="#"><i class="fas fa-eye text-primary me-2"></i> عرض المرفقات</a></li>
+                                    <li><a class="dropdown-item rounded-2" href="#"><i class="fas fa-print text-dark me-2"></i> طباعة القرار</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item rounded-2 text-danger" href="#"><i class="fas fa-trash me-2"></i> حذف</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td class="font-weight-bold">محمد فؤاد ابراهيم</td>
+                        <td>شركة السلام للمقاولات</td>
+                        <td>01-03-2000</td>
+                        <td>01-03-2005</td>
+                        <td><span class="hr-badge hr-badge-secondary">5 سنة</span></td>
+                        <td><span class="hr-badge hr-badge-warning text-warning">تحت المراجعة</span></td>
+                        <td>-</td>
+                        <td>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-light btn-sm rounded-3 border" data-bs-toggle="dropdown">
+                                    <i class="fas fa-ellipsis-h text-muted"></i>
+                                </button>
+                                <ul class="dropdown-menu shadow border-0 p-2">
+                                    <li><a class="dropdown-item rounded-2" href="#"><i class="fas fa-check text-success me-2"></i> اعتماد الضم</a></li>
+                                    <li><a class="dropdown-item rounded-2" href="#"><i class="fas fa-times text-danger me-2"></i> رفض الطلب</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- DataTables Buttons Dependencies -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        if (!$.fn.DataTable.isDataTable('#serviceTable')) {
+            var table = $('#serviceTable').DataTable({
+                "scrollX": true,
+                "responsive": false,
+                "language": {
+                    "emptyTable": "لا توجد بيانات متاحة في الجدول",
+                    "info": "سجل _START_ - _END_ من _TOTAL_",
+                    "infoEmpty": "سجل 0 - 0 من 0",
+                    "lengthMenu": "عرض _MENU_",
+                    "search": "",
+                    "searchPlaceholder": "بحث في السجل...",
+                    "paginate": {
+                        "first": "الأول",
+                        "last": "الأخير",
+                        "next": "التالي",
+                        "previous": "السابق"
+                    }
+                },
+                "dom": 'Bfrtip',
+                "buttons": [
+                    {
+                        extend: 'excelHtml5',
+                        className: 'd-none',
+                        title: 'سجل مدد الخدمة'
+                    }
+                ]
+            });
+
+            $('#exportExcelBtn').on('click', function() {
+                table.button('.buttons-excel').trigger();
+            });
+        }
+    });
+
+    function calculatePeriod() {
+        var start = document.getElementById("startDate").value;
+        var end = document.getElementById("endDate").value;
+
+        if (start && end) {
+            var date1 = new Date(start);
+            var date2 = new Date(end);
+            var diff = date2.getTime() - date1.getTime();
+
+            if(diff < 0) {
+                alert("تاريخ النهاية يجب أن يكون بعد البداية");
+                return;
+            }
+
+            var dayCount = diff / (1000 * 3600 * 24);
+            var years = Math.floor(dayCount / 365);
+            var remainingDays = dayCount % 365;
+            var months = Math.floor(remainingDays / 30);
+            var days = Math.floor(remainingDays % 30);
+
+            document.getElementById("calcYear").value = years;
+            document.getElementById("calcMonth").value = months;
+            document.getElementById("calcDay").value = days;
+        }
+    }
+</script>

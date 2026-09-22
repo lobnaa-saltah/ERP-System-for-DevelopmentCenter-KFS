@@ -1,0 +1,183 @@
+@{
+    ViewData["Title"] = "مسير الرواتب";
+}
+
+<link rel="stylesheet" href="~/css/global/hr-custom.css" asp-append-version="true">
+
+<div class="hr-page-container animate__animated animate__fadeIn">
+    <!-- 1. Header Section -->
+    <div class="page-header d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h4 font-weight-bold text-dark mb-1">مسير الرواتب والأجور</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0 small mb-0">
+                    <li class="breadcrumb-item"><a href="#">الموارد البشرية</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">الشئون المالية</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="d-flex gap-2">
+            <button class="hr-btn hr-btn-primary px-4 shadow-sm" onclick="startCalculation()">
+                <i class="fas fa-calculator me-2"></i> تشغيل دورة الحساب
+            </button>
+            <button class="hr-btn hr-btn-outline px-4 shadow-sm">
+                <i class="fas fa-lock me-2"></i> إغلاق الشهر
+            </button>
+        </div>
+    </div>
+
+    <!-- 2. Statistics -->
+    <div class="row g-3 mb-3">
+        <div class="col-md-4">
+            <div class="hr-card border-0 shadow-sm p-3 bg-white text-center">
+                <div class="icon-circle bg-info-soft text-info mx-auto mb-2"><i class="fas fa-users"></i></div>
+                <div class="text-muted small">عدد الموظفين</div>
+                <div class="h4 fw-bold mb-0">142</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="hr-card border-0 shadow-sm p-3 bg-white text-center">
+                <div class="icon-circle bg-danger-soft text-danger mx-auto mb-2"><i class="fas fa-minus-circle"></i></div>
+                <div class="text-muted small">إجمالي الاستقطاعات</div>
+                <div class="h4 fw-bold mb-0 text-danger">45,200 <small>جم</small></div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="hr-card border-0 shadow-sm p-3 bg-white text-center border-bottom border-success border-3">
+                <div class="icon-circle bg-success-soft text-success mx-auto mb-2"><i class="fas fa-wallet"></i></div>
+                <div class="text-muted small">صافي المستحق</div>
+                <div class="h4 fw-bold mb-0 text-success">320,500 <small>جم</small></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Current Cycle Settings -->
+    <div class="hr-card border-0 shadow-sm p-4 bg-white mb-4">
+        <h6 class="text-primary fw-bold mb-3 border-bottom pb-2"><i class="fas fa-cog me-2"></i> إعدادات الدورة الحالية</h6>
+        <div class="row g-3 align-items-end">
+            <div class="col-md-4">
+                <label class="small fw-bold text-muted mb-1">الشهر</label>
+                <select class="form-select hr-form-control py-2 fw-bold border-primary-soft">
+                    <option>يونيو</option>
+                    <option>يوليو</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label class="small fw-bold text-muted mb-1">السنة</label>
+                <input type="number" class="form-control hr-form-control py-2 fw-bold" value="2024">
+            </div>
+            <div class="col-md-4">
+                <label class="small fw-bold text-muted mb-1">فئة الصرف</label>
+                <select class="form-select hr-form-control py-2">
+                    <option>كادر العام (دائمين)</option>
+                    <option>المؤقتين (صناديق)</option>
+                </select>
+            </div>
+        </div>
+        <div class="d-grid d-md-flex justify-content-md-end mt-4">
+            <button class="hr-btn hr-btn-primary px-4 shadow-sm d-flex justify-content-center align-items-center">
+                <i class="fas fa-filter me-2"></i> تصفية
+            </button>
+        </div>
+    </div>
+
+    <!-- 4. Payroll Detail Table -->
+    <div class="hr-card border-0 shadow-sm">
+        <div class="hr-card-header bg-white d-flex justify-content-between align-items-center">
+            <h3 class="hr-card-title text-dark mb-0">كشف استحقاقات الموظفين</h3>
+            <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-export-excel border-success-soft"><i class="fas fa-file-excel me-1"></i> Excel البنك</button>
+                <button class="btn btn-sm btn-print-custom border-light"><i class="fas fa-print me-1"></i> طباعة</button>
+            </div>
+        </div>
+        <div class="hr-table-wrapper">
+            <table id="payrollTable" class="table hr-table text-center mb-0">
+                <thead>
+                    <tr>
+                        <th style="width: 5%">م</th>
+                        <th>الاسم</th>
+                        <th>الأجر الوظيفي</th>
+                        <th>الحوافز</th>
+                        <th>البدلات</th>
+                        <th class="bg-light">إجمالي الاستحقاق</th>
+                        <th class="text-danger">الاستقطاعات</th>
+                        <th class="bg-success-soft text-success">صافي الراتب</th>
+                        <th>الخيارات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td class="fw-bold text-dark">فاطمة الشرباني</td>
+                        <td>3,200</td>
+                        <td>1,500</td>
+                        <td>300</td>
+                        <td class="bg-light fw-bold">5,000</td>
+                        <td class="text-danger fw-bold">500</td>
+                        <td class="fw-bold text-success fs-5">4,500</td>
+                        <td>
+                            <button class="btn btn-sm btn-light border"><i class="fas fa-file-invoice text-muted"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td class="fw-bold text-dark text-nowrap">محمد فؤاد ابراهيم</td>
+                        <td>2,800</td>
+                        <td>1,200</td>
+                        <td>0</td>
+                        <td class="bg-light fw-bold">4,000</td>
+                        <td class="text-danger fw-bold">
+                            200
+                            <div class="text-xs fw-normal text-muted">خصم جزاء</div>
+                        </td>
+                        <td class="fw-bold text-success fs-5">3,800</td>
+                        <td>
+                            <button class="btn btn-sm btn-light border"><i class="fas fa-file-invoice text-muted"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/plugins/sweetalert2/sweetalert2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#payrollTable').DataTable({
+                "language": {
+                    "emptyTable": "لا توجد بيانات متاحة",
+                    "info": "سجل _START_ - _END_ من _TOTAL_",
+                    "paginate": { "next": "التالي", "previous": "السابق" }
+                },
+                "responsive": false,
+                "scrollX": true,
+                "paging": true,
+                "info": false,
+                "searching": false,
+                "lengthChange": false,
+                "dom": 'rt<"d-flex flex-column align-items-center mt-3"<"mb-1"p>i>'
+            });
+        });
+
+        function startCalculation() {
+            Swal.fire({
+                title: 'جاري حساب الرواتب...',
+                text: 'يتم الآن معالجة كافة المتغيرات الشهرية والاستقطاعات القانونية.',
+                icon: 'info',
+                allowOutsideClick: false,
+                didOpen: () => { Swal.showLoading() },
+                timer: 2000,
+                customClass: { popup: 'rounded-4 border-0 shadow-lg' }
+            }).then(() => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'اكتمل الحساب',
+                    text: 'تم حساب رواتب عدد (142) موظف وجاهز للمراجعة.',
+                    customClass: { popup: 'rounded-4 border-0 shadow-lg' }
+                });
+            });
+        }
+    </script>
+}

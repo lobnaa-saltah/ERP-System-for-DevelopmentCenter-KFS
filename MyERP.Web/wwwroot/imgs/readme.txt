@@ -1,0 +1,1 @@
+# Logged imgs folder creation
